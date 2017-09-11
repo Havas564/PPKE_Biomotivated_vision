@@ -39,12 +39,6 @@ private:
 
 };
 
-BipolarLevel::BipolarLevel()
-{
-}
 
-BipolarLevel::~BipolarLevel()
-{
-}
 
 #endif // !BIPOLARLEVEL_H

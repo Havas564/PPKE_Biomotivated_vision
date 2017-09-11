@@ -3,6 +3,7 @@
 #define SYNAPTICSTRENGTH_H
 
 #include <iostream>
+#include <math.h>
 #include <opencv2\core.hpp>
 
 using namespace std;
@@ -13,18 +14,20 @@ class SynapticStrength {
 public:
 	SynapticStrength();
 	~SynapticStrength();
+	//declaring variables
+	Mat modifierMatrix;
+	Size s;
+	//main functions
+	Mat modifierMatrixCalculator(vector<Mat> memory);
+	Mat synapticStrengthMatrixCreator(Mat modifierMatrix, Size memoryItemSize, bool isFirst);
+	//assisting functions
+	Size sizeOfMatrix(Mat inputMatrix);
 
 private:
 
 };
 
-SynapticStrength::SynapticStrength()
-{
-}
 
-SynapticStrength::~SynapticStrength()
-{
-}
 
 
 

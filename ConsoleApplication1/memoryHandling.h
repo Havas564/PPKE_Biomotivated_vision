@@ -53,7 +53,8 @@ public:
 	// MEMORY INPUT FROM CURRENT ITERATION - körbuffert megnézni - kiválhatja a számolást
 	vector<Mat> pushbackMemory(Mat currentInput, int currentMemoryPosition, vector<Mat> memoryType);
 	vector<Mat> clearMemory(Mat currentInput, vector<Mat> memoryType);
-	vector<Mat> pushbackRodMemory(Mat currentInput, int currentMemoryPosition);
+	Size sizeOfMatrixInMemory(vector<Mat> currentMemory);
+	/*vector<Mat> pushbackRodMemory(Mat currentInput, int currentMemoryPosition);
 	vector<Mat> pushbackSConeMemory(Mat currentInput, int currentMemoryPosition);
 	vector<Mat> pushbackLConeMemory(Mat currentInput, int currentMemoryPosition);
 	vector<Mat> pushbackMConeMemory(Mat currentInput, int currentMemoryPosition);
@@ -63,20 +64,13 @@ public:
 	vector<Mat> pushbackGreenOpponencyBipolarMemory(Mat currentInput, int currentMemoryPosition);
 	vector<Mat> pushbackYellowOpponencyBipolarMemory(Mat currentInput, int currentMemoryPosition);
 	vector<Mat> pushbackBlueOpponencyBipolarMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackAmacrineIIMemory(Mat currentInput, int currentMemoryPosition);
+	vector<Mat> pushbackAmacrineIIMemory(Mat currentInput, int currentMemoryPosition);*/
 
 
 private:
 	int memoryMax = 5;
 };
 
-Memory::Memory()
-{
-}
-
-Memory::~Memory()
-{
-}
 
 #endif // MEMORYOFEVENTS_H
 #pragma once

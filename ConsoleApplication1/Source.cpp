@@ -4,8 +4,8 @@
 #include <opencv2/highgui.hpp>
 #include <iostream>
 #include <string>
-//#include "synapticStrength.h"
-//#include "memoryHandling.h"
+#include "synapticStrength.h"
+#include "memoryHandling.h"
 
 
 using namespace cv;
@@ -66,6 +66,10 @@ int main(int argc, char** argv){
 	int k = 0;
 	float inputTreshold = 0.3 * 255;
 	Mat rodBipolarOutput = Mat(columnNumber - kernelSize, rowNumber, CV_64FC1);
+
+	double min, max;
+	cv::minMaxLoc(intensityImage, &min, &max);
+	intensityImage = (intensityImage - min) / max;
 
 	float kernelSum = pow(kernelSize, 2) * 255.0;
 	float maxSize = pow(kernelSize, 2);

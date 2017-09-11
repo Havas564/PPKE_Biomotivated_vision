@@ -1,5 +1,14 @@
 #include "memoryHandling.h"
 
+//constructor and destructor
+Memory::Memory()
+{
+}
+
+Memory::~Memory()
+{
+}
+
 // determine current memory position
 int Memory::memoryPosition(int iterator) {
 	currentMemoryPosition = iterator % memoryMax;
@@ -22,6 +31,11 @@ vector<Mat> Memory::pushbackMemory(Mat currentInput, int currentMemoryPosition, 
 vector<Mat> Memory::clearMemory(Mat currentInput, vector<Mat> memoryType) {
 	memoryType.clear();
 	return memoryType;
+}
+
+Size Memory::sizeOfMatrixInMemory(vector<Mat> currentMemory) {
+	Size s = (currentMemory.front()).size();
+	return s;
 }
 
 // INPUT FOR SYNAPTIC STRENGTH MATRIX
