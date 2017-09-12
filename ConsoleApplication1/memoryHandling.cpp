@@ -11,7 +11,7 @@ Memory::~Memory()
 
 // determine current memory position
 int Memory::memoryPosition(int iterator) {
-	currentMemoryPosition = iterator % memoryMax;
+	currentMemoryPosition = iterator % memoryMax - 1;
 	if (currentMemoryPosition == 0) {
 		currentMemoryPosition = memoryMax;
 	}
@@ -101,3 +101,22 @@ vector<Mat> Memory::pushbackAmacrineIIMemory(Mat currentInput, int currentMemory
 }
 */
 // GANGLION LEVEL
+
+
+
+
+// determine number of block in current memory - UNNECESSARY - SAVED FOR FUTURE USE
+/*int Memory::filledMemorySpots(vector<Mat> currentMemory, bool isFilled) {
+if (isFilled) {
+numberOfMemoryBlock = 5;
+}
+else if (!isFilled) {
+
+if (numberOfMemoryBlock == 5) {
+isFilled = true;
+}
+}
+else {
+cout << "Error: isFilled not initialized" << endl;
+}
+}*/

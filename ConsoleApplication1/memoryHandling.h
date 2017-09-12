@@ -46,6 +46,10 @@ public:
 
 	//SYNAPTIC STRENGTH MEMORY
 
+	//accessory variabes
+	bool isFilled = false;
+	int numberOfMemoryBlock;
+
 	//CURRENT POSITION
 	int memoryPosition(int iterator);
 
@@ -54,6 +58,7 @@ public:
 	vector<Mat> pushbackMemory(Mat currentInput, int currentMemoryPosition, vector<Mat> memoryType);
 	vector<Mat> clearMemory(Mat currentInput, vector<Mat> memoryType);
 	Size sizeOfMatrixInMemory(vector<Mat> currentMemory);
+	int filledMemorySpots(vector<Mat> currentMemory, bool isFilled);
 	/*vector<Mat> pushbackRodMemory(Mat currentInput, int currentMemoryPosition);
 	vector<Mat> pushbackSConeMemory(Mat currentInput, int currentMemoryPosition);
 	vector<Mat> pushbackLConeMemory(Mat currentInput, int currentMemoryPosition);
