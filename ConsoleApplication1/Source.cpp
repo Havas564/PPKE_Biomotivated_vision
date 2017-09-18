@@ -6,6 +6,8 @@
 #include <string>
 #include "synapticStrength.h"
 #include "memoryHandling.h"
+#include "bipolarlevel.h"
+#include "accessoryFunctions.h"
 
 
 using namespace cv;
@@ -29,7 +31,22 @@ float convertToPixel(float ratio) {
 	return pixel;
 }
 
+bool isFirstIteration(int iterator) {
+	bool isFirst = true; // might want to declare in main() - in this case it should be add to input
+	if (iterator > 1) {
+		isFirst = false;
+	}
+	else if (iterator == 1) {
+		cout << "First iteration." << endl;
+	}
+	else {
+		cout << "Error: Iteration number less than 1" << endl;
+	}
+	return isFirst;
+}
+
 int main(int argc, char** argv){
+	AccessoryFunctions ac;
 	double timePassed = (double)getTickCount(); // it should be double...
 	String imageName("C:/Users/matep/opencv_logo.png"); // path for the image
 	if (argc > 1){
@@ -49,12 +66,20 @@ int main(int argc, char** argv){
 	cvtColor(colorImage, intensityImage, COLOR_BGR2GRAY);
 
 	// debug: showing images before further processing
-	imageShow(colorImage);
+	//imageShow(colorImage);
 	waitKey(5); // Wait for a keystroke in the window
 
-	imageShow(intensityImage);
+	//imageShow(intensityImage);
 	
 	cout << intensityImage.size() << endl; //debug
+
+	//separating color channels
+	ac.colorChannelRetriever(colorImage, "red");
+	//ac.colorChannelRetriever(colorImage, "green");
+	//ac.colorChannelRetriever(colorImage, "blue");
+	cout << ac.neededChannel.size() << endl;
+	//debug
+	imageShow(ac.neededChannel);
 	
 	// Rod Pathway
 	float kernelSize = 3;
@@ -98,3 +123,9 @@ int main(int argc, char** argv){
 	waitKey();
 	return 0;
 }
+
+/*
+TO ASK: - float or double?
+		- what variables must be difined in .h-s
+		- 
+*/

@@ -11,9 +11,12 @@ Memory::~Memory()
 
 // determine current memory position
 int Memory::memoryPosition(int iterator) {
-	currentMemoryPosition = iterator % memoryMax - 1;
+	if (iterator == 1) {
+		currentMemoryPosition = 0;
+	}
+	currentMemoryPosition = iterator % memoryMax;
 	if (currentMemoryPosition == 0) {
-		currentMemoryPosition = memoryMax;
+		currentMemoryPosition = 0;
 	}
 	return currentMemoryPosition;
 }
@@ -27,12 +30,13 @@ vector<Mat> Memory::pushbackMemory(Mat currentInput, int currentMemoryPosition, 
 	return memoryType;
 }
 
-//CLEAN MEMORY
+//CLEAR MEMORY
 vector<Mat> Memory::clearMemory(Mat currentInput, vector<Mat> memoryType) {
 	memoryType.clear();
 	return memoryType;
 }
 
+//SIZE OF MEMORY MATRIX
 Size Memory::sizeOfMatrixInMemory(vector<Mat> currentMemory) {
 	Size s = (currentMemory.front()).size();
 	return s;

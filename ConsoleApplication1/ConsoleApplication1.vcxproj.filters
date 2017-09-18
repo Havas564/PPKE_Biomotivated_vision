@@ -27,6 +27,9 @@
     <ClCompile Include="bipolarlevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="accessoryFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="synapticStrength.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bipolarlevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="accessoryFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

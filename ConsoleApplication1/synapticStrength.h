@@ -18,10 +18,10 @@ public:
 	Mat modifierMatrix;
 	Size s;
 	//main functions
-	Mat modifierMatrixCalculator(vector<Mat> memory);
 	Mat synapticStrengthMatrixCreator(Mat modifierMatrix, Size memoryItemSize, bool isFirst);
+	Mat modifierMatrixCalculator(vector<Mat> memory, int currentMemoryPosition);
 	//assisting functions
-	Size sizeOfMatrix(Mat inputMatrix);
+	
 
 private:
 

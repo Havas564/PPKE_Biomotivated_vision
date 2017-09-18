@@ -43,12 +43,15 @@ public:
 	vector<Mat> upMovementGanglionMemory;
 	vector<Mat> downMovementGanglionMemory;
 	//high order processing
-
+	vector<Mat> shapeDetectorLevel1;
+	vector<Mat> shapeDetectorLevel2;
+	vector<Mat> shapeDetectorLevel3;
 	//SYNAPTIC STRENGTH MEMORY
 
 	//accessory variabes
 	bool isFilled = false;
 	int numberOfMemoryBlock;
+	const int memoryMax = 5;
 
 	//CURRENT POSITION
 	int memoryPosition(int iterator);
@@ -73,7 +76,7 @@ public:
 
 
 private:
-	int memoryMax = 5;
+	
 };
 
 
