@@ -11,6 +11,18 @@ SynapticStrength::~SynapticStrength()
 {
 }
 
+
+//bool checking if it is the first iteration of the program
+bool SynapticStrength::isFirstIteration(int mainIterator) {
+	bool isFirst;
+	if (mainIterator == 1) {
+		isFirst = true;
+	}
+	else {
+		isFirst = false;
+	}
+	return isFirst;
+}
 // 
 Mat SynapticStrength::synapticStrengthMatrixCreator(Mat modifierMatrix, Size memoryItemSize, bool isFirst) {
 	AccessoryFunctions af;
@@ -34,7 +46,7 @@ Mat SynapticStrength::synapticStrengthMatrixCreator(Mat modifierMatrix, Size mem
 	else {
 		cout << "Error: bool isFirst not initiated!" << endl;
 	}
-	return modifierMatrix;
+	return synapticStrengthMatrix;
 }
 
 // function creating the modifier matrix from memory

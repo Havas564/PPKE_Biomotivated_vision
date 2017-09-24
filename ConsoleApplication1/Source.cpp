@@ -72,14 +72,14 @@ int main(int argc, char** argv){
 	//imageShow(intensityImage);
 	
 	cout << intensityImage.size() << endl; //debug
-
+	Mat neededChannel;
 	//separating color channels
-	ac.colorChannelRetriever(colorImage, "red");
+	ac.colorChannelRetriever(colorImage, "red", neededChannel);
 	//ac.colorChannelRetriever(colorImage, "green");
 	//ac.colorChannelRetriever(colorImage, "blue");
-	cout << ac.neededChannel.size() << endl;
+	cout << neededChannel.size() << endl;
 	//debug
-	imageShow(ac.neededChannel);
+	imageShow(neededChannel);
 	
 	// Rod Pathway
 	float kernelSize = 3;
@@ -92,9 +92,7 @@ int main(int argc, char** argv){
 	float inputTreshold = 0.3 * 255;
 	Mat rodBipolarOutput = Mat(columnNumber - kernelSize, rowNumber, CV_64FC1);
 
-	double min, max;
-	cv::minMaxLoc(intensityImage, &min, &max);
-	intensityImage = (intensityImage - min) / max;
+	
 
 	float kernelSum = pow(kernelSize, 2) * 255.0;
 	float maxSize = pow(kernelSize, 2);

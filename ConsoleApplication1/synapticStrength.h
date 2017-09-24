@@ -18,13 +18,14 @@ public:
 	Mat modifierMatrix;
 	Size s;
 	//main functions
+	bool isFirstIteration(int mainIterator);
 	Mat synapticStrengthMatrixCreator(Mat modifierMatrix, Size memoryItemSize, bool isFirst);
 	Mat modifierMatrixCalculator(vector<Mat> memory, int currentMemoryPosition);
 	//assisting functions
 	
 
 private:
-
+	bool isFirst;
 };
 
 

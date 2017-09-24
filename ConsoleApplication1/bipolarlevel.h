@@ -18,8 +18,6 @@ public:
 	// basic values
 
 	
-	//center - periphery comparison
-	float centerPeripheryComparison(float ratioOfCenter, float ratioOfPeriphery);
 
 private:
 

@@ -15,16 +15,16 @@ public:
 	~AccessoryFunctions();
 
 	//variables
-	Mat neededChannel;
 	Size s;
 	//functions - short descriptions in the .cpp file
-	vector<Mat> kernelCreator(int centerSize, int peripherySize, int iterX, int iterY, Mat inputMatrix);
 	Size sizeOfMatrix(Mat inputMatrix);
-	double tressholding(double inputElement, int treshold);
-	Mat colorChannelRetriever(Mat inputMatrix, string channelRequired); // function cutting out given color channel from rgb Mat
-
+	double thresholding(double inputElement, double treshold);
+	Mat colorChannelRetriever(Mat inputMatrix, string channelRequired, Mat& neededChannel); // function cutting out given color channel from rgb Mat
+	Mat conversionToRatio(Mat inputMatrix);
+	Mat conversionToValue(Mat inputMatrix);
 
 private:
+
 };
 
 #endif // !ACCESSORYFUNCTIONS_H
