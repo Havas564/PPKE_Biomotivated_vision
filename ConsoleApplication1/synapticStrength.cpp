@@ -84,9 +84,9 @@ Mat SynapticStrength::modifierMatrixCalculator(vector<Mat> currentMemory, int cu
 		int iter = 1;
 		double sumOfExp;
 		//loading to straight memory - may need alternative like deque
-		for (int it = 0; it < m.memoryMax - 1; it++) {
+		for (int it = 0; it < m.getMemoryMax() - 1; it++) {
 			Mat temp;
-			temp = currentMemory[(currentMemoryPosition - it - 1) % m.memoryMax] - currentMemory[(currentMemoryPosition - it) % m.memoryMax];
+			temp = currentMemory[(currentMemoryPosition - it - 1) % m.getMemoryMax()] - currentMemory[(currentMemoryPosition - it) % m.getMemoryMax()];
 			if (it == 0) {
 				modifierMatrix = temp;
 				sumOfExp = 1;
@@ -109,5 +109,13 @@ Mat SynapticStrength::modifierMatrixCalculator(vector<Mat> currentMemory, int cu
 	return modifierMatrix;
 }
 
-
+//set values
+bool SynapticStrength::setIsFirst(bool newValue) {
+	isFirst = newValue;
+	return isFirst;
+}
+//get values
+bool SynapticStrength::getIsFirst() {
+	return isFirst;
+}
 

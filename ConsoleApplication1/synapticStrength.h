@@ -22,14 +22,15 @@ public:
 	Mat synapticStrengthMatrixCreator(Mat modifierMatrix, Size memoryItemSize, bool isFirst);
 	Mat modifierMatrixCalculator(vector<Mat> memory, int currentMemoryPosition);
 	//assisting functions
-	
+
+	//set functions
+	bool setIsFirst(bool newValue);
+	//get functions
+	bool getIsFirst();
 
 private:
 	bool isFirst;
 };
-
-
-
 
 
 #endif

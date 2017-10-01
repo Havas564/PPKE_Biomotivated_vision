@@ -49,9 +49,7 @@ public:
 	//SYNAPTIC STRENGTH MEMORY
 
 	//accessory variabes
-	bool isFilled = false;
-	int numberOfMemoryBlock;
-	const int memoryMax = 5;
+
 
 	//CURRENT POSITION
 	int memoryPosition(int iterator);
@@ -62,21 +60,20 @@ public:
 	vector<Mat> clearMemory(Mat currentInput, vector<Mat> memoryType);
 	Size sizeOfMatrixInMemory(vector<Mat> currentMemory);
 	int filledMemorySpots(vector<Mat> currentMemory, bool isFilled);
-	/*vector<Mat> pushbackRodMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackSConeMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackLConeMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackMConeMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackRodBipolarMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackSConeBipolarMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackRedOpponencyBipolarMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackGreenOpponencyBipolarMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackYellowOpponencyBipolarMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackBlueOpponencyBipolarMemory(Mat currentInput, int currentMemoryPosition);
-	vector<Mat> pushbackAmacrineIIMemory(Mat currentInput, int currentMemoryPosition);*/
-
+	
+	//get functions
+	bool getIsFilled();
+	int getNumberOfMemoryBlocks();
+	int getMemoryMax();
+	//set functions
+	bool setIsFilled(bool newValue);
+	int setNumberOfMemoryBlocks(int newValue);
+	int setMemoryMax(int newValue);
 
 private:
-	
+	bool isFilled = false;
+	int numberOfMemoryBlock;
+	int memoryMax = 5;
 };
 
 
