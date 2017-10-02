@@ -51,11 +51,11 @@ Mat SynapticStrength::synapticStrengthMatrixCreator(Mat modifierMatrix, Size mem
 
 // function creating the modifier matrix from memory
 Mat SynapticStrength::modifierMatrixCalculator(vector<Mat> currentMemory, int currentMemoryPosition) {
-	Mat modifierMatrix;
 	Memory m;
-	m.sizeOfMatrixInMemory(currentMemory);
-	bool isFilled = false;
-	if (s.width == 5.0)
+	Mat modifierMatrix;
+	Size sizeOfMatrix = m.sizeOfMatrixInMemory(currentMemory);
+	bool isFilled;
+	if (sizeOfMatrix.width > 4)
 	{
 		isFilled = true;
 	}

@@ -14,9 +14,9 @@ int Memory::memoryPosition(int iterator) {
 	if (iterator == 1) {
 		currentMemoryPosition = 0;
 	}
-	currentMemoryPosition = iterator % memoryMax;
-	if (currentMemoryPosition == 0) {
-		currentMemoryPosition = 0;
+	currentMemoryPosition = iterator % memoryMax - 1;
+	if (currentMemoryPosition == -1) {
+		currentMemoryPosition = 4;
 	}
 	return currentMemoryPosition;
 }

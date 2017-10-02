@@ -20,18 +20,6 @@ void imageShow(Mat image) {
 	imshow("Current image", image);
 }
 
-float convertToRatio(float pixel, float maxNumber) {
-	float ratio;
-	ratio = maxNumber / 255.0 * pixel;
-	return ratio;
-}
-
-float convertToPixel(float ratio) {
-	float pixel;
-	pixel = ratio * 255.0;
-	return pixel;
-}
-
 bool isFirstIteration(int iterator) {
 	bool isFirst = true; // might want to declare in main() - in this case it should be add to input
 	if (iterator > 1) {
@@ -51,8 +39,10 @@ int main(int argc, char** argv){
 	AccessoryFunctions ac;
 	Memory m;
 	ReceptiveFieldFunctions rfp;
+	RodBipolarProcessing rbp;
 	RedGreenDiscrimination rgd;
 	YellowBlueDiscrimination ybd;
+
 	//base values
 	int mainIterator = 1;
 	double timePassed = (double)getTickCount(); // it should be double...
@@ -91,8 +81,14 @@ int main(int argc, char** argv){
 	imageShow(redChannel);
 	waitKey(10);
 
+	//BIPOLAR PATHWAY
+	Mat rodBipolarLevel = rbp.RodBiploarProcessing(intensityImage, m.rodMemory, mainIterator);
+	imageShow(rodBipolarLevel);
+	waitKey(0);
+
+
 	//red-green discrimination
-	Mat redGreenOn, redGreenOff, greenRedOn, greenRedOff;
+	/*Mat redGreenOn, redGreenOff, greenRedOn, greenRedOff;
 	vector<Mat> redGreenProcessed = rgd.redGreenDiscriminationMain(redChannel, greenChannel, m.mConeMemory, m.lConeMemory, mainIterator);
 	redGreenOn = redGreenProcessed[0];
 	redGreenOff = redGreenProcessed[1];
@@ -110,7 +106,7 @@ int main(int argc, char** argv){
 	//imshow("test", E);
 	timePassed = ((double)getTickCount() - timePassed) / getTickFrequency();
 	cout << "Time elapsed: " << timePassed << endl;
-	waitKey();
+	waitKey();*/
 	return 0;
 }
 
@@ -148,4 +144,16 @@ inputRatio = 0;
 }
 rodBipolarOutput.at<double>(it, ij);
 }
-}*/
+}
+float convertToRatio(float pixel, float maxNumber) {
+float ratio;
+ratio = maxNumber / 255.0 * pixel;
+return ratio;
+}
+
+float convertToPixel(float ratio) {
+float pixel;
+pixel = ratio * 255.0;
+return pixel;
+}
+*/

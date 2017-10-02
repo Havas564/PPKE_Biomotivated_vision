@@ -15,8 +15,6 @@ public:
 	//constructor & destructor
 	Memory();
 	~Memory();
-	//int iterator;
-	int currentMemoryPosition;
 	// INPUT MEMORY
 	//photoreceptor level
 	vector<Mat> rodMemory;
@@ -48,12 +46,6 @@ public:
 	vector<Mat> shapeDetectorLevel3;
 	//SYNAPTIC STRENGTH MEMORY
 
-	//accessory variabes
-
-
-	//CURRENT POSITION
-	int memoryPosition(int iterator);
-
 	//copyto-t hasznélni a MAT-ok betöltésénél
 	// MEMORY INPUT FROM CURRENT ITERATION - körbuffert megnézni - kiválhatja a számolást
 	vector<Mat> pushbackMemory(Mat currentInput, int currentMemoryPosition, vector<Mat> memoryType);
@@ -65,6 +57,7 @@ public:
 	bool getIsFilled();
 	int getNumberOfMemoryBlocks();
 	int getMemoryMax();
+	int memoryPosition(int iterator);
 	//set functions
 	bool setIsFilled(bool newValue);
 	int setNumberOfMemoryBlocks(int newValue);
@@ -74,6 +67,7 @@ private:
 	bool isFilled = false;
 	int numberOfMemoryBlock;
 	int memoryMax = 5;
+	int currentMemoryPosition;
 };
 
 
