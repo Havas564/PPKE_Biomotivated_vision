@@ -403,6 +403,7 @@ vector<int> RodBipolarProcessing::initializeCellInformation() {
 	cellInformation[1] = 1;
 	return cellInformation;
 }
+vector<int> RodBipolarProcessing::cellInformation = {5,1};
 
 Mat RodBipolarProcessing::RodBiploarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator) {
 	Mat processedMatrix;

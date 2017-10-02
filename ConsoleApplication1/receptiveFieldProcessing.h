@@ -33,8 +33,27 @@ public:
 	//vector<int> setFovaeSize(int newValue, int position);
 	//vector<int> getAllCellInformation();
 	//vector<int> getAllFovaeSize();
+protected:
+	static vector<int> cellInformation;
 private:
 	
+};
+
+class HasFovae
+{
+public:
+	//set functions
+	static vector<int>setCellInformation(int newValue, int position);
+	static vector<int>setFovaeSize(int newValue, int position);
+	//get functions
+	static int getCellInformation(int position);
+	static int getKernelSize();
+	static int getFovaeInformation(int position);
+	static vector<int> getAllCellInformation();
+	static vector<int> getAllFovaeInformation();
+protected:
+	static vector<int> fovaeSize;
+	static vector<int> fovaeCenterCoordinates;
 };
 
 // Derived class
@@ -48,7 +67,7 @@ public:
 	int getCellInformation(int position);
 	vector<int> getAllCellInformation();
 private:
-	vector<int> cellInformation;
+	
 };
 
 class amacrineAIIProcessing : public ReceptiveFieldFunctions {
@@ -61,11 +80,11 @@ public:
 	int getCellInformation(int position);
 	vector<int> getAllCellInformation();
 private:
-	vector<int> cellInformation;
+	//vector<int> cellInformation;
 };
 
 // Derived class
-class RedGreenDiscrimination : public ReceptiveFieldFunctions {
+class RedGreenDiscrimination : public ReceptiveFieldFunctions, HasFovae{
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	vector<Mat> redGreenDiscriminationMain(Mat firstInputMatrix, Mat seconInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator);
@@ -80,13 +99,13 @@ public:
 
 
 private:
-	vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
-	vector<int> fovaeSize;
-	vector<int> fovaeCenterCoordinates;
+	//vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
+	//vector<int> fovaeSize;
+	//vector<int> fovaeCenterCoordinates;
 };
 
 // Derived class
-class YellowBlueDiscrimination : public ReceptiveFieldFunctions {
+class YellowBlueDiscrimination : public ReceptiveFieldFunctions, HasFovae {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	vector<Mat> yellowBlueDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator);
@@ -100,13 +119,13 @@ public:
 	vector<int> getAllFovaeSize();
 
 private:
-	vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
-	vector<int> fovaeSize;
-	vector<int> fovaeCenterCoordinates;
+	//vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
+	//vector<int> fovaeSize;
+	//vector<int> fovaeCenterCoordinates;
 };
 
 // Derived class
-class AllConeDiscrimination : public ReceptiveFieldFunctions {
+class AllConeDiscrimination : public ReceptiveFieldFunctions, HasFovae {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	vector<Mat> allConeDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory,
@@ -121,12 +140,12 @@ public:
 	vector<int> getAllFovaeSize();
 
 private:
-	vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
-	vector<int> fovaeSize;
-	vector<int> fovaeCenterCoordinates;
+	//vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
+	//vector<int> fovaeSize;
+	//vector<int> fovaeCenterCoordinates;
 };
 
-class MainDirectionGanglionProcessing : public ReceptiveFieldFunctions {
+class MainDirectionGanglionProcessing : public ReceptiveFieldFunctions, HasFovae {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	vector<Mat> mainDirectonInformation();
@@ -139,9 +158,9 @@ public:
 	vector<int> getAllCellInformation();
 	vector<int> getAllFovaeInformation();
 private:
-	vector<int> cellInformation;
-	vector<int> fovaeSize;
-	vector<int> fovaeCenterCoordinates;
+	//vector<int> cellInformation;
+	//vector<int> fovaeSize;
+	//vector<int> fovaeCenterCoordinates;
 };
 
 #endif // !RECEPTIVEFIELDPROCESSING_H
