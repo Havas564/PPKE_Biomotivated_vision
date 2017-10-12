@@ -28,11 +28,30 @@ public:
 		vector<Mat> firstCellMemory, vector<Mat> secondCellMemory, int mainIterator);
 	vector<int> fovaeSizeAcquirer(Mat inputMatrix);
 	vector<int> fovaeCenterCoordinatesAcquirer(Mat inputMatrix);
-	
+
 	//set functions
-	//vector<int> setFovaeSize(int newValue, int position);
-	//vector<int> getAllCellInformation();
-	//vector<int> getAllFovaeSize();
+	static vector<int> setKernelSize(int newValue);
+	static vector<int> setCenterSize(int newValue);
+	static vector<int> setPeripherySize(int newValue);
+	static vector<int> setKernelStep(int newValue);
+	static vector<int> setFovaeKernelSize(int newValue);
+	static vector<int> setFovaeKernelStep(int newValue);
+	static vector<int> setFocaeCenterSize(int newValue);
+	static vector<int> setFovaeXAxis(int newValue);
+	static vector<int> setFovaeYAxis(int newValue);
+
+	//get functions
+	static int getKernelSize();
+	static int getCenterSize();
+	static int getPeripherySize();
+	static int getKernelStep();
+	static int getFovaeKernelSize();
+	static int getFovaeKernelStep();
+	static int getFocaeCenterSize();
+	static int getFovaeXAxis();
+	static int getFovaeYAxis();
+	static vector<int> getAllCellInformation();
+
 protected:
 	static vector<int> cellInformation;
 private:
@@ -42,15 +61,7 @@ private:
 class HasFovae
 {
 public:
-	//set functions
-	static vector<int>setCellInformation(int newValue, int position);
-	static vector<int>setFovaeSize(int newValue, int position);
-	//get functions
-	static int getCellInformation(int position);
-	static int getKernelSize();
-	static int getFovaeInformation(int position);
-	static vector<int> getAllCellInformation();
-	static vector<int> getAllFovaeInformation();
+
 protected:
 	static vector<int> fovaeSize;
 	static vector<int> fovaeCenterCoordinates;
@@ -61,11 +72,6 @@ class RodBipolarProcessing : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation();
 	Mat RodBiploarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator);
-	//set functions
-	vector<int> setCellInformation(int newValue, int position);
-	//get functions
-	int getCellInformation(int position);
-	vector<int> getAllCellInformation();
 private:
 	
 };
@@ -74,11 +80,6 @@ class amacrineAIIProcessing : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation();
 	Mat amacrineAIIBipolarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator);
-	//set functions
-	vector<int> setCellInformation(int newValue, int position);
-	//get functions
-	int getCellInformation(int position);
-	vector<int> getAllCellInformation();
 private:
 	//vector<int> cellInformation;
 };
@@ -88,20 +89,9 @@ class RedGreenDiscrimination : public ReceptiveFieldFunctions, HasFovae{
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	vector<Mat> redGreenDiscriminationMain(Mat firstInputMatrix, Mat seconInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator);
-	//set functions
-	vector<int> setCellInformation(int newValue, int position);
-	vector<int> setFovaeSize(int newValue, int position);
-	//get functions
-	int getCellInformation(int position);
-	int getFovaeSize(int position);
-	vector<int> getAllCellInformation();
-	vector<int> getAllFovaeSize();
-
 
 private:
-	//vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
-	//vector<int> fovaeSize;
-	//vector<int> fovaeCenterCoordinates;
+
 };
 
 // Derived class
@@ -109,58 +99,54 @@ class YellowBlueDiscrimination : public ReceptiveFieldFunctions, HasFovae {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	vector<Mat> yellowBlueDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator);
-	//set functions
-	vector<int> setCellInformation(int newValue, int position);
-	vector<int> setFovaeSize(int newValue, int position);
-	//get functions
-	int getCellInformation(int position);
-	int getFovaeSize(int position);
-	vector<int> getAllCellInformation();
-	vector<int> getAllFovaeSize();
 
 private:
-	//vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
-	//vector<int> fovaeSize;
-	//vector<int> fovaeCenterCoordinates;
+
 };
 
-// Derived class
+// Derived class - intensity information from all cones
 class AllConeDiscrimination : public ReceptiveFieldFunctions, HasFovae {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
+	vector<Mat> receptiveFieldEvaluationTwoInput(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory,
+		vector<Mat> thirdMemory, vector<int> cellInformation, int mainIterator);
 	vector<Mat> allConeDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory,
 		vector<Mat> thridMemory, int mainIterator);
-	//set functions
-	vector<int> setCellInformation(int newValue, int position);
-	vector<int> setFovaeSize(int newValue, int position);
-	//get functions
-	int getCellInformation(int position);
-	int getFovaeSize(int position);
-	vector<int> getAllCellInformation();
-	vector<int> getAllFovaeSize();
 
 private:
-	//vector<int> cellInformation; //[kernelSize, centerSize, peripherySize, kernelStep, fovae_x_axis, fovae_y_axis]
-	//vector<int> fovaeSize;
-	//vector<int> fovaeCenterCoordinates;
+
 };
 
 class MainDirectionGanglionProcessing : public ReceptiveFieldFunctions, HasFovae {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
-	vector<Mat> mainDirectonInformation();
-	//set functions
-	vector<int>setCellInformation(int newValue, int position);
-	vector<int>setFovaeSize(int newValue, int position);
-	//get functions
-	int getCellInformation(int position);
-	int getFovaeInformation(int position);
-	vector<int> getAllCellInformation();
-	vector<int> getAllFovaeInformation();
+	Mat previousInput(vector<Mat> cellMemory, int currentMemoryPosition);
+	int movementSensing(double prevois, double firstSide, double secondSide);
+	vector<Mat> directionReceptiveFieldProcessing(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator);
+	vector<Mat> mainDirectonInformation(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator);
+
 private:
-	//vector<int> cellInformation;
-	//vector<int> fovaeSize;
-	//vector<int> fovaeCenterCoordinates;
+
+};
+
+class GaborFiltering : public ReceptiveFieldFunctions {
+public:
+	vector<double> initializeGaborFilterParameters();
+
+	//get functions
+	double getGamma();
+	double getLambda();
+	double getSigma();
+	double getPsi();
+	//set functions
+	vector<double> setTheta();
+	double setGamma(double newValue);
+	double setLambda(double newValue);
+	double setSigma(double newValue);
+	double setPsi(double newValue);
+private:
+	double sigma, lambda, gamma, psi;
+	vector<double> theta;
 };
 
 #endif // !RECEPTIVEFIELDPROCESSING_H

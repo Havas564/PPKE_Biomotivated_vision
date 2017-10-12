@@ -33,6 +33,9 @@
     <ClCompile Include="receptiveFieldProcessing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImageProcessingDataAcquisition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="synapticStrength.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="receptiveFieldProcessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcessingDataAcquisition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

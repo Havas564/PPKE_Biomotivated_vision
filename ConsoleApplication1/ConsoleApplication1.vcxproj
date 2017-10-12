@@ -156,11 +156,13 @@
     <ClCompile Include="bipolarlevel.cpp" />
     <ClCompile Include="accessoryFunctions.cpp" />
     <ClCompile Include="receptiveFieldProcessing.cpp" />
+    <ClCompile Include="ImageProcessingDataAcquisition.cpp" />
     <ClCompile Include="synapticStrength.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bipolarlevel.h" />
     <ClInclude Include="accessoryFunctions.h" />
+    <ClInclude Include="ImageProcessingDataAcquisition.h" />
     <ClInclude Include="receptiveFieldProcessing.h" />
     <ClInclude Include="memoryHandling.h" />
     <ClInclude Include="synapticStrength.h" />

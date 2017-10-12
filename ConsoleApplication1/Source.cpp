@@ -9,16 +9,11 @@
 #include "bipolarlevel.h"
 #include "accessoryFunctions.h"
 #include "receptiveFieldProcessing.h"
+#include "ImageProcessingDataAcquisition.h"
 
 
 using namespace cv;
 using namespace std;
-
-
-void imageShow(Mat image) {
-	namedWindow("Current image", WINDOW_AUTOSIZE);
-	imshow("Current image", image);
-}
 
 bool isFirstIteration(int iterator) {
 	bool isFirst = true; // might want to declare in main() - in this case it should be add to input
@@ -42,6 +37,7 @@ int main(int argc, char** argv){
 	RodBipolarProcessing rbp;
 	RedGreenDiscrimination rgd;
 	YellowBlueDiscrimination ybd;
+	ImageProcessingDataAcquisition ipda;
 
 	//base values
 	int mainIterator = 1;
@@ -78,13 +74,13 @@ int main(int argc, char** argv){
 	cout << greenChannel.size() << endl; //debug
 	cout << blueChannel.size() << endl; //debug
 	//debug
-	imageShow(redChannel);
-	waitKey(10);
+	ipda.imageShow(redChannel);
+	waitKey(100);
 
 	//BIPOLAR PATHWAY
 	Mat rodBipolarLevel = rbp.RodBiploarProcessing(intensityImage, m.rodMemory, mainIterator);
-	imageShow(rodBipolarLevel);
-	waitKey(0);
+	//ipda.imageShow(rodBipolarLevel);
+	//waitKey(0);
 
 
 	//red-green discrimination
@@ -111,7 +107,7 @@ int main(int argc, char** argv){
 }
 
 /*
-TO ASK: - Error cout-ot vegyem ki mindenhonnan? Pl direction kernel crator
+TO ASK: - kell-e külön fovaeKernel változó vagy elég ha mindig újratöltöm az adott helyen?
 		- MainDirection kernel creator - jelenleg 3 kernel, kell-e újakat definiálni, vagy csak újratöltöm a kernel és rögtön push_back??
 		- 
 */
