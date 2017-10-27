@@ -20,6 +20,7 @@ bool ReceptiveFieldFunctions::onOff(string cellType) {
 		onCell = true;
 	}
 	else if(cellType == "OFF"){
+
 		onCell = false;
 	}
 	else {
@@ -193,15 +194,15 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 			ratioOfOnInputPeriphery = abs(1 - (pow((double)cellInformation[1], 2.0) - sum(kernels)[1]) / pow((double)cellInformation[1], 2.0));
 			ratioOfOffInputCenter = abs((1 - (pow((double)cellInformation[1], 2.0) - sum(kernels)[0]) / pow((double)cellInformation[1], 2.0)) - 1);
 			ratioOfOffInputPeriphery = abs((1 - (pow((double)cellInformation[1], 2.0) - sum(kernels)[1]) / pow((double)cellInformation[1], 2.0)) - 1);
-			//thresholding
+			// thresholding
 			ratioOfOnInputCenter = af.thresholding(ratioOfOnInputCenter, threshold);
 			ratioOfOnInputPeriphery = af.thresholding(ratioOfOnInputPeriphery, threshold);
 			ratioOfOffInputCenter = af.thresholding(ratioOfOffInputCenter, threshold);
 			ratioOfOffInputPeriphery = af.thresholding(ratioOfOffInputPeriphery, threshold);
-			//comparing the centre and the periphery
+			// comparing the centre and the periphery
 			ratioOfOnInputCenter = centerPeripheryComparison(ratioOfOnInputCenter, ratioOfOnInputPeriphery);
 			ratioOfOffInputCenter = centerPeripheryComparison(ratioOfOffInputCenter, ratioOfOffInputPeriphery);
-			//creating processed matrix vector
+			// creating processed matrix vector
 			onProcessedMatrix.at<double>(iterX, iterY) = ratioOfOnInputCenter;
 			offProcessedMatrix.at<double>(iterX, iterY) = ratioOfOffInputCenter;
 			iterX++;
@@ -397,6 +398,12 @@ vector<int> ReceptiveFieldFunctions::fovaeCenterCoordinatesAcquirer(Mat inputMat
 	return fovaeCenterCoordinates;
 }
 
+vector<Mat> initiateMemory(vector<Mat> memoryType) {
+	Memory m;
+	memoryType = m.memory;
+	return memoryType;
+}
+
 //set functions
 vector<int> ReceptiveFieldFunctions::setKernelSize(int newValue) {
 	cellInformation[0] = newValue;
@@ -498,6 +505,7 @@ Mat RodBipolarProcessing::RodBiploarProcessing(Mat inputMatrix, vector<Mat> cell
 	Mat processedMatrix;
 	if (mainIterator == 1) {
 		initializeCellInformation();
+		//initiateMemory(rodMemory);
 	}
 	processedMatrix = homogenReceptiveFieldEvaluation(inputMatrix, cellInformation, cellMemory, mainIterator);
 	return processedMatrix;

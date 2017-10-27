@@ -77,8 +77,18 @@ int main(int argc, char** argv){
 	ipda.imageShow(redChannel);
 	waitKey(100);
 
+	//testing vector<Mat> properties
+	vector<Mat> testingMatrixVector;
+	cout << "size of vector: " << testingMatrixVector.size() << endl;
+	testingMatrixVector.resize(5);
+	for (int it = 0; it < 5; it++) {
+		testingMatrixVector.at(it) = Mat::ones(300, 300, CV_8UC1);;
+	}
+	cout << "size of vector: " << testingMatrixVector.size() << endl;
+	cout << testingMatrixVector.at(3).size();
+
 	//BIPOLAR PATHWAY
-	Mat rodBipolarLevel = rbp.RodBiploarProcessing(intensityImage, m.rodMemory, mainIterator);
+	//Mat rodBipolarLevel = rbp.RodBiploarProcessing(intensityImage, m.rodMemory, mainIterator);
 	//ipda.imageShow(rodBipolarLevel);
 	//waitKey(0);
 

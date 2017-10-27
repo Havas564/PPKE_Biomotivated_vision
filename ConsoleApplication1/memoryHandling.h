@@ -16,8 +16,10 @@ public:
 	Memory();
 	~Memory();
 	// INPUT MEMORY
+	Mat memoryPart;
+	vector<Mat> memory;
 	//photoreceptor level
-	vector<Mat> rodMemory;
+	/*vector<Mat> rodMemory;
 	vector<Mat> sConeMemory;
 	vector<Mat> lConeMemory;
 	vector<Mat> mConeMemory;
@@ -43,7 +45,7 @@ public:
 	//high order processing
 	vector<Mat> shapeDetectorLevel1;
 	vector<Mat> shapeDetectorLevel2;
-	vector<Mat> shapeDetectorLevel3;
+	vector<Mat> shapeDetectorLevel3;*/
 	//SYNAPTIC STRENGTH MEMORY
 
 	//copyto-t hasznélni a MAT-ok betöltésénél

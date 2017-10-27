@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph DataVirtualized="True" Layout="Sugiyama" ZoomLevel="0.75" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="(Name=&quot;cv::MatSize::operator()&quot; @1 Type=cv::Size_&lt;int&gt; @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1437.12166666667,279.8,81.9099999999999,25.96" Label="operator" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=1367 StartCharacterOffset=0 EndLineNumber=1367 EndCharacterOffset=0)">
+    <Node Id="(Name=&quot;cv::MatSize::operator()&quot; @1 Type=cv::Size_&lt;int&gt; @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1392.12166666667,279.8,81.9099999999999,25.96" Label="operator" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=1367 StartCharacterOffset=0 EndLineNumber=1367 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
@@ -10,65 +10,65 @@
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="(Name=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;::operator+&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; OverloadingParameters=[(Type=__int64 Name=_Off)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="702.016666666667,279.8,90.1199999999999,25.96" CodeSchemaProperty_IsExternal="True" Label="operator+" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=369 StartCharacterOffset=0 EndLineNumber=369 EndCharacterOffset=0)">
+    <Node Id="(Name=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;::operator+&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; OverloadingParameters=[(Type=__int64 Name=_Off)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="2023.01666666667,279.8,90.1199999999999,25.96" CodeSchemaProperty_IsExternal="True" Label="operator+" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=369 StartCharacterOffset=0 EndLineNumber=369 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::begin&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1041.03,279.8,66.0933333333332,25.96" CodeSchemaProperty_IsExternal="True" Label="begin" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=1049 StartCharacterOffset=0 EndLineNumber=1049 EndCharacterOffset=0)">
+    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::begin&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="2144.03,279.8,66.0933333333332,25.96" CodeSchemaProperty_IsExternal="True" Label="begin" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=1049 StartCharacterOffset=0 EndLineNumber=1049 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::front&quot; @1 Type=&quot;cv::Mat &amp;&quot; @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1800.16833333333,335.76,61.8166666666666,25.96" CodeSchemaProperty_IsExternal="True" Label="front" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=1059 StartCharacterOffset=0 EndLineNumber=1059 EndCharacterOffset=0)">
+    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::front&quot; @1 Type=&quot;cv::Mat &amp;&quot; @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1049.16833333333,335.76,61.8166666666666,25.96" CodeSchemaProperty_IsExternal="True" Label="front" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=1059 StartCharacterOffset=0 EndLineNumber=1059 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::insert&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; OverloadingParameters=[(Type=&quot;std::_Vector_const_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; Name=_Where),(Type=&quot;const cv::Mat &amp;&quot; Name=_Val)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1137.42333333333,279.8,65.3066666666666,25.96" CodeSchemaProperty_IsExternal="True" Label="insert" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=1258 StartCharacterOffset=0 EndLineNumber=1258 EndCharacterOffset=0)">
+    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::insert&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; OverloadingParameters=[(Type=&quot;std::_Vector_const_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; Name=_Where),(Type=&quot;const cv::Mat &amp;&quot; Name=_Val)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1708.42333333333,279.8,65.3066666666664,25.96" CodeSchemaProperty_IsExternal="True" Label="insert" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=1258 StartCharacterOffset=0 EndLineNumber=1258 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::operator[]&quot; @1 Type=&quot;cv::Mat &amp;&quot; OverloadingParameters=[(Type=&quot;unsigned __int64&quot; Name=_Pos)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="822.501666666667,279.8,89.1499999999999,25.96" CodeSchemaProperty_IsExternal="True" Label="operator[]" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=1059 StartCharacterOffset=0 EndLineNumber=1059 EndCharacterOffset=0)">
+    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::operator[]&quot; @1 Type=&quot;cv::Mat &amp;&quot; OverloadingParameters=[(Type=&quot;unsigned __int64&quot; Name=_Pos)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1804.50166666667,279.8,89.1499999999996,25.96" CodeSchemaProperty_IsExternal="True" Label="operator[]" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=1059 StartCharacterOffset=0 EndLineNumber=1059 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;&quot; @1 @9 OverloadingParameters=[(Type=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt; &amp;&amp;&quot; Name=_Right)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="941.658333333334,279.8,68.8366666666666,25.96" CodeSchemaProperty_IsExternal="True" Label="vector" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=840 StartCharacterOffset=0 EndLineNumber=840 EndCharacterOffset=0)">
+    <Node Id="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;&quot; @1 @9 OverloadingParameters=[(Type=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt; &amp;&amp;&quot; Name=_Right)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1923.65833333333,279.8,68.8366666666666,25.96" CodeSchemaProperty_IsExternal="True" Label="vector" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=840 StartCharacterOffset=0 EndLineNumber=840 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="(Name=AccessoryFunctions::AccessoryFunctions @1 @9 @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1195.49166666667,223.84,139.17,25.96" Label="AccessoryFunctions">
+    <Node Id="(Name=AccessoryFunctions::AccessoryFunctions @1 @9 @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1987.49166666667,223.84,139.17,25.96" Label="AccessoryFunctions">
       <Category Ref="CallStackEntry" />
     </Node>
-    <Node Id="(Name=Memory::memoryPosition @1 @22 OverloadingParameters=[(@22 Name=iterator)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1365.04666666667,223.84,122.06,25.96" Label="memoryPosition" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/memoryhandling.cpp&quot; StartLineNumber=10 StartCharacterOffset=0 EndLineNumber=10 EndCharacterOffset=0)">
-      <Category Ref="CallStackEntry" />
-      <Category Ref="CodeSchema_SourceLocation" />
-    </Node>
-    <Node Id="(Name=SynapticStrength::SynapticStrength @1 @9 @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="737.32,223.84,125.513333333333,25.96" Label="SynapticStrength">
-      <Category Ref="CallStackEntry" />
-    </Node>
-    <Node Id="(Name=SynapticStrength::isFirstIteration @1 Type=bool OverloadingParameters=[(@22 Name=mainIterator)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="893.721666666667,223.84,110.71,25.96" Label="isFirstIteration" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/synapticstrength.cpp&quot; StartLineNumber=12 StartCharacterOffset=0 EndLineNumber=12 EndCharacterOffset=0)">
+    <Node Id="(Name=Memory::memoryPosition @1 @22 OverloadingParameters=[(@22 Name=iterator)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1486.04666666667,223.84,122.06,25.96" Label="memoryPosition" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/memoryhandling.cpp&quot; StartLineNumber=10 StartCharacterOffset=0 EndLineNumber=10 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="(Name=cv::Size_&lt;int&gt;::Size_&lt;int&gt; @1 @9 OverloadingParameters=[(Type=&quot;const cv::Size_&lt;int&gt; &amp;&quot; Name=sz)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1549.095,279.8,61.9633333333331,25.96" Label="Size_">
+    <Node Id="(Name=SynapticStrength::SynapticStrength @1 @9 @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1670.32,223.84,125.513333333333,25.96" Label="SynapticStrength">
       <Category Ref="CallStackEntry" />
     </Node>
-    <Node Id="@10" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1341.49666666667,279.8,65.1600000000001,25.96" Label="~Mat" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=492 StartCharacterOffset=0 EndLineNumber=492 EndCharacterOffset=0)">
-      <Category Ref="CallStackEntry" />
-      <Category Ref="CodeSchema_SourceLocation" />
-    </Node>
-    <Node Id="@11" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1939.60166666667,279.8,56.9499999999998,25.96" Label="Mat" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=404 StartCharacterOffset=0 EndLineNumber=404 EndCharacterOffset=0)">
+    <Node Id="(Name=SynapticStrength::isFirstIteration @1 Type=bool OverloadingParameters=[(@22 Name=mainIterator)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="982.721666666667,223.84,110.71,25.96" Label="isFirstIteration" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/synapticstrength.cpp&quot; StartLineNumber=12 StartCharacterOffset=0 EndLineNumber=12 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@12" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1641.87666666667,279.8,80.4000000000001,25.96" Label="Memory">
+    <Node Id="(Name=cv::Size_&lt;int&gt;::Size_&lt;int&gt; @1 @9 OverloadingParameters=[(Type=&quot;const cv::Size_&lt;int&gt; &amp;&quot; Name=sz)] @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1300.095,279.8,61.9633333333331,25.96" Label="Size_">
       <Category Ref="CallStackEntry" />
     </Node>
-    <Node Id="@13" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1233.55333333333,279.8,77.0466666666666,25.96" CodeSchemaProperty_IsExternal="True" Label="~vector" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=757 StartCharacterOffset=0 EndLineNumber=757 EndCharacterOffset=0)">
+    <Node Id="@10" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1504.49666666667,279.8,65.1599999999999,25.96" Label="~Mat" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=492 StartCharacterOffset=0 EndLineNumber=492 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@11" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="766.601666666667,279.8,56.9499999999998,25.96" Label="Mat" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=404 StartCharacterOffset=0 EndLineNumber=404 EndCharacterOffset=0)">
+      <Category Ref="CallStackEntry" />
+      <Category Ref="CodeSchema_SourceLocation" />
+    </Node>
+    <Node Id="@12" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1188.87666666667,279.8,80.4000000000001,25.96" Label="Memory">
+      <Category Ref="CallStackEntry" />
+    </Node>
+    <Node Id="@13" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1600.55333333333,279.8,77.0466666666666,25.96" CodeSchemaProperty_IsExternal="True" Label="~vector" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=757 StartCharacterOffset=0 EndLineNumber=757 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
@@ -83,7 +83,7 @@
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="@16" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="2026.65833333333,279.8,68.8366666666668,25.96" CodeSchemaProperty_IsExternal="True" Label="vector" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=745 StartCharacterOffset=0 EndLineNumber=745 EndCharacterOffset=0)">
+    <Node Id="@16" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="853.658333333333,279.8,68.836666666667,25.96" CodeSchemaProperty_IsExternal="True" Label="vector" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=745 StartCharacterOffset=0 EndLineNumber=745 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
@@ -93,15 +93,15 @@
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="@19" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1752.86333333333,279.8,156.426666666667,25.96" Label="sizeOfMatrixInMemory" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/memoryhandling.cpp&quot; StartLineNumber=40 StartCharacterOffset=0 EndLineNumber=40 EndCharacterOffset=0)">
+    <Node Id="@19" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1001.86333333333,279.8,156.426666666667,25.96" Label="sizeOfMatrixInMemory" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/memoryhandling.cpp&quot; StartLineNumber=40 StartCharacterOffset=0 EndLineNumber=40 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@21" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1549.055,223.84,102.043333333333,25.96" Label="sizeOfMatrix" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/accessoryfunctions.cpp&quot; StartLineNumber=15 StartCharacterOffset=0 EndLineNumber=15 EndCharacterOffset=0)">
+    <Node Id="@21" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1353.055,223.84,102.043333333333,25.96" Label="sizeOfMatrix" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/accessoryfunctions.cpp&quot; StartLineNumber=15 StartCharacterOffset=0 EndLineNumber=15 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@23" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="2038.60166666667,223.84,56.9499999999998,25.96" Label="Mat" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=479 StartCharacterOffset=0 EndLineNumber=479 EndCharacterOffset=0)">
+    <Node Id="@23" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="800.601666666667,223.84,56.9499999999998,25.96" Label="Mat" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=479 StartCharacterOffset=0 EndLineNumber=479 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
@@ -121,7 +121,7 @@
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@29" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="2051.00666666667,55.9599999999999,62.1399999999999,25.96" Label="main" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/source.cpp&quot; StartLineNumber=81 StartCharacterOffset=0 EndLineNumber=81 EndCharacterOffset=0)">
+    <Node Id="@29" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="813.006666666667,55.96,62.1399999999994,25.96" Label="main" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/source.cpp&quot; StartLineNumber=81 StartCharacterOffset=0 EndLineNumber=81 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
@@ -130,28 +130,28 @@
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="@30" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1713.55166666667,223.84,167.05,25.96" Label="modifierMatrixCalculator" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/synapticstrength.cpp&quot; StartLineNumber=56 StartCharacterOffset=0 EndLineNumber=56 EndCharacterOffset=0)">
+    <Node Id="@30" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1123.55166666667,223.84,167.05,25.96" Label="modifierMatrixCalculator" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/synapticstrength.cpp&quot; StartLineNumber=56 StartCharacterOffset=0 EndLineNumber=56 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@31" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1900.74,111.92,150.673333333333,25.96" Label="RodBiploarProcessing" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/receptivefieldprocessing.cpp&quot; StartLineNumber=500 StartCharacterOffset=0 EndLineNumber=500 EndCharacterOffset=0)">
+    <Node Id="@31" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="662.74,111.92,150.673333333333,25.96" Label="RodBiploarProcessing" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/receptivefieldprocessing.cpp&quot; StartLineNumber=500 StartCharacterOffset=0 EndLineNumber=500 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@32" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1034.68,223.84,130.793333333333,25.96" Label="pushbackMemory" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/memoryhandling.cpp&quot; StartLineNumber=28 StartCharacterOffset=0 EndLineNumber=28 EndCharacterOffset=0)">
+    <Node Id="@32" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1826.68,223.84,130.793333333333,25.96" Label="pushbackMemory" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/memoryhandling.cpp&quot; StartLineNumber=28 StartCharacterOffset=0 EndLineNumber=28 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@33" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1573.16166666667,167.88,217.83,25.96" Label="homogenReceptiveFieldEvaluation" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/receptivefieldprocessing.cpp&quot; StartLineNumber=133 StartCharacterOffset=0 EndLineNumber=133 EndCharacterOffset=0)">
+    <Node Id="@33" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1213.16166666667,167.88,217.83,25.96" Label="homogenReceptiveFieldEvaluation" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/receptivefieldprocessing.cpp&quot; StartLineNumber=133 StartCharacterOffset=0 EndLineNumber=133 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@4" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="412.296666666667,391.72,77.56,25.96" CodeSchemaProperty_IsExternal="True" Label="_Myfirst" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=647 StartCharacterOffset=0 EndLineNumber=647 EndCharacterOffset=0)">
+    <Node Id="@4" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="305.296666666667,391.72,77.5599999999999,25.96" CodeSchemaProperty_IsExternal="True" Label="_Myfirst" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=647 StartCharacterOffset=0 EndLineNumber=647 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="@5" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="306.208333333333,391.72,75.7366666666667,25.96" CodeSchemaProperty_IsExternal="True" Label="_Mylast" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=657 StartCharacterOffset=0 EndLineNumber=657 EndCharacterOffset=0)">
+    <Node Id="@5" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="413.208333333333,391.72,75.7366666666667,25.96" CodeSchemaProperty_IsExternal="True" Label="_Mylast" SourceLocation="(Assembly=&quot;file:///c:/program files (x86)/microsoft visual studio 14.0/vc/include/vector&quot; StartLineNumber=657 StartCharacterOffset=0 EndLineNumber=657 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
@@ -165,16 +165,16 @@
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="ExternalCodeRootNode" Category="ExternalCallStackEntry" Bounds="2035.58333333333,0,92.9866666666667,25.96" Label="External Code">
+    <Node Id="ExternalCodeRootNode" Category="ExternalCallStackEntry" Bounds="797.583333333333,0,92.9866666666667,25.96" Label="External Code">
       <Category Ref="CallStackEntry" />
     </Node>
   </Nodes>
   <Links>
     <Link Source="@15" Target="@8" Category="CallStackDirectCall" Bounds="344.07666015625,305.760009765625,0,21" />
-    <Link Source="@19" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::front&quot; @1 Type=&quot;cv::Mat &amp;&quot; @2)" Category="CallStackDirectCall" Bounds="1831.07666015625,305.760009765625,0,21" />
-    <Link Source="@21" Target="(Name=&quot;cv::MatSize::operator()&quot; @1 Type=cv::Size_&lt;int&gt; @2)" Category="CallStackDirectCall" Bounds="1514.55517578125,249.800003051758,57.223388671875,26.2476959228516" />
-    <Link Source="@21" Target="(Name=cv::Size_&lt;int&gt;::Size_&lt;int&gt; @1 @9 OverloadingParameters=[(Type=&quot;const cv::Size_&lt;int&gt; &amp;&quot; Name=sz)] @2)" Category="CallStackDirectCall" Bounds="1587.74462890625,249.800003051758,7.6929931640625,21.5250091552734" />
-    <Link Source="@21" Target="@10" Category="CallStackDirectCall" Bounds="1415.39282226563,249.167053222656,134.819091796875,33.3826293945313" />
+    <Link Source="@19" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::front&quot; @1 Type=&quot;cv::Mat &amp;&quot; @2)" Category="CallStackDirectCall" Bounds="1080.07666015625,305.760009765625,0,21" />
+    <Link Source="@21" Target="(Name=&quot;cv::MatSize::operator()&quot; @1 Type=cv::Size_&lt;int&gt; @2)" Category="CallStackDirectCall" Bounds="1410.80322265625,249.800003051758,11.4058837890625,22.0092620849609" />
+    <Link Source="@21" Target="(Name=cv::Size_&lt;int&gt;::Size_&lt;int&gt; @1 @9 OverloadingParameters=[(Type=&quot;const cv::Size_&lt;int&gt; &amp;&quot; Name=sz)] @2)" Category="CallStackDirectCall" Bounds="1355.15185546875,249.800003051758,31.9923095703125,24.5245208740234" />
+    <Link Source="@21" Target="@10" Category="CallStackDirectCall" Bounds="1434.92614746094,249.800003051758,63.3515625,26.6552581787109" />
     <Link Source="@25" Target="@15" Category="CallStackDirectCall" Bounds="384.185760498047,249.800003051758,65.1135559082031,26.5967559814453" />
     <Link Source="@25" Target="@17" Category="CallStackDirectCall" Bounds="500.792541503906,249.800003051758,38.0510864257813,25.0510406494141" />
     <Link Source="@26" Target="@15" Category="CallStackDirectCall" Bounds="344.07666015625,249.800003051758,0,20.9999847412109" />
@@ -182,51 +182,51 @@
     <Link Source="@27" Target="@15" Category="CallStackDirectCall" Bounds="238.85400390625,249.800003051758,65.1135864257813,26.5967559814453" />
     <Link Source="@27" Target="@17" Category="CallStackDirectCall" Bounds="261.100006103516,246.369674682617,261.656829833984,39.9482269287109" />
     <Link Source="@28" Target="@15" Category="CallStackDirectCall" Bounds="121.429618835449,248.754104614258,169.242988586426,33.4658660888672" />
-    <Link Source="@29" Target="@16" Category="CallStackDirectCall" Bounds="2082.97412109375,81.9199981689453,43.1025390625,192.008041381836" />
-    <Link Source="@29" Target="@23" Category="CallStackDirectCall" Bounds="2072.88623046875,81.9199981689453,9.1904296875,133.22688293457" />
-    <Link Source="@29" Target="@31" Category="CallStackDirectCall" Bounds="2008.62243652344,81.9199981689453,48.8673095703125,25.7982635498047" />
+    <Link Source="@29" Target="@16" Category="CallStackDirectCall" Bounds="854.282531738281,81.9199981689453,33.7941284179688,188.879989624023" />
+    <Link Source="@29" Target="@23" Category="CallStackDirectCall" Bounds="834.886108398438,81.9199981689453,9.1905517578125,133.22688293457" />
+    <Link Source="@29" Target="@31" Category="CallStackDirectCall" Bounds="770.622497558594,81.9199981689453,48.8673095703125,25.7982635498047" />
     <Link Source="@3" Target="(Name=&quot;std::_Compressed_pair&lt;std::_Wrap_alloc&lt;std::allocator&lt;int&gt; &gt;,std::_Vector_val&lt;std::_Simple_types&lt;int&gt; &gt;,1&gt;::_Get_second&quot; @1 Type=&quot;const std::_Vector_val&lt;std::_Simple_types&lt;int&gt; &gt; &amp;&quot; @2)" Category="CallStackDirectCall" Bounds="451.07666015625,473.640014648438,0,21" />
-    <Link Source="@30" Target="@11" Category="CallStackDirectCall" Bounds="1836.74035644531,249.800003051758,94.3077392578125,30.8623199462891" />
-    <Link Source="@30" Target="@12" Category="CallStackDirectCall" Bounds="1716.84375,249.800003051758,53.5584716796875,26.0619964599609" />
-    <Link Source="@30" Target="@16" Category="CallStackDirectCall" Bounds="1859.46118164063,249.800003051758,158.407836914063,33.3308868408203" />
-    <Link Source="@30" Target="@19" Category="CallStackDirectCall" Bounds="1804.96301269531,249.800003051758,13.5540771484375,22.3083953857422" />
-    <Link Source="@31" Target="@11" Category="CallStackDirectCall" Bounds="1971.20593261719,137.880004882813,4.8707275390625,133.010589599609" />
-    <Link Source="@31" Target="@14" Category="CallStackDirectCall" Bounds="649.94677734375,126.759727478027,1250.79321289063,89.6346664428711" />
-    <Link Source="@31" Target="@16" Category="CallStackDirectCall" Bounds="1983.49914550781,137.880004882813,59.0953369140625,135.385559082031" />
-    <Link Source="@31" Target="@17" Category="CallStackDirectCall" Bounds="607.777709960938,128.21955871582,1292.96228027344,149.083358764648" />
-    <Link Source="@31" Target="@23" Category="CallStackDirectCall" Bounds="1990.68957519531,137.880004882813,65.8651123046875,77.9113006591797" />
-    <Link Source="@31" Target="@33" Category="CallStackDirectCall" Bounds="1759.11169433594,137.880004882813,148.771240234375,28.3171539306641" />
-    <Link Source="@31" Target="@7" Category="CallStackDirectCall" Bounds="643.83447265625,126.888580322266,1256.90551757813,40.1627807617188" />
-    <Link Source="@32" Target="(Name=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;::operator+&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; OverloadingParameters=[(Type=__int64 Name=_Off)] @2)" Category="CallStackDirectCall" Bounds="800.974304199219,246.607879638672,233.705749511719,34.8701171875" />
-    <Link Source="@32" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::begin&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; @2)" Category="CallStackDirectCall" Bounds="1083.89965820313,249.800003051758,10.146240234375,21.8379364013672" />
-    <Link Source="@32" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::insert&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; OverloadingParameters=[(Type=&quot;std::_Vector_const_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; Name=_Where),(Type=&quot;const cv::Mat &amp;&quot; Name=_Val)] @2)" Category="CallStackDirectCall" Bounds="1116.31323242188,249.800003051758,30.4970703125,24.3802032470703" />
-    <Link Source="@32" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::operator[]&quot; @1 Type=&quot;cv::Mat &amp;&quot; OverloadingParameters=[(Type=&quot;unsigned __int64&quot; Name=_Pos)] @2)" Category="CallStackDirectCall" Bounds="920.318664550781,249.800003051758,125.713317871094,30.1927642822266" />
-    <Link Source="@32" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;&quot; @1 @9 OverloadingParameters=[(Type=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt; &amp;&amp;&quot; Name=_Right)] @2)" Category="CallStackDirectCall" Bounds="1013.0419921875,249.800003051758,58.272705078125,26.2979278564453" />
-    <Link Source="@32" Target="@10" Category="CallStackDirectCall" Bounds="1164.20617675781,249.248916625977,168.518188476563,33.7261810302734" />
-    <Link Source="@32" Target="@13" Category="CallStackDirectCall" Bounds="1139.97229003906,249.800003051758,86.01611328125,27.9852447509766" />
-    <Link Source="@33" Target="(Name=AccessoryFunctions::AccessoryFunctions @1 @9 @2)" Category="CallStackDirectCall" Bounds="1343.57165527344,193.839996337891,238.882446289063,31.606201171875" />
-    <Link Source="@33" Target="(Name=Memory::memoryPosition @1 @22 OverloadingParameters=[(@22 Name=iterator)] @2)" Category="CallStackDirectCall" Bounds="1493.72204589844,193.839996337891,128.97509765625,28.1931457519531" />
-    <Link Source="@33" Target="(Name=SynapticStrength::SynapticStrength @1 @9 @2)" Category="CallStackDirectCall" Bounds="866.14794921875,185.544525146484,707.013671875,37.0825500488281" />
-    <Link Source="@33" Target="(Name=SynapticStrength::isFirstIteration @1 Type=bool OverloadingParameters=[(@22 Name=mainIterator)] @2)" Category="CallStackDirectCall" Bounds="1011.19787597656,186.663223266602,561.963745117188,35.984130859375" />
-    <Link Source="@33" Target="@11" Category="CallStackDirectCall" Bounds="1754.505859375,193.839996337891,194.21533203125,79.5983276367188" />
-    <Link Source="@33" Target="@12" Category="CallStackDirectCall" Bounds="1682.07666015625,193.839996337891,0,76.9599914550781" />
-    <Link Source="@33" Target="@13" Category="CallStackDirectCall" Bounds="1319.39526367188,193.839996337891,317.678466796875,87.701171875" />
-    <Link Source="@33" Target="@16" Category="CallStackDirectCall" Bounds="1763.38488769531,193.839996337891,264.163818359375,81.878173828125" />
-    <Link Source="@33" Target="@21" Category="CallStackDirectCall" Bounds="1626.53051757813,193.839996337891,36.526123046875,24.9268188476563" />
-    <Link Source="@33" Target="@23" Category="CallStackDirectCall" Bounds="1789.34802246094,193.515869140625,240.535766601563,32.5233612060547" />
-    <Link Source="@33" Target="@30" Category="CallStackDirectCall" Bounds="1708.75109863281,193.839996337891,53.5584716796875,26.06201171875" />
-    <Link Source="@33" Target="@32" Category="CallStackDirectCall" Bounds="1173.40051269531,189.1669921875,399.761108398438,34.2308807373047" />
-    <Link Source="@4" Target="@3" Category="CallStackDirectCall" Bounds="451.07666015625,417.679992675781,0,21" />
-    <Link Source="@5" Target="@3" Category="CallStackDirectCall" Bounds="368.895477294922,417.679992675781,49.3872375488281,25.8290710449219" />
+    <Link Source="@30" Target="@11" Category="CallStackDirectCall" Bounds="832.192077636719,248.548370361328,291.921691894531,31.8090515136719" />
+    <Link Source="@30" Target="@12" Category="CallStackDirectCall" Bounds="1212.17956542969,249.800003051758,8.501220703125,21.6240386962891" />
+    <Link Source="@30" Target="@16" Category="CallStackDirectCall" Bounds="931.359619140625,249.800003051758,201.724609375,35.3871612548828" />
+    <Link Source="@30" Target="@19" Category="CallStackDirectCall" Bounds="1117.77038574219,249.800003051758,59.8485107421875,26.3710174560547" />
+    <Link Source="@31" Target="@11" Category="CallStackDirectCall" Bounds="738.07666015625,137.880004882813,37.3565063476563,135.614898681641" />
+    <Link Source="@31" Target="@14" Category="CallStackDirectCall" Bounds="649.94677734375,137.880004882813,73.2849731445313,78.5143890380859" />
+    <Link Source="@31" Target="@16" Category="CallStackDirectCall" Bounds="745.499084472656,137.880004882813,107.075439453125,138.063537597656" />
+    <Link Source="@31" Target="@17" Category="CallStackDirectCall" Bounds="607.777709960938,137.880004882813,123.921264648438,139.422912597656" />
+    <Link Source="@31" Target="@23" Category="CallStackDirectCall" Bounds="752.921569824219,137.880004882813,65.9814453125,77.8541717529297" />
+    <Link Source="@31" Target="@33" Category="CallStackDirectCall" Bounds="813.277954101563,135.77099609375,390.915161132813,35.2068634033203" />
+    <Link Source="@31" Target="@7" Category="CallStackDirectCall" Bounds="612.240539550781,137.880004882813,85.24462890625,27.2587890625" />
+    <Link Source="@32" Target="(Name=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;::operator+&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; OverloadingParameters=[(Type=__int64 Name=_Off)] @2)" Category="CallStackDirectCall" Bounds="1932.90014648438,249.800003051758,85.776123046875,27.2729339599609" />
+    <Link Source="@32" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::begin&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; @2)" Category="CallStackDirectCall" Bounds="1956.83129882813,248.654724121094,178.42724609375,34.0501403808594" />
+    <Link Source="@32" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::insert&quot; @1 Type=&quot;std::_Vector_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; OverloadingParameters=[(Type=&quot;std::_Vector_const_iterator&lt;std::_Vector_val&lt;std::_Simple_types&lt;cv::Mat&gt; &gt; &gt;&quot; Name=_Where),(Type=&quot;const cv::Mat &amp;&quot; Name=_Val)] @2)" Category="CallStackDirectCall" Bounds="1781.50952148438,249.800003051758,75.54248046875,27.9957122802734" />
+    <Link Source="@32" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::operator[]&quot; @1 Type=&quot;cv::Mat &amp;&quot; OverloadingParameters=[(Type=&quot;unsigned __int64&quot; Name=_Pos)] @2)" Category="CallStackDirectCall" Bounds="1864.53430175781,249.800003051758,17.5684814453125,22.8635406494141" />
+    <Link Source="@32" Target="(Name=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt;&quot; @1 @9 OverloadingParameters=[(Type=&quot;std::vector&lt;cv::Mat,std::allocator&lt;cv::Mat&gt; &gt; &amp;&amp;&quot; Name=_Right)] @2)" Category="CallStackDirectCall" Bounds="1907.38549804688,249.800003051758,28.5177001953125,24.1796112060547" />
+    <Link Source="@32" Target="@10" Category="CallStackDirectCall" Bounds="1578.38879394531,247.264282226563,248.327392578125,33.9933166503906" />
+    <Link Source="@32" Target="@13" Category="CallStackDirectCall" Bounds="1686.38757324219,249.800003051758,147.00537109375,32.5154876708984" />
+    <Link Source="@33" Target="(Name=AccessoryFunctions::AccessoryFunctions @1 @9 @2)" Category="CallStackDirectCall" Bounds="1430.99169921875,186.951751708984,550.354248046875,35.7807464599609" />
+    <Link Source="@33" Target="(Name=Memory::memoryPosition @1 @22 OverloadingParameters=[(@22 Name=iterator)] @2)" Category="CallStackDirectCall" Bounds="1374.26574707031,193.839996337891,111.887939453125,27.8277740478516" />
+    <Link Source="@33" Target="(Name=SynapticStrength::SynapticStrength @1 @9 @2)" Category="CallStackDirectCall" Bounds="1418.52160644531,193.839996337891,242.883544921875,32.8885650634766" />
+    <Link Source="@33" Target="(Name=SynapticStrength::isFirstIteration @1 Type=bool OverloadingParameters=[(@22 Name=mainIterator)] @2)" Category="CallStackDirectCall" Bounds="1102.12365722656,193.839996337891,154.078857421875,30.3600311279297" />
+    <Link Source="@33" Target="@11" Category="CallStackDirectCall" Bounds="829.1064453125,190.983688354492,384.058715820313,84.8452606201172" />
+    <Link Source="@33" Target="@12" Category="CallStackDirectCall" Bounds="1258.35974121094,193.839996337891,63.7169189453125,81.3197937011719" />
+    <Link Source="@33" Target="@13" Category="CallStackDirectCall" Bounds="1429.52392578125,193.419204711914,209.552734375,77.3807830810547" />
+    <Link Source="@33" Target="@16" Category="CallStackDirectCall" Bounds="909.696838378906,191.322052001953,303.503845214844,82.5538024902344" />
+    <Link Source="@33" Target="@21" Category="CallStackDirectCall" Bounds="1341.0966796875,193.839996337891,36.526123046875,24.9268188476563" />
+    <Link Source="@33" Target="@23" Category="CallStackDirectCall" Bounds="866.256591796875,190.049713134766,346.905029296875,35.0047760009766" />
+    <Link Source="@33" Target="@30" Category="CallStackDirectCall" Bounds="1241.84375,193.839996337891,53.5584716796875,26.06201171875" />
+    <Link Source="@33" Target="@32" Category="CallStackDirectCall" Bounds="1430.99169921875,189.454437255859,387.56103515625,34.1393127441406" />
+    <Link Source="@4" Target="@3" Category="CallStackDirectCall" Bounds="368.895477294922,417.679992675781,49.3872375488281,25.8290710449219" />
+    <Link Source="@5" Target="@3" Category="CallStackDirectCall" Bounds="451.07666015625,417.679992675781,0,21" />
     <Link Source="@7" Target="@14" Category="CallStackDirectCall" Bounds="580.009094238281,193.839996337891,31.9923706054688,24.5245361328125" />
     <Link Source="@7" Target="@17" Category="CallStackDirectCall" Bounds="563.772521972656,193.839996337891,2.30413818359375,76.9599914550781" />
     <Link Source="@7" Target="@25" Category="CallStackDirectCall" Bounds="507.530578613281,193.839996337891,36.5260620117188,24.9268188476563" />
     <Link Source="@7" Target="@26" Category="CallStackDirectCall" Bounds="403.293762207031,193.839996337891,108.985534667969,27.8485412597656" />
     <Link Source="@7" Target="@27" Category="CallStackDirectCall" Bounds="269.977600097656,192.901489257813,213.469543457031,32.9528961181641" />
     <Link Source="@7" Target="@28" Category="CallStackDirectCall" Bounds="130.690826416016,188.350433349609,351.935852050781,35.7460174560547" />
-    <Link Source="@8" Target="@4" Category="CallStackDirectCall" Bounds="368.895477294922,361.720001220703,49.3872375488281,25.8290710449219" />
-    <Link Source="@8" Target="@5" Category="CallStackDirectCall" Bounds="344.07666015625,361.720001220703,0,21" />
-    <Link Source="ExternalCodeRootNode" Target="@29" Category="CallStackIndirectCall" Bounds="2082.07666015625,25.9599990844727,0,21" />
+    <Link Source="@8" Target="@4" Category="CallStackDirectCall" Bounds="344.07666015625,361.720001220703,0,21" />
+    <Link Source="@8" Target="@5" Category="CallStackDirectCall" Bounds="368.895477294922,361.720001220703,49.3872375488281,25.8290710449219" />
+    <Link Source="ExternalCodeRootNode" Target="@29" Category="CallStackIndirectCall" Bounds="844.07666015625,25.9599990844727,0,21" />
   </Links>
   <Categories>
     <Category Id="CallStackDirectCall" Label="Call Stack direct call" CanBeDataDriven="True" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Call Stack direct call" OutgoingActionLabel="Call Stack direct call" />
@@ -245,7 +245,7 @@
     <Property Id="DefaultAction" Label="DefaultAction" Description="DefaultAction" DataType="System.String" />
     <Property Id="Expression" DataType="System.String" />
     <Property Id="GroupLabel" DataType="System.String" />
-    <Property Id="Icon" DataType="System.String" />
+    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
     <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
     <Property Id="IsEnabled" DataType="System.Boolean" />
     <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />

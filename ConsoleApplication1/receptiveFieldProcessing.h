@@ -28,6 +28,7 @@ public:
 		vector<Mat> firstCellMemory, vector<Mat> secondCellMemory, int mainIterator);
 	vector<int> fovaeSizeAcquirer(Mat inputMatrix);
 	vector<int> fovaeCenterCoordinatesAcquirer(Mat inputMatrix);
+	vector<int> initiateMemory(vector<Mat> memoryType);
 
 	//set functions
 	static vector<int> setKernelSize(int newValue);
@@ -72,8 +73,8 @@ class RodBipolarProcessing : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation();
 	Mat RodBiploarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator);
-private:
-	
+private:	
+	vector<Mat> rodMemory;
 };
 
 class amacrineAIIProcessing : public ReceptiveFieldFunctions {
@@ -81,7 +82,7 @@ public:
 	vector<int> initializeCellInformation();
 	Mat amacrineAIIBipolarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator);
 private:
-	//vector<int> cellInformation;
+	vector<Mat> rodBipolarMemory;
 };
 
 // Derived class
@@ -89,9 +90,9 @@ class RedGreenDiscrimination : public ReceptiveFieldFunctions, HasFovae{
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	vector<Mat> redGreenDiscriminationMain(Mat firstInputMatrix, Mat seconInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator);
-
+	
 private:
-
+	vector<Mat> lConeMemory, mConeMemory;
 };
 
 // Derived class
@@ -101,7 +102,7 @@ public:
 	vector<Mat> yellowBlueDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator);
 
 private:
-
+	vector<Mat> yellowMemory, sConeMemory;
 };
 
 // Derived class - intensity information from all cones
@@ -114,7 +115,7 @@ public:
 		vector<Mat> thridMemory, int mainIterator);
 
 private:
-
+	vector<Mat> sConeMemory, lConeMemory, mConeMemory;
 };
 
 class MainDirectionGanglionProcessing : public ReceptiveFieldFunctions, HasFovae {
@@ -126,7 +127,7 @@ public:
 	vector<Mat> mainDirectonInformation(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator);
 
 private:
-
+	vector<Mat> redGreenMemory, blueYellowMemory;
 };
 
 class GaborFiltering : public ReceptiveFieldFunctions {

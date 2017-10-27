@@ -3,6 +3,8 @@
 //constructor and destructor
 Memory::Memory()
 {
+	memory.resize(memoryMax);
+		//create the vector sized as the memoryMax variable
 }
 
 Memory::~Memory()
