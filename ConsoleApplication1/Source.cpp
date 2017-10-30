@@ -12,6 +12,22 @@
 #include "ImageProcessingDataAcquisition.h"
 
 
+class TestClass { //debug class
+public:
+	int testVariablePublic = 1;
+	void changePublic(int newNumber) {
+		testVariablePublic = newNumber;
+	}
+	void changePrivate(int newNumber) {
+		testVariablePrivate = newNumber;
+	}
+	int getPrivate(void) {
+		return testVariablePrivate;
+	}
+private:
+	int testVariablePrivate = 1;
+};
+
 using namespace cv;
 using namespace std;
 
@@ -31,6 +47,7 @@ bool isFirstIteration(int iterator) {
 
 int main(int argc, char** argv){
 	//calling headers
+	TestClass tc; // debug
 	AccessoryFunctions ac;
 	Memory m;
 	ReceptiveFieldFunctions rfp;
@@ -77,6 +94,12 @@ int main(int argc, char** argv){
 	ipda.imageShow(redChannel);
 	waitKey(100);
 
+	//testing class
+	tc.changePublic(4);
+	cout << tc.testVariablePublic << endl;
+	tc.changePrivate(5);
+	cout << tc.getPrivate() << endl;
+
 	//testing vector<Mat> properties
 	vector<Mat> testingMatrixVector;
 	cout << "size of vector: " << testingMatrixVector.size() << endl;
@@ -84,11 +107,12 @@ int main(int argc, char** argv){
 	for (int it = 0; it < 5; it++) {
 		testingMatrixVector.at(it) = Mat::ones(300, 300, CV_8UC1);;
 	}
+	testingMatrixVector.resize(7);
 	cout << "size of vector: " << testingMatrixVector.size() << endl;
 	cout << testingMatrixVector.at(3).size();
 
 	//BIPOLAR PATHWAY
-	//Mat rodBipolarLevel = rbp.RodBiploarProcessing(intensityImage, m.rodMemory, mainIterator);
+	Mat rodBipolarLevel = rbp.RodBiploarProcessing(intensityImage, mainIterator);
 	//ipda.imageShow(rodBipolarLevel);
 	//waitKey(0);
 

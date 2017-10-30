@@ -28,17 +28,19 @@ Mat SynapticStrength::synapticStrengthMatrixCreator(Mat modifierMatrix, Size mem
 	AccessoryFunctions af;
 	Mat synapticStrengthMatrix; // might want to give size and type = Mat(memoryItemSize.height, memoryItemSize.width, CV_64FC1);
 	if (isFirst) {
-		synapticStrengthMatrix = Mat::ones(1, memoryItemSize.height * memoryItemSize.width, CV_64F); // check, if CV_64F is the correct one
+		//synapticStrengthMatrix = Mat::ones(1, memoryItemSize.height * memoryItemSize.width, CV_64F); // check, if CV_64F is the correct one
+		synapticStrengthMatrix = Mat::ones(memoryItemSize.height, memoryItemSize.width, CV_64F);
 		//debug
-		af.sizeOfMatrix(synapticStrengthMatrix); //debug
+		Size s = af.sizeOfMatrix(synapticStrengthMatrix); //debug
 		cout << "height: " << s.height << ", width: " << s.width << endl; //debug
 	}
 	else if(!isFirst){
 		synapticStrengthMatrix.create(1, memoryItemSize.height * memoryItemSize.width, CV_64F);
-		af.sizeOfMatrix(modifierMatrix);
+		Size s = af.sizeOfMatrix(modifierMatrix);
 		for (int it = 0; it < s.height; it++) {
 			for (int ij = 0; ij < s.width; ij++) {
-				synapticStrengthMatrix.push_back(synapticStrengthMatrix.at<float>(1, it * ij) * 1 / (1 + exp(-1 * modifierMatrix.at<float>(it, ij))));
+				synapticStrengthMatrix.push_back(synapticStrengthMatrix.at<float>(it, ij) * 1 / (1 + exp(-1 * modifierMatrix.at<float>(it, ij))));
+				//synapticStrengthMatrix.push_back(synapticStrengthMatrix.at<float>(1, it * ij) * 1 / (1 + exp(-1 * modifierMatrix.at<float>(it, ij))));
 				//synapticStrengthMatrix.at<double>(it, ij);
 			}
 		}
@@ -54,8 +56,8 @@ Mat SynapticStrength::modifierMatrixCalculator(vector<Mat> currentMemory, int cu
 	Memory m;
 	Mat modifierMatrix;
 	Size sizeOfMatrix = m.sizeOfMatrixInMemory(currentMemory);
-	bool isFilled;
-	if (sizeOfMatrix.width > 4)
+	bool isFilled = m.getIsFilled();
+	if (currentMemory.size() > 4)
 	{
 		isFilled = true;
 	}

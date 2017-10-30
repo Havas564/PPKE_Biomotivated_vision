@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DirectedGraph DataVirtualized="True" Layout="Sugiyama" ZoomLevel="0.75" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+<DirectedGraph DataVirtualized="True" Layout="Sugiyama" ZoomLevel="1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
     <Node Id="(Name=&quot;cv::MatSize::operator()&quot; @1 Type=cv::Size_&lt;int&gt; @2)" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1392.12166666667,279.8,81.9099999999999,25.96" Label="operator" SourceLocation="(Assembly=file:///c:/opencv/build/include/opencv2/core/mat.inl.hpp StartLineNumber=1367 StartCharacterOffset=0 EndLineNumber=1367 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
@@ -93,7 +93,7 @@
       <Category Ref="CodeSchema_SourceLocation" />
       <Category Ref="ExternalCallStackEntry" />
     </Node>
-    <Node Id="@19" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1001.86333333333,279.8,156.426666666667,25.96" Label="sizeOfMatrixInMemory" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/memoryhandling.cpp&quot; StartLineNumber=40 StartCharacterOffset=0 EndLineNumber=40 EndCharacterOffset=0)">
+    <Node Id="@19" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1001.86333333333,279.8,156.426666666667,25.96" Label="sizeOfMatrixInMemory" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/memoryhandling.cpp&quot; StartLineNumber=44 StartCharacterOffset=0 EndLineNumber=44 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
@@ -121,7 +121,7 @@
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@29" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="813.006666666667,55.96,62.1399999999994,25.96" Label="main" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/source.cpp&quot; StartLineNumber=81 StartCharacterOffset=0 EndLineNumber=81 EndCharacterOffset=0)">
+    <Node Id="@29" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="813.006666666667,55.96,62.1399999999994,25.96" Label="main" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/source.cpp&quot; StartLineNumber=91 StartCharacterOffset=0 EndLineNumber=91 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
@@ -142,7 +142,7 @@
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>
-    <Node Id="@33" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1213.16166666667,167.88,217.83,25.96" Label="homogenReceptiveFieldEvaluation" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/receptivefieldprocessing.cpp&quot; StartLineNumber=133 StartCharacterOffset=0 EndLineNumber=133 EndCharacterOffset=0)">
+    <Node Id="@33" Category="CodeSchema_CallStackUnresolvedMethod" Bounds="1213.16166666667,167.88,217.83,25.96" Label="homogenReceptiveFieldEvaluation" SourceLocation="(Assembly=&quot;file:///c:/users/matep/documents/visual studio 2015/projects/ppke_biomotivated_vision/consoleapplication1/receptivefieldprocessing.cpp&quot; StartLineNumber=135 StartCharacterOffset=0 EndLineNumber=135 EndCharacterOffset=0)">
       <Category Ref="CallStackEntry" />
       <Category Ref="CodeSchema_SourceLocation" />
     </Node>

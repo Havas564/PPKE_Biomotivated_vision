@@ -3,8 +3,7 @@
 //constructor and destructor
 Memory::Memory()
 {
-	memory.resize(memoryMax);
-		//create the vector sized as the memoryMax variable
+	//memory.resize(memoryMax); //create the vector sized as the memoryMax variable
 }
 
 Memory::~Memory()
@@ -13,9 +12,6 @@ Memory::~Memory()
 
 // determine current memory position
 int Memory::memoryPosition(int iterator) {
-	if (iterator == 1) {
-		currentMemoryPosition = 0;
-	}
 	currentMemoryPosition = iterator % memoryMax - 1;
 	if (currentMemoryPosition == -1) {
 		currentMemoryPosition = 4;
@@ -27,9 +23,9 @@ int Memory::memoryPosition(int iterator) {
 //INPUT FROM CURRENT ITERATION
 
 // for all types
-vector<Mat> Memory::pushbackMemory(Mat currentInput, int currentMemoryPosition, vector<Mat> memoryType) {
-	memoryType.insert(memoryType.begin() + currentMemoryPosition, currentInput);
-	return memoryType;
+void Memory::pushbackMemory(Mat currentInput, int currentMemoryPosition) {
+	memory[currentMemoryPosition] = currentInput;
+	//memoryType.insert(memoryType.begin() + currentMemoryPosition, currentInput);
 }
 
 //CLEAR MEMORY
@@ -44,10 +40,6 @@ Size Memory::sizeOfMatrixInMemory(vector<Mat> currentMemory) {
 	return s;
 }
 
-// INPUT FOR SYNAPTIC STRENGTH MATRIX
-
-
-// GANGLION LEVEL
 
 //get functions
 bool Memory::getIsFilled() {
@@ -68,14 +60,12 @@ bool Memory::setIsFilled(bool newValue) {
 	return isFilled;
 }
 
-int Memory::setNumberOfMemoryBlocks(int newValue) {
+void Memory::setNumberOfMemoryBlocks(int newValue) {
 	numberOfMemoryBlock = newValue;
-	return numberOfMemoryBlock;
 }
 
-int Memory::setMemoryMax(int newValue) {
+void Memory::setMemoryMax(int newValue) {
 	memoryMax = newValue;
-	return memoryMax;
 }
 
 

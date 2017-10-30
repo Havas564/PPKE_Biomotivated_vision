@@ -7,6 +7,7 @@
 #include <math.h>
 #include <opencv2\core.hpp>
 #include "accessoryFunctions.h"
+#include "memoryHandling.h"
 
 using namespace std;
 using namespace cv;
@@ -22,13 +23,12 @@ public:
 	Mat oneKernelCreator(Mat inputMatrix, int kernelSize, int iterX, int iterY);
 	vector<Mat> displacementKernelCreator(Mat inputMatrix, Mat previousInputMatrix, int kernelSize, int iterX, int iterY, string mainDriection);
 	float centerPeripheryComparison(float ratioOfCenter, float ratioOfPeriphery);
-	Mat homogenReceptiveFieldEvaluation(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator);
-	vector<Mat> receptiveFieldEvaluationOneInput(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator);
+	Mat homogenReceptiveFieldEvaluation(Mat inputMatrix, vector<int> cellInformation, Memory& m, int mainIterator);
+	vector<Mat> receptiveFieldEvaluationOneInput(Mat inputMatrix, vector<int> cellInformation, Memory& m, int mainIterator);
 	vector<Mat> receptiveFieldEvaluationTwoInput(Mat firstInputMatrix, Mat secondInputMatrix, vector<int> cellInformation,
-		vector<Mat> firstCellMemory, vector<Mat> secondCellMemory, int mainIterator);
+		Memory& m, int mainIterator);
 	vector<int> fovaeSizeAcquirer(Mat inputMatrix);
 	vector<int> fovaeCenterCoordinatesAcquirer(Mat inputMatrix);
-	vector<int> initiateMemory(vector<Mat> memoryType);
 
 	//set functions
 	static vector<int> setKernelSize(int newValue);
@@ -55,24 +55,17 @@ public:
 
 protected:
 	static vector<int> cellInformation;
-private:
 	
-};
-
-class HasFovae
-{
-public:
-
-protected:
-	static vector<int> fovaeSize;
-	static vector<int> fovaeCenterCoordinates;
 };
 
 // Derived class
 class RodBipolarProcessing : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation();
-	Mat RodBiploarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator);
+	void initializeMemory(int iterator);
+	void loadToMemory(Memory& m);
+	void loadFromMemory(Memory& m);
+	Mat RodBiploarProcessing(Mat inputMatrix, int mainIterator);
 private:	
 	vector<Mat> rodMemory;
 };
@@ -80,51 +73,63 @@ private:
 class amacrineAIIProcessing : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation();
-	Mat amacrineAIIBipolarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator);
+	void initializeMemory(int iterator);
+	void loadToMemory(Memory& m);
+	void loadFromMemory(Memory& m);
+	Mat amacrineAIIBipolarProcessing(Mat inputMatrix, int mainIterator);
+	
 private:
 	vector<Mat> rodBipolarMemory;
 };
 
 // Derived class
-class RedGreenDiscrimination : public ReceptiveFieldFunctions, HasFovae{
+class RedGreenDiscrimination : public ReceptiveFieldFunctions{
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
-	vector<Mat> redGreenDiscriminationMain(Mat firstInputMatrix, Mat seconInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator);
-	
+	void initializeMemory(int iterator);
+	void loadToMemory(Memory& m);
+	void loadFromMemory(Memory& m);
+	vector<Mat> redGreenDiscriminationMain(Mat firstInputMatrix, Mat seconInputMatrix, int mainIterator);
 private:
 	vector<Mat> lConeMemory, mConeMemory;
 };
 
 // Derived class
-class YellowBlueDiscrimination : public ReceptiveFieldFunctions, HasFovae {
+class YellowBlueDiscrimination : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
-	vector<Mat> yellowBlueDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator);
-
+	void initializeMemory(int iterator);
+	void loadToMemory(Memory& m);
+	void loadFromMemory(Memory& m);
+	vector<Mat> yellowBlueDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, int mainIterator);
 private:
 	vector<Mat> yellowMemory, sConeMemory;
 };
 
 // Derived class - intensity information from all cones
-class AllConeDiscrimination : public ReceptiveFieldFunctions, HasFovae {
+class AllConeDiscrimination : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
-	vector<Mat> receptiveFieldEvaluationTwoInput(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory,
-		vector<Mat> thirdMemory, vector<int> cellInformation, int mainIterator);
-	vector<Mat> allConeDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory,
-		vector<Mat> thridMemory, int mainIterator);
+	vector<Mat> receptiveFieldEvaluationThreeInput(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, Memory& m, vector<int> cellInformation, int mainIterator);
+	void initializeMemory(int iterator);
+	void loadToMemory(Memory& m);
+	void loadFromMemory(Memory& m);
+	vector<Mat> allConeDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, int mainIterator);
 
 private:
 	vector<Mat> sConeMemory, lConeMemory, mConeMemory;
 };
 
-class MainDirectionGanglionProcessing : public ReceptiveFieldFunctions, HasFovae {
+class MainDirectionGanglionProcessing : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	Mat previousInput(vector<Mat> cellMemory, int currentMemoryPosition);
 	int movementSensing(double prevois, double firstSide, double secondSide);
-	vector<Mat> directionReceptiveFieldProcessing(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator);
-	vector<Mat> mainDirectonInformation(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator);
+	void initializeMemory(int iterator);
+	void loadToMemory(Memory& m);
+	void loadFromMemory(Memory& m);
+	vector<Mat> directionReceptiveFieldProcessing(Mat inputMatrix, vector<int> cellInformation, Memory& m, int mainIterator);
+	vector<Mat> mainDirectonInformation(Mat inputMatrix, vector<int> cellInformation, int mainIterator);
 
 private:
 	vector<Mat> redGreenMemory, blueYellowMemory;

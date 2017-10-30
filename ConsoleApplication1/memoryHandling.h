@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <opencv2\core.hpp>
+//#include "receptiveFieldProcessing.h"
 
 using namespace std;
 using namespace cv;
@@ -16,44 +17,17 @@ public:
 	Memory();
 	~Memory();
 	// INPUT MEMORY
-	Mat memoryPart;
-	vector<Mat> memory;
-	//photoreceptor level
-	/*vector<Mat> rodMemory;
-	vector<Mat> sConeMemory;
-	vector<Mat> lConeMemory;
-	vector<Mat> mConeMemory;
-	//bipolar level
-	vector<Mat> rodBipolarMemory;
-	vector<Mat> sConeBipolarMemory;
-	vector<Mat> redOpponencyBipolarMemory;
-	vector<Mat> greenOpponencyMemory;
-	vector<Mat> yellowOpponencyMemory;
-	vector<Mat> blueOpponencyMemory;
-	vector<Mat> amacrineIIMemory;
-	//ganglion level
-	vector<Mat> redOpponencyGanglionMemory;
-	vector<Mat> greenOpponencyGanglionMemory;
-	vector<Mat> intensityGanglionMemory;
-	vector<Mat>	yellowOpponencyGanglionMemory;
-	vector<Mat> blueOpponencyGanglionMemory;
-	vector<Mat> onGreenRedMidgetOutputMemory;
-	vector<Mat> rightMovementGanglionMemory;
-	vector<Mat> leftMovementGanglionMemory;
-	vector<Mat> upMovementGanglionMemory;
-	vector<Mat> downMovementGanglionMemory;
-	//high order processing
-	vector<Mat> shapeDetectorLevel1;
-	vector<Mat> shapeDetectorLevel2;
-	vector<Mat> shapeDetectorLevel3;*/
+	vector<Mat> memory; // main memory modifier
+	vector<Mat> memorySecond; // second memory modifier in case of two input memories
+	vector<Mat> memoryThird; // third memory modifier in case of three input memories
+
 	//SYNAPTIC STRENGTH MEMORY
 
 	//copyto-t hasznélni a MAT-ok betöltésénél
 	// MEMORY INPUT FROM CURRENT ITERATION - körbuffert megnézni - kiválhatja a számolást
-	vector<Mat> pushbackMemory(Mat currentInput, int currentMemoryPosition, vector<Mat> memoryType);
+	void pushbackMemory(Mat currentInput, int currentMemoryPosition);
 	vector<Mat> clearMemory(Mat currentInput, vector<Mat> memoryType);
 	Size sizeOfMatrixInMemory(vector<Mat> currentMemory);
-	int filledMemorySpots(vector<Mat> currentMemory, bool isFilled);
 	
 	//get functions
 	bool getIsFilled();
@@ -62,8 +36,8 @@ public:
 	int memoryPosition(int iterator);
 	//set functions
 	bool setIsFilled(bool newValue);
-	int setNumberOfMemoryBlocks(int newValue);
-	int setMemoryMax(int newValue);
+	void setNumberOfMemoryBlocks(int newValue);
+	void setMemoryMax(int newValue);
 
 private:
 	bool isFilled = false;

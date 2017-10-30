@@ -54,7 +54,8 @@ Mat ReceptiveFieldFunctions::oneKernelCreator(Mat inputMatrix, int kernelSize, i
 }
 
 // function creating kernel with different side size (e.g. for movement ganglion cells)
-vector<Mat> ReceptiveFieldFunctions::displacementKernelCreator(Mat inputMatrix, Mat previousInputMatrix, int kernelSize, int iterX, int iterY, string mainDirection) {
+vector<Mat> ReceptiveFieldFunctions::displacementKernelCreator(Mat inputMatrix, Mat previousInputMatrix, int kernelSize,
+	int iterX, int iterY, string mainDirection) {
 	vector<Mat> kernels;
 	if (mainDirection == "up") {
 		Mat kernel1(previousInputMatrix, Rect(iterX, iterY + kernelSize, kernelSize, kernelSize));
@@ -118,30 +119,38 @@ float ReceptiveFieldFunctions::centerPeripheryComparison(float ratioOfCenter, fl
 }
 
 //homogen receptive field input evaluation
-Mat ReceptiveFieldFunctions::homogenReceptiveFieldEvaluation(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator) {
+Mat ReceptiveFieldFunctions::homogenReceptiveFieldEvaluation(Mat inputMatrix, vector<int> cellInformation, Memory& m, int mainIterator) {
 	//Calling helper functions
-	Memory m;
 	SynapticStrength ss;
 	AccessoryFunctions af;
 	//declaring local variables
 	int currentMemoryPosition = m.memoryPosition(mainIterator); // placeholder - must be initiated by m.memoryPosition() func.
-	Mat processedMatrix;
+	Mat processedMatrix, inputModifiedBySynapticStrength;
 	Size matrixSize = af.sizeOfMatrix(inputMatrix);
 	bool isFirst = ss.isFirstIteration(mainIterator);
 	Mat synapticStrengthMatrix;
 	double ratioOfInput, threshold = 0.3;
 	//adding current input to memory
-	m.pushbackMemory(inputMatrix, currentMemoryPosition, cellMemory);
+	m.pushbackMemory(inputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
-	ss.modifierMatrixCalculator(cellMemory, currentMemoryPosition);
+	if (mainIterator > 1) {
+		ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
+	}
 	synapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
-	inputMatrix = inputMatrix.mul(synapticStrengthMatrix);
+	//withfor
+	/*for (int i = 0; i < matrixSize.height; i++) {
+		for (int j = 0; j < matrixSize.width; j++) {
+			inputModifiedBySynapticStrength.at<float>(i, j) = inputMatrix.at<float>(i, j) *
+				synapticStrengthMatrix.at<float>(i, j);
+		}
+	}*/
+	inputModifiedBySynapticStrength = inputMatrix.mul(synapticStrengthMatrix);
 	//iterating through the matrix with the kernel
 	int iterY = 0;
 	for (int it = 0; it < ((matrixSize.height / cellInformation[0]) * cellInformation[0] - cellInformation[0]); it++) {
 		int iterX = 0;
 		for (int ij = 0; ij < ((matrixSize.width / cellInformation[0]) * cellInformation[0] - cellInformation[0]); ij++) {
-			Mat kernel = oneKernelCreator(inputMatrix, cellInformation[0], ij, it);
+			Mat kernel = oneKernelCreator(inputModifiedBySynapticStrength, cellInformation[0], ij, it);
 			ratioOfInput = 1 - (pow(cellInformation[0], 2.0) - cellInformation[0]) / pow(cellInformation[0], 2.0); // check if it gives the good value
 			ratioOfInput = af.thresholding(ratioOfInput, threshold);
 			processedMatrix.at<double>(iterX, iterY) = ratioOfInput;
@@ -153,9 +162,8 @@ Mat ReceptiveFieldFunctions::homogenReceptiveFieldEvaluation(Mat inputMatrix, ve
 }
 
 //input evaulation in case of one input matrix
-vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator) {
+vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputMatrix, vector<int> cellInformation, Memory& m, int mainIterator) {
 	//calling helper function
-	Memory m;
 	SynapticStrength ss;
 	AccessoryFunctions af;
 	//declaring local variables
@@ -170,12 +178,12 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 	matrixSize = af.sizeOfMatrix(inputMatrix);
 	//adding the current input to memory
 	int currentMemoryPosition = m.memoryPosition(mainIterator);
-	m.pushbackMemory(inputMatrix, currentMemoryPosition, cellMemory);
+	m.pushbackMemory(inputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
 	isFirst = ss.isFirstIteration(mainIterator);
 	Mat modifierMatrix;
 	if (mainIterator < 1) {
-		modifierMatrix = ss.modifierMatrixCalculator(cellMemory, currentMemoryPosition);
+		modifierMatrix = ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
 	}
 	else {
 		modifierMatrix = Mat::ones(1, 2, CV_64F);
@@ -244,9 +252,8 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 
 //input evaulation in case of two input matrices
 vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstInputMatrix, Mat secondInputMatrix,
-	vector<int> cellInformation, vector<Mat> firstCellMemory, vector<Mat> secondCellMemory, int mainIterator) {
+	vector<int> cellInformation, Memory& m, int mainIterator) {
 	//calling helper function
-	Memory m;
 	SynapticStrength ss;
 	AccessoryFunctions af;
 	//declaring local variables
@@ -265,14 +272,14 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 	matrixSize = af.sizeOfMatrix(firstInputMatrix);
 	//adding the current input to memory
 	int currentMemoryPosition = m.memoryPosition(mainIterator);
-	m.pushbackMemory(firstInputMatrix, currentMemoryPosition, firstCellMemory);
-	m.pushbackMemory(secondInputMatrix, currentMemoryPosition, secondCellMemory);
+	m.pushbackMemory(firstInputMatrix, currentMemoryPosition);
+	m.pushbackMemory(secondInputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
 	isFirst = ss.isFirstIteration(mainIterator);
-	ss.modifierMatrixCalculator(firstCellMemory, currentMemoryPosition);
+	ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
 	firstSynapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	firstInputMatrix = firstInputMatrix.mul(firstSynapticStrengthMatrix);
-	ss.modifierMatrixCalculator(secondCellMemory, currentMemoryPosition);
+	ss.modifierMatrixCalculator(m.memorySecond, currentMemoryPosition);
 	secondSynapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	secondInputMatrix = secondInputMatrix.mul(secondSynapticStrengthMatrix);
 	//iterating through the matrix
@@ -501,13 +508,44 @@ vector<int> RodBipolarProcessing::initializeCellInformation() {
 }
 vector<int> RodBipolarProcessing::cellInformation(9);
 
-Mat RodBipolarProcessing::RodBiploarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator) {
+void RodBipolarProcessing::initializeMemory(int iterator) {
+	Memory m;
+	if (iterator < 5) {
+		rodMemory.resize(iterator);
+	}
+	else {
+		rodMemory.resize(m.getMemoryMax());
+	}
+}
+
+void RodBipolarProcessing::loadToMemory(Memory& m) {
+	if (rodMemory.size() != m.memory.size()) {
+		m.memory.resize(rodMemory.size());
+	}
+	for (int it = 0; it < rodMemory.size(); it++) {
+		m.memory[it] = rodMemory[it];
+	}
+}
+
+void RodBipolarProcessing::loadFromMemory(Memory& m) {
+	for (int it = 0; it < m.memory.size(); it++) {
+		rodMemory[it] = m.memory[it];
+	}
+}
+
+Mat RodBipolarProcessing::RodBiploarProcessing(Mat inputMatrix, int mainIterator) {
+	Memory m;
 	Mat processedMatrix;
 	if (mainIterator == 1) {
 		initializeCellInformation();
-		//initiateMemory(rodMemory);
+		initializeMemory(mainIterator);
 	}
-	processedMatrix = homogenReceptiveFieldEvaluation(inputMatrix, cellInformation, cellMemory, mainIterator);
+	else if(mainIterator < 6){
+		initializeMemory(mainIterator);
+	}
+	loadToMemory(m);
+	processedMatrix = homogenReceptiveFieldEvaluation(inputMatrix, cellInformation, m, mainIterator);
+	loadFromMemory(m);
 	return processedMatrix;
 }
 
@@ -519,13 +557,46 @@ vector<int> amacrineAIIProcessing::initializeCellInformation() {
 	setKernelStep(1);
 	return cellInformation;
 }
+//vector<int> amacrineAIIProcessing::cellInformation(9);
 
-Mat amacrineAIIProcessing::amacrineAIIBipolarProcessing(Mat inputMatrix, vector<Mat> cellMemory, int mainIterator){
+void amacrineAIIProcessing::initializeMemory(int iterator) {
+	Memory m;
+	if (iterator < 5) {
+		rodBipolarMemory.resize(iterator);
+	}
+	else {
+		rodBipolarMemory.resize(m.getMemoryMax());
+	}
+}
+
+	void amacrineAIIProcessing::loadToMemory(Memory& m) {
+		if (rodBipolarMemory.size() != m.memory.size()) {
+			m.memory.resize(rodBipolarMemory.size());
+		}
+		for (int it = 0; it < rodBipolarMemory.size(); it++) {
+			m.memory[it] = rodBipolarMemory[it];
+		}
+	}
+
+	void amacrineAIIProcessing::loadFromMemory(Memory& m) {
+		for (int it = 0; it < m.memory.size(); it++) {
+			rodBipolarMemory[it] = m.memory[it];
+		}
+	}
+
+Mat amacrineAIIProcessing::amacrineAIIBipolarProcessing(Mat inputMatrix, int mainIterator){
+	Memory m;
 	Mat processedMatrix;
 	if (mainIterator == 1) {
 		initializeCellInformation();
+		initializeMemory(mainIterator);
 	}
-	processedMatrix = homogenReceptiveFieldEvaluation(inputMatrix, cellInformation, cellMemory, mainIterator);
+	else if (mainIterator < 6) {
+		initializeMemory(mainIterator);
+	}
+	loadToMemory(m);
+	processedMatrix = homogenReceptiveFieldEvaluation(inputMatrix, cellInformation, m, mainIterator);
+	loadFromMemory(m);
 	return processedMatrix;
 }
 
@@ -546,10 +617,54 @@ vector<int> RedGreenDiscrimination::initializeCellInformation(Mat inputMatrix) {
 	return cellInformation;
 }
 
-vector<Mat> RedGreenDiscrimination::redGreenDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator) {
-	initializeCellInformation(firstInputMatrix);
+void RedGreenDiscrimination::initializeMemory(int iterator) {
+	Memory m;
+	if (iterator < 5) {
+		lConeMemory.resize(iterator);
+		mConeMemory.resize(iterator);
+	}
+	else {
+		lConeMemory.resize(m.getMemoryMax());
+		mConeMemory.resize(m.getMemoryMax());
+	}
+}
+
+void RedGreenDiscrimination::loadToMemory(Memory& m) {
+	if (lConeMemory.size() != m.memory.size()) {
+		m.memory.resize(lConeMemory.size());
+	}
+	if (mConeMemory.size() != m.memorySecond.size()) {
+		m.memory.resize(mConeMemory.size());
+	}
+	for (int it = 0; it < lConeMemory.size(); it++) {
+		m.memory[it] = lConeMemory[it];
+		m.memorySecond[it] = mConeMemory[it];
+	}
+}
+
+void RedGreenDiscrimination::loadFromMemory(Memory& m) {
+	for (int it = 0; it < m.memory.size(); it++) {
+		lConeMemory[it] = m.memory[it];
+		mConeMemory[it] = m.memorySecond[it];
+
+	}
+}
+
+//vector<int> RedGreenDiscrimination::cellInformation(9);
+
+vector<Mat> RedGreenDiscrimination::redGreenDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, int mainIterator) {
+	Memory m;
+	if (mainIterator == 1) {
+		initializeCellInformation(firstInputMatrix);
+		initializeMemory(mainIterator);
+	}
+	else if (mainIterator < 6) {
+		initializeMemory(mainIterator);
+	}
+	loadToMemory(m);
 	//red-green discrimination
-	vector<Mat> processedMatrices = receptiveFieldEvaluationTwoInput(firstInputMatrix, secondInputMatrix, cellInformation, firstMemory, secondMemory, mainIterator);
+	vector<Mat> processedMatrices = receptiveFieldEvaluationTwoInput(firstInputMatrix, secondInputMatrix, cellInformation, m, mainIterator);
+	loadToMemory(m);
 	return processedMatrices;
 }
 
@@ -569,13 +684,53 @@ vector<int> YellowBlueDiscrimination::initializeCellInformation(Mat inputMatrix)
 	return cellInformation;
 
 }
+//vector<int> YellowBlueDiscrimination::cellInformation(9);
 
-vector<Mat> YellowBlueDiscrimination::yellowBlueDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory, int mainIterator) {
+void YellowBlueDiscrimination::initializeMemory(int iterator) {
+	Memory m;
+	if (iterator < 5) {
+		yellowMemory.resize(iterator);
+		sConeMemory.resize(iterator);
+	}
+	else {
+		yellowMemory.resize(m.getMemoryMax());
+		sConeMemory.resize(m.getMemoryMax());
+	}
+}
+
+void YellowBlueDiscrimination::loadToMemory(Memory& m) {
+	if (yellowMemory.size() != m.memory.size()) {
+		m.memory.resize(yellowMemory.size());
+	}
+	if (sConeMemory.size() != m.memorySecond.size()) {
+		m.memory.resize(sConeMemory.size());
+	}
+	for (int it = 0; it < yellowMemory.size(); it++) {
+		m.memory[it] = yellowMemory[it];
+		m.memorySecond[it] = sConeMemory[it];
+	}
+}
+
+void YellowBlueDiscrimination::loadFromMemory(Memory& m) {
+	for (int it = 0; it < m.memory.size(); it++) {
+		yellowMemory[it] = m.memory[it];
+		sConeMemory[it] = m.memorySecond[it];
+
+	}
+}
+
+vector<Mat> YellowBlueDiscrimination::yellowBlueDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, int mainIterator) {
+	Memory m;
 	//yellow-blue discrimination
 	if (mainIterator == 1) {
 		initializeCellInformation(firstInputMatrix);
+		initializeMemory(mainIterator);
 	}
-	vector<Mat> processedMatrices = receptiveFieldEvaluationTwoInput(firstInputMatrix, secondInputMatrix, cellInformation, firstMemory, secondMemory, mainIterator);
+	else if (mainIterator < 6) {
+		initializeMemory(mainIterator);
+	}
+	loadToMemory(m);
+	vector<Mat> processedMatrices = receptiveFieldEvaluationTwoInput(firstInputMatrix, secondInputMatrix, cellInformation, m, mainIterator);
 	return processedMatrices;
 }
 
@@ -595,12 +750,12 @@ vector<int> AllConeDiscrimination::initializeCellInformation(Mat inputMatrix) {
 	setFovaeYAxis(fovaeSize[1]);
 	return cellInformation;
 }
+//vector<int> AllConeDiscrimination::cellInformation(9);
 
 //evaluation of the three input receptive fields
-vector<Mat> AllConeDiscrimination::receptiveFieldEvaluationTwoInput(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory,
-	vector<Mat> thirdMemory, vector<int> cellInformation, int mainIterator) {
+vector<Mat> AllConeDiscrimination::receptiveFieldEvaluationThreeInput(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, Memory& m,
+	vector<int> cellInformation, int mainIterator) {
 	//calling helper function
-	Memory m;
 	SynapticStrength ss;
 	AccessoryFunctions af;
 	//declaring local variables
@@ -618,18 +773,18 @@ vector<Mat> AllConeDiscrimination::receptiveFieldEvaluationTwoInput(Mat firstInp
 	matrixSize = af.sizeOfMatrix(firstInputMatrix);
 	//adding the current input to memory
 	int currentMemoryPosition = m.memoryPosition(mainIterator);
-	m.pushbackMemory(firstInputMatrix, currentMemoryPosition, firstMemory);
-	m.pushbackMemory(secondInputMatrix, currentMemoryPosition, secondMemory);
-	m.pushbackMemory(thirdInputMatrix, currentMemoryPosition, thirdMemory);
+	m.pushbackMemory(firstInputMatrix, currentMemoryPosition);
+	m.pushbackMemory(secondInputMatrix, currentMemoryPosition);
+	m.pushbackMemory(thirdInputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
 	isFirst = ss.isFirstIteration(mainIterator);
-	ss.modifierMatrixCalculator(firstMemory, currentMemoryPosition);
+	ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
 	firstSynapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	firstInputMatrix = firstInputMatrix.mul(firstSynapticStrengthMatrix);
-	ss.modifierMatrixCalculator(secondMemory, currentMemoryPosition);
+	ss.modifierMatrixCalculator(m.memorySecond, currentMemoryPosition);
 	secondSynapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	secondInputMatrix = secondInputMatrix.mul(secondSynapticStrengthMatrix);
-	ss.modifierMatrixCalculator(thirdMemory, currentMemoryPosition);
+	ss.modifierMatrixCalculator(m.memoryThird, currentMemoryPosition);
 	thirdSynapticStrengthMatrix == ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	thirdInputMatrix = thirdInputMatrix.mul(thirdSynapticStrengthMatrix);
 	//iterating through the matrix
@@ -713,16 +868,61 @@ vector<Mat> AllConeDiscrimination::receptiveFieldEvaluationTwoInput(Mat firstInp
 	return processedMatrices;
 }
 
+void AllConeDiscrimination::initializeMemory(int iterator) {
+	Memory m;
+	if (iterator < 5) {
+		sConeMemory.resize(iterator);
+		lConeMemory.resize(iterator);
+		mConeMemory.resize(iterator);
+	}
+	else {
+		sConeMemory.resize(m.getMemoryMax());
+		lConeMemory.resize(m.getMemoryMax());
+		mConeMemory.resize(m.getMemoryMax());
+	}
+}
+
+void AllConeDiscrimination::loadToMemory(Memory& m) {
+	if (sConeMemory.size() != m.memory.size()) {
+		m.memory.resize(sConeMemory.size());
+	}
+	if (lConeMemory.size() != m.memorySecond.size()) {
+		m.memory.resize(lConeMemory.size());
+	}
+	if (mConeMemory.size() != m.memoryThird.size()) {
+		m.memoryThird.resize(mConeMemory.size());
+	}
+	for (int it = 0; it < sConeMemory.size(); it++) {
+		m.memory[it] = sConeMemory[it];
+		m.memorySecond[it] = lConeMemory[it];
+		m.memoryThird[it] = mConeMemory[it];
+	}
+}
+
+void AllConeDiscrimination::loadFromMemory(Memory& m) {
+	for (int it = 0; it < m.memory.size(); it++) {
+		lConeMemory[it] = m.memory[it];
+		sConeMemory[it] = m.memorySecond[it];
+		mConeMemory[it] = m.memoryThird[it];
+	}
+}
+
 //vector<Mat> AllConeDiscrimination::
-vector<Mat> AllConeDiscrimination::allConeDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, vector<Mat> firstMemory, vector<Mat> secondMemory,
-	vector<Mat> thirdMemory, int mainIterator) {
+vector<Mat> AllConeDiscrimination::allConeDiscriminationMain(Mat firstInputMatrix, Mat secondInputMatrix, Mat thirdInputMatrix, int mainIterator) {
+	Memory m;
+	vector<Mat> processedMatrices;
 	if (mainIterator == 1) {
 		initializeCellInformation(firstInputMatrix);
+		initializeMemory(mainIterator);
+	}
+	else if (mainIterator < 6) {
+		initializeMemory(mainIterator);
 	}
 	//all-three cone discrimination
-	vector<Mat> processedMatrices;
-	processedMatrices = receptiveFieldEvaluationTwoInput(firstInputMatrix, secondInputMatrix, thirdInputMatrix, firstMemory, secondMemory, thirdMemory, cellInformation, mainIterator);
+	loadToMemory(m);
+	processedMatrices = receptiveFieldEvaluationThreeInput(firstInputMatrix, secondInputMatrix, thirdInputMatrix, m, cellInformation, mainIterator);
 	//vector<Mat> processedMatrices = receptorFieldEvaluationOneInput(inputMatrix, cellInformation, cellMemory, mainIterator);
+	loadFromMemory(m);
 	return processedMatrices;
 }
 
@@ -741,6 +941,7 @@ vector<int> MainDirectionGanglionProcessing::initializeCellInformation(Mat input
 	setFovaeYAxis(fovaeSize[1]);
 	return cellInformation;
 }
+//vector<int> MainDirectionGanglionProcessing::cellInformation(9);
 
 Mat MainDirectionGanglionProcessing::previousInput(vector<Mat> cellMemory, int currentMemoryPosition) {
 	Mat previousInputMatrix;
@@ -758,7 +959,7 @@ int MainDirectionGanglionProcessing::movementSensing(double prevois, double firs
 	differenceOfAdjacent = abs(secondSide - firstSide);
 	differenceFromPrevious = abs(prevois - firstSide);
 	// deciding the existance of edge movement
-	if (differenceOfAdjacent < 0.05 && differenceFromPrevious > 0.1) {
+	if (differenceOfAdjacent < 0.05 && differenceFromPrevious > 0.1) { //should play with the values here - might convert them to adjustable variables
 		movementBool = 1;
 	}
 	else {
@@ -767,9 +968,8 @@ int MainDirectionGanglionProcessing::movementSensing(double prevois, double firs
 	return movementBool;
 }
 
-vector<Mat> MainDirectionGanglionProcessing::directionReceptiveFieldProcessing(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator) {
+vector<Mat> MainDirectionGanglionProcessing::directionReceptiveFieldProcessing(Mat inputMatrix, vector<int> cellInformation, Memory& m, int mainIterator) {
 	//calling helper functions
-	Memory m;
 	SynapticStrength ss;
 	AccessoryFunctions af;
 	//declaring local variable types
@@ -786,14 +986,14 @@ vector<Mat> MainDirectionGanglionProcessing::directionReceptiveFieldProcessing(M
 	double threshold = 0.3;
 	//adding the current input to memory
 	int currentMemoryPosition = m.memoryPosition(mainIterator);
-	m.pushbackMemory(inputMatrix, currentMemoryPosition, cellMemory);
+	m.pushbackMemory(inputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
 	isFirst = ss.isFirstIteration(mainIterator);
 	ss.modifierMatrixCalculator(inputMatrix, currentMemoryPosition);
 	synapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	inputMatrix = inputMatrix.mul(synapticStrengthMatrix);
 	//loading previous input matirx
-	previousInputMatrix = previousInput(cellMemory, currentMemoryPosition);
+	previousInputMatrix = previousInput(m.memory, currentMemoryPosition);
 	//iterating through the matrix
 	int iterY = 0;
 	for (int it = 0; it < (matrixSize.height / (cellInformation[0] * 2)) * (cellInformation[0] * 2) - cellInformation[0] * 2; it = it + cellInformation[3]) {
@@ -848,14 +1048,48 @@ vector<Mat> MainDirectionGanglionProcessing::directionReceptiveFieldProcessing(M
 	return processedMatrices;
 }
 
-vector<Mat> MainDirectionGanglionProcessing::mainDirectonInformation(Mat inputMatrix, vector<int> cellInformation, vector<Mat> cellMemory, int mainIterator) {
-	vector<Mat> mainDirectionInformation;
-	if (mainIterator == 1) {
-		initializeCellInformation(inputMatrix);
+void MainDirectionGanglionProcessing::initializeMemory(int iterator) {
+	Memory m;
+	if (iterator < 5) {
+		redGreenMemory.resize(iterator);
 	}
 	else {
-		directionReceptiveFieldProcessing(inputMatrix, cellInformation, cellMemory, mainIterator);
+		redGreenMemory.resize(m.getMemoryMax());
 	}
+}
+
+void MainDirectionGanglionProcessing::loadToMemory(Memory& m) {
+	if (redGreenMemory.size() != m.memory.size()) {
+		m.memory.resize(redGreenMemory.size());
+	}
+	for (int it = 0; it < redGreenMemory.size(); it++) {
+		m.memory[it] = redGreenMemory[it];
+	}
+}
+
+void MainDirectionGanglionProcessing::loadFromMemory(Memory& m) {
+	for (int it = 0; it < m.memory.size(); it++) {
+		redGreenMemory[it] = m.memory[it];
+	}
+}
+
+vector<Mat> MainDirectionGanglionProcessing::mainDirectonInformation(Mat inputMatrix, vector<int> cellInformation, int mainIterator) {
+	vector<Mat> mainDirectionInformation;
+	Memory m;
+	if (mainIterator == 1) {
+		initializeCellInformation(inputMatrix);
+		initializeMemory(mainIterator);
+	}
+	else if (mainIterator < 6) {
+		initializeMemory(mainIterator);
+		loadToMemory(m);
+		directionReceptiveFieldProcessing(inputMatrix, cellInformation, m, mainIterator);
+		loadFromMemory(m);
+	}else {
+		loadToMemory(m);
+		directionReceptiveFieldProcessing(inputMatrix, cellInformation, m, mainIterator);
+		loadFromMemory(m);
+	}  //m.initializeMemory(blueYellowMemory); //adding later if it works
 	return mainDirectionInformation;
 }
 

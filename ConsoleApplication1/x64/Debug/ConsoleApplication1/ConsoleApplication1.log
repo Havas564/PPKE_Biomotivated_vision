@@ -1,5 +1,5 @@
-﻿  memoryHandling.cpp
-  Note: including file: c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\memoryHandling.h
+﻿  receptiveFieldProcessing.cpp
+  Note: including file: c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptiveFieldProcessing.h
   Note: including file:  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\iostream
   Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\istream
   Note: including file:    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\ostream
@@ -107,8 +107,7 @@
   Note: including file:         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\system_error
   Note: including file:          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cerrno
   Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\share.h
-  Note: including file:  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vector
-  Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory
+  Note: including file:  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\math.h
   Note: including file:  C:\OpenCV\build\include\opencv2\core.hpp
   Note: including file:   C:\OpenCV\build\include\opencv2/core/cvdef.h
   Note: including file:    C:\OpenCV\build\include\opencv2/core/hal/interface.h
@@ -117,6 +116,7 @@
   Note: including file:   C:\OpenCV\build\include\opencv2/core/base.hpp
   Note: including file:    C:\OpenCV\build\include\opencv2/opencv_modules.hpp
   Note: including file:    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\algorithm
+  Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory
   Note: including file:    C:\OpenCV\build\include\opencv2/core/cvstd.hpp
   Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cctype
   Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\string
@@ -127,6 +127,7 @@
   Note: including file:    C:\OpenCV\build\include\opencv2/core/saturate.hpp
   Note: including file:     C:\OpenCV\build\include\opencv2/core/fast_math.hpp
   Note: including file:   C:\OpenCV\build\include\opencv2/core/types.hpp
+  Note: including file:    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vector
   Note: including file:   C:\OpenCV\build\include\opencv2/core/mat.hpp
   Note: including file:    C:\OpenCV\build\include\opencv2/core/bufferpool.hpp
   Note: including file:    C:\OpenCV\build\include\opencv2/core/mat.inl.hpp
@@ -150,5 +151,32 @@
   Note: including file:   C:\OpenCV\build\include\opencv2/core/optim.hpp
   Note: including file:    C:\OpenCV\build\include\opencv2/core.hpp
   Note: including file:   C:\OpenCV\build\include\opencv2/core/ovx.hpp
+  Note: including file:  c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\accessoryFunctions.h
+  Note: including file:  c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\memoryHandling.h
+  Note: including file: c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\synapticStrength.h
+  Note: including file:  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\math.h
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(211): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(212): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(243): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(244): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(176): warning C4101: 'typeModifier': unreferenced local variable
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(313): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(314): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(315): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(316): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(364): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(365): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(366): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(367): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(509): warning C4356: 'ReceptiveFieldFunctions::cellInformation': static data member cannot be initialized via derived class
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(816): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(817): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(859): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(860): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(985): warning C4101: 'ratioOfOnInputCenter': unreferenced local variable
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(985): warning C4101: 'ratioOfOffInputCenter': unreferenced local variable
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(985): warning C4101: 'ratioOfOffInputPeriphery': unreferenced local variable
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(985): warning C4101: 'ratioOfOnInputPeriphery': unreferenced local variable
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\receptivefieldprocessing.cpp(1006): warning C4101: 'movementBool': unreferenced local variable
   ConsoleApplication1.vcxproj -> C:\Users\matep\Documents\Visual Studio 2015\Projects\PPKE_Biomotivated_vision\x64\Debug\ConsoleApplication1.exe
   ConsoleApplication1.vcxproj -> C:\Users\matep\Documents\Visual Studio 2015\Projects\PPKE_Biomotivated_vision\x64\Debug\ConsoleApplication1.pdb (Full PDB)
