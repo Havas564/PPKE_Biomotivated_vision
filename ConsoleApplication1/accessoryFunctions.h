@@ -18,7 +18,7 @@ public:
 	Size s;
 	//functions - short descriptions in the .cpp file
 	Size sizeOfMatrix(Mat inputMatrix);
-	double thresholding(double inputElement, double treshold);
+	float thresholding(float inputElement, float treshold);
 	Mat colorChannelRetriever(Mat inputMatrix, string channelRequired, Mat& neededChannel); // function cutting out given color channel from rgb Mat
 	Mat conversionToRatio(Mat inputMatrix);
 	Mat conversionToValue(Mat inputMatrix);

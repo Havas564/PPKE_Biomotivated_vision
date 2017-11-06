@@ -11,6 +11,7 @@ ImageProcessingDataAcquisition::~ImageProcessingDataAcquisition()
 void ImageProcessingDataAcquisition::imageShow(Mat inputMatrix) {
 	namedWindow("Current image", WINDOW_AUTOSIZE);
 	imshow("Current image", inputMatrix);
+	waitKey(0);
 }
 
 void ImageProcessingDataAcquisition::saveImage(Mat inputMatrix, string saveLocation, string imageName) {
@@ -25,6 +26,8 @@ void ImageProcessingDataAcquisition::setSaveLocation() {
 	cin >> saveLocation;
 }
 
-void ImageProcessingDataAcquisition::saveTimeInformation() {
-
+vector<double> ImageProcessingDataAcquisition::saveTimeInformation(double timePassed, vector<double> timeElapsedVector) {
+	timePassed = ((double)getTickCount() - timePassed) / getTickFrequency();
+	timeElapsedVector.push_back(timePassed);
+	return timeElapsedVector;
 }

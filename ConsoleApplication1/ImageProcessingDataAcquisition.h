@@ -20,7 +20,7 @@ public:
 	void imageShow(Mat inputMatrix);
 	void saveImage(Mat inputMatrix, string saveLocation, string imageName);
 	void setSaveLocation();
-	void saveTimeInformation();
+	vector<double> saveTimeInformation(double timePassed, vector<double> timeElapsedVector);
 
 private:
 	string saveLocation;

@@ -17,7 +17,7 @@ Size AccessoryFunctions::sizeOfMatrix(Mat inputMatrix) {
 }
 
 // zeroing below treshold
-double AccessoryFunctions::thresholding(double inputElement, double treshold) {
+float AccessoryFunctions::thresholding(float inputElement, float treshold) {
 	if (inputElement < treshold) {
 		inputElement = 0;
 	}
@@ -50,7 +50,8 @@ Mat AccessoryFunctions::colorChannelRetriever(Mat inputMatrix, string channelReq
 Mat AccessoryFunctions::conversionToRatio(Mat inputMatrix) {
 	double min, max;
 	minMaxLoc(inputMatrix, &min, &max);
-	inputMatrix = (inputMatrix - min) / max;
+	float floatMin = (float)min, floatMax = (float)max;
+	inputMatrix = (inputMatrix - floatMin) / floatMax;
 	return inputMatrix;
 }
 

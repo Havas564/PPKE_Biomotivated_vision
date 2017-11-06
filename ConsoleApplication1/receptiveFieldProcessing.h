@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <opencv2\core.hpp>
+#include <opencv2\imgproc.hpp>
 #include "accessoryFunctions.h"
 #include "memoryHandling.h"
 
@@ -137,22 +138,27 @@ private:
 
 class GaborFiltering : public ReceptiveFieldFunctions {
 public:
-	vector<double> initializeGaborFilterParameters();
-
+	void initializeGaborFilterParameters();
+	void gaborFiltering(Mat inputMatrix);
 	//get functions
-	double getGamma();
-	double getLambda();
-	double getSigma();
-	double getPsi();
+	double getGamma(void);
+	double getLambda(void);
+	double getSigma(void);
+	double getPsi(void);
+	int getKernelSize(void);
+	vector<Mat> getCurrentGaborFilterResult();
 	//set functions
-	vector<double> setTheta();
-	double setGamma(double newValue);
-	double setLambda(double newValue);
-	double setSigma(double newValue);
-	double setPsi(double newValue);
+	void setTheta();
+	void setGamma(double newValue);
+	void setLambda(double newValue);
+	void setSigma(double newValue);
+	void setPsi(double newValue);
+	void setKernelSize(int newValue);
 private:
 	double sigma, lambda, gamma, psi;
 	vector<double> theta;
+	int kernelSize = 31;
+	vector<Mat> currentGaborFilterResult;
 };
 
 #endif // !RECEPTIVEFIELDPROCESSING_H

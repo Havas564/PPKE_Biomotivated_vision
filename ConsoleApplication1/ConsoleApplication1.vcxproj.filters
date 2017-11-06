@@ -24,9 +24,6 @@
     <ClCompile Include="synapticStrength.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bipolarlevel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="accessoryFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,6 +31,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImageProcessingDataAcquisition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="classificator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,9 +44,6 @@
     <ClInclude Include="memoryHandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bipolarlevel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="accessoryFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImageProcessingDataAcquisition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="classificator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

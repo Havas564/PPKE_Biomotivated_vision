@@ -72,10 +72,14 @@ int main(int argc, char** argv){
 		cout << "Could not open or find the image" << endl;
 		return -1;
 	}
-	
 	//intensity Image
 	cvtColor(colorImage, intensityImage, COLOR_BGR2GRAY);
-
+	intensityImage.convertTo(intensityImage, CV_32F);
+	/*namedWindow("Current image", WINDOW_AUTOSIZE);
+	imshow("Current image", intensityImage);
+	waitKey(0);*/
+	//ipda.imageShow(intensityImage);
+	//cvtColor(intensityImage, intensityImage, CV_32F);
 	// debug: showing images before further processing
 	//imageShow(colorImage);
 	waitKey(5); // Wait for a keystroke in the window
@@ -91,7 +95,7 @@ int main(int argc, char** argv){
 	cout << greenChannel.size() << endl; //debug
 	cout << blueChannel.size() << endl; //debug
 	//debug
-	ipda.imageShow(redChannel);
+	//ipda.imageShow(redChannel);
 	waitKey(100);
 
 	//testing class

@@ -29,13 +29,13 @@ Mat SynapticStrength::synapticStrengthMatrixCreator(Mat modifierMatrix, Size mem
 	Mat synapticStrengthMatrix; // might want to give size and type = Mat(memoryItemSize.height, memoryItemSize.width, CV_64FC1);
 	if (isFirst) {
 		//synapticStrengthMatrix = Mat::ones(1, memoryItemSize.height * memoryItemSize.width, CV_64F); // check, if CV_64F is the correct one
-		synapticStrengthMatrix = Mat::ones(memoryItemSize.height, memoryItemSize.width, CV_64F);
+		synapticStrengthMatrix = Mat::ones(memoryItemSize.height, memoryItemSize.width, CV_32F);
 		//debug
 		Size s = af.sizeOfMatrix(synapticStrengthMatrix); //debug
 		cout << "height: " << s.height << ", width: " << s.width << endl; //debug
 	}
 	else if(!isFirst){
-		synapticStrengthMatrix.create(1, memoryItemSize.height * memoryItemSize.width, CV_64F);
+		synapticStrengthMatrix.create(1, memoryItemSize.height * memoryItemSize.width, CV_32F);
 		Size s = af.sizeOfMatrix(modifierMatrix);
 		for (int it = 0; it < s.height; it++) {
 			for (int ij = 0; ij < s.width; ij++) {
