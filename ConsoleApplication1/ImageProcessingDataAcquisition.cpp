@@ -11,7 +11,7 @@ ImageProcessingDataAcquisition::~ImageProcessingDataAcquisition()
 void ImageProcessingDataAcquisition::imageShow(Mat inputMatrix) {
 	namedWindow("Current image", WINDOW_AUTOSIZE);
 	imshow("Current image", inputMatrix);
-	waitKey(0);
+	waitKey(5000);
 }
 
 void ImageProcessingDataAcquisition::saveImage(Mat inputMatrix, string saveLocation, string imageName) {

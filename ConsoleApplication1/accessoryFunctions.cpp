@@ -51,7 +51,7 @@ Mat AccessoryFunctions::conversionToRatio(Mat inputMatrix) {
 	double min, max;
 	minMaxLoc(inputMatrix, &min, &max);
 	float floatMin = (float)min, floatMax = (float)max;
-	inputMatrix = (inputMatrix - floatMin) / floatMax;
+	inputMatrix = (inputMatrix - floatMin) / (floatMax - floatMin);
 	return inputMatrix;
 }
 

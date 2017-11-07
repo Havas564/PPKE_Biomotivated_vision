@@ -9,6 +9,7 @@
 #include <opencv2\imgproc.hpp>
 #include "accessoryFunctions.h"
 #include "memoryHandling.h"
+#include <opencv2/highgui.hpp>
 
 using namespace std;
 using namespace cv;
@@ -125,7 +126,7 @@ class MainDirectionGanglionProcessing : public ReceptiveFieldFunctions {
 public:
 	vector<int> initializeCellInformation(Mat inputMatrix);
 	Mat previousInput(vector<Mat> cellMemory, int currentMemoryPosition);
-	int movementSensing(double prevois, double firstSide, double secondSide);
+	int movementSensing(float prevois, float firstSide, float secondSide);
 	void initializeMemory(int iterator);
 	void loadToMemory(Memory& m);
 	void loadFromMemory(Memory& m);

@@ -75,11 +75,7 @@ int main(int argc, char** argv){
 	//intensity Image
 	cvtColor(colorImage, intensityImage, COLOR_BGR2GRAY);
 	intensityImage.convertTo(intensityImage, CV_32F);
-	/*namedWindow("Current image", WINDOW_AUTOSIZE);
-	imshow("Current image", intensityImage);
-	waitKey(0);*/
 	//ipda.imageShow(intensityImage);
-	//cvtColor(intensityImage, intensityImage, CV_32F);
 	// debug: showing images before further processing
 	//imageShow(colorImage);
 	waitKey(5); // Wait for a keystroke in the window
@@ -118,25 +114,13 @@ int main(int argc, char** argv){
 	//BIPOLAR PATHWAY
 	Mat rodBipolarLevel = rbp.RodBiploarProcessing(intensityImage, mainIterator);
 	//ipda.imageShow(rodBipolarLevel);
-	//waitKey(0);
+	//waitKey();
 
 
 	//red-green discrimination
-	/*Mat redGreenOn, redGreenOff, greenRedOn, greenRedOff;
-	vector<Mat> redGreenProcessed = rgd.redGreenDiscriminationMain(redChannel, greenChannel, m.mConeMemory, m.lConeMemory, mainIterator);
-	redGreenOn = redGreenProcessed[0];
-	redGreenOff = redGreenProcessed[1];
-	greenRedOn = redGreenProcessed[2];
-	greenRedOff = redGreenProcessed[3];
-	//yellow-blue discrimination
-	Mat yellowBlueOn, yellowBlueOff, blueYellowOn, blueYellowOff;
-	vector<Mat> yellowBlueProcessed = ybd.yellowBlueDiscriminationMain(yellowBlueOn, blueChannel, m.redOpponencyGanglionMemory, m.sConeMemory, mainIterator);
-	yellowBlueOn = yellowBlueProcessed[0];
-	yellowBlueOff = yellowBlueProcessed[1];
-	greenRedOn = yellowBlueProcessed[2];
-	greenRedOff = yellowBlueProcessed[3];
 	
-	namedWindow("test");
+	
+	/*namedWindow("test");
 	//imshow("test", E);
 	timePassed = ((double)getTickCount() - timePassed) / getTickFrequency();
 	cout << "Time elapsed: " << timePassed << endl;
