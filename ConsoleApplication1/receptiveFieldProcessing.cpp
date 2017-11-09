@@ -30,20 +30,24 @@ bool ReceptiveFieldFunctions::onOff(string cellType) {
 }
 
 // function creating equilateral kernel with centrum and periphery
-vector<Mat> ReceptiveFieldFunctions::kernelCreator(int centerSize, int peripherySize, int iterX, int iterY, Mat inputMatrix) {
-	//Mat centerEreaser = Mat::zeros(centerSize, centerSize, CV_64FC1);
-	Mat centerEreaser = (Mat_<float>(peripherySize, peripherySize) << \
-		1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1);
-	Mat fullKernel(inputMatrix, Rect(iterX, iterY, peripherySize, peripherySize));
+vector<Mat> ReceptiveFieldFunctions::kernelCreator(int centerSize, int kernelSize, int iterX, int iterY, Mat inputMatrix) {
+	Mat fullKernel(inputMatrix, Rect(iterX, iterY, kernelSize, kernelSize));
+	//cerr << fullKernel << endl;
+	//cout << endl;
 	//center creation
-	int peripheryThickness = (peripherySize - centerSize) / 2;
-	Mat kernelCenter(fullKernel, Rect(iterX + peripheryThickness, iterY + peripheryThickness, centerSize, centerSize));
+	int peripheryThickness = (kernelSize - centerSize) / 2;
+	Mat kernelCenter(fullKernel, Rect(peripheryThickness, peripheryThickness, centerSize, centerSize));
+	//cerr << kernelCenter << endl;
+	//cout << endl;
 	//periphery creation
-	Mat kernelPeriphery = fullKernel.mul(centerEreaser); // it holds the zero values - keep that in mind for further calculations
-	//saving the two kernel to a common variable
+	Mat kernelCenterZeros = fullKernel(Rect(peripheryThickness, peripheryThickness, centerSize, centerSize));
+	kernelCenterZeros.setTo(0);
 	vector<Mat> kernels; //[centre, periphery]
+	//cerr << kernelCenter << endl;
+	//cout << endl;
+	//cerr << fullKernel << endl;
 	kernels.push_back(kernelCenter);
-	kernels.push_back(kernelPeriphery);
+	kernels.push_back(fullKernel);
 	return kernels;
 }
 
@@ -138,7 +142,7 @@ Mat ReceptiveFieldFunctions::homogenReceptiveFieldEvaluation(Mat inputMatrix, ve
 	float floatPower = 2.0;
 	//adding current input to memory
 	inputMatrix = af.conversionToRatio(inputMatrix);
-	cerr << inputMatrix(Rect(100, 100, 100, 100)) << endl;
+	//cerr << inputMatrix(Rect(100, 100, 100, 100)) << endl;
 	m.pushbackMemory(inputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
 	if (mainIterator > 1) {
@@ -162,10 +166,6 @@ Mat ReceptiveFieldFunctions::homogenReceptiveFieldEvaluation(Mat inputMatrix, ve
 		}
 		iterY++;
 	}
-	/*cerr << processedMatrix(Rect(100, 100, 100, 100)) << endl;
-	namedWindow("Current image", WINDOW_AUTOSIZE);
-	imshow("Current image", processedMatrix);
-	waitKey(0);*/
 	return processedMatrix;
 }
 
@@ -183,6 +183,7 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 		(matrixSize.width / cellInformation[0]) * cellInformation[0] - cellInformation[0], CV_32F);
 	bool isFirst;
 	Mat synapticStrengthMatrix;
+	Mat inputModifiedBySynapticStrengthFirst;
 	float ratioOfOnInputCenter, ratioOfOffInputCenter, ratioOfOnInputPeriphery, ratioOfOffInputPeriphery, typeModifier;
 	float threshold = 0.3; 
 	//adding the current input to memory
@@ -199,14 +200,14 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 		modifierMatrix = Mat::ones(1, 2, CV_32F);
 	}
 	synapticStrengthMatrix = ss.synapticStrengthMatrixCreator(modifierMatrix, matrixSize, isFirst);
-	inputMatrix = inputMatrix.mul(synapticStrengthMatrix);
+	inputModifiedBySynapticStrengthFirst = inputMatrix.mul(synapticStrengthMatrix);
 	//iterating through the matrix
 	int iterY = 0;
 	for (int it = 0; it < (matrixSize.height / cellInformation[0]) * cellInformation[0] - cellInformation[0]; it = it + cellInformation[3]) {
 		int iterX = 0;
 		for (int ij = 0; ij < (matrixSize.width / cellInformation[0]) * cellInformation[0] - cellInformation[0]; ij = ij + cellInformation[3]) {
 			vector<Mat> kernels;
-			kernels = kernelCreator(cellInformation[1], cellInformation[2], ij, it, inputMatrix);
+			kernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthFirst);
 			// calculating result using the kernels
 			ratioOfOnInputCenter = abs(1 - (pow((float)cellInformation[1],	2.0) - sum(kernels[0])[0]) / pow((float)cellInformation[1], 2.0));
 			ratioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(kernels[1])[0]) / pow((float)cellInformation[1], 2.0));
@@ -232,7 +233,7 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 	processedMatrices.push_back(offProcessedMatrix);
 	//fovae processing
 	vector<Mat> fovaeKernel;
-	Mat fovaeMatrix(inputMatrix, Rect((int)(0.4 * matrixSize.width), (int)(0.4 * matrixSize.height), cellInformation[4], cellInformation[5]));
+	Mat fovaeMatrix(inputModifiedBySynapticStrengthFirst, Rect((int)(0.4 * matrixSize.width), (int)(0.4 * matrixSize.height), cellInformation[4], cellInformation[5]));
 	Size areaOfFovae = af.sizeOfMatrix(fovaeMatrix);
 	Mat onFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
 	Mat offFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
@@ -277,6 +278,8 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 		(matrixSize.width / cellInformation[0]) * cellInformation[0] - cellInformation[0], CV_32F);
 	Mat secondOffProcessedMatrix((matrixSize.height / cellInformation[0]) * cellInformation[0] - cellInformation[0],
 		(matrixSize.width / cellInformation[0]) * cellInformation[0] - cellInformation[0], CV_32F);
+	Mat inputModifiedBySynapticStrengthFirst;
+	Mat inputModifiedBySynapticStrengthSecond;
 	bool isFirst;
 	Mat firstSynapticStrengthMatrix;
 	Mat secondSynapticStrengthMatrix;
@@ -291,12 +294,16 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 	m.pushbackMemory(secondInputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
 	isFirst = ss.isFirstIteration(mainIterator);
-	ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
+	if (mainIterator > 1) {
+		//modifierMatrix = ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
+	}
 	firstSynapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
-	firstInputMatrix = firstInputMatrix.mul(firstSynapticStrengthMatrix);
-	ss.modifierMatrixCalculator(m.memorySecond, currentMemoryPosition);
+	inputModifiedBySynapticStrengthFirst = firstInputMatrix.mul(firstSynapticStrengthMatrix);
+	if (mainIterator > 1) {
+		ss.modifierMatrixCalculator(m.memorySecond, currentMemoryPosition);
+	}
 	secondSynapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
-	secondInputMatrix = secondInputMatrix.mul(secondSynapticStrengthMatrix);
+	inputModifiedBySynapticStrengthSecond = secondInputMatrix.mul(secondSynapticStrengthMatrix);
 	//iterating through the matrix
 	int iterY = 0;
 	for (int it = 0; it < (matrixSize.height / cellInformation[0]) * cellInformation[0] - cellInformation[0]; it = it + cellInformation[3]) {
@@ -304,8 +311,8 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 		for (int ij = 0; ij < (matrixSize.width / cellInformation[0]) * cellInformation[0] - cellInformation[0]; ij = ij + cellInformation[3]) {
 			vector<Mat> firstKernels;
 			vector<Mat> secondKernels;
-			firstKernels = kernelCreator(cellInformation[1], cellInformation[2], ij, it, firstInputMatrix);
-			secondKernels = kernelCreator(cellInformation[1], cellInformation[2], ij, it, secondInputMatrix);
+			firstKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, firstSynapticStrengthMatrix);
+			secondKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthSecond);
 			// calculating result using the kernels
 			firstRatioOfOnInputCenter = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(firstKernels[0])[0]) / pow((float)cellInformation[1], 2.0));
 			firstRatioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(firstKernels[1])[0]) / pow((float)cellInformation[1], 2.0));
@@ -346,8 +353,8 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 	//fovae processing
 	vector<Mat> firstFovaeKernel;
 	vector<Mat> secondFovaeKernel;
-	Mat firstFovaeMatrix(firstInputMatrix, Rect((int)(0.4 * matrixSize.width), (int)(0.4 * matrixSize.height), cellInformation[4], cellInformation[5]));
-	Mat secondFovaeMatrix(secondInputMatrix, Rect((int)(0.4 * matrixSize.width), (int)(0.4 * matrixSize.height), cellInformation[4], cellInformation[5]));
+	Mat firstFovaeMatrix(inputModifiedBySynapticStrengthFirst, Rect(cellInformation[9], cellInformation[10], cellInformation[7], cellInformation[8]));
+	Mat secondFovaeMatrix(inputModifiedBySynapticStrengthSecond, Rect(cellInformation[9], cellInformation[10], cellInformation[7], cellInformation[8]));
 	Size areaOfFovae = af.sizeOfMatrix(firstFovaeMatrix);
 	Mat firstOnFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
 	Mat firstOffFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
@@ -355,8 +362,8 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 	Mat secondOffFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
 	for (int it = 0; it < areaOfFovae.height; it++) {
 		for (int ij = 0; ij < areaOfFovae.width; ij++) {
-			firstFovaeKernel = kernelCreator(cellInformation[1], cellInformation[2], ij, it, firstFovaeMatrix);
-			secondFovaeKernel = kernelCreator(cellInformation[1], cellInformation[2], ij, it, secondFovaeMatrix);
+			firstFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, firstFovaeMatrix);
+			secondFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, secondFovaeMatrix);
 			// calculating result using the kernels
 			firstRatioOfOnInputCenter = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(firstFovaeKernel)[0]) / pow((float)cellInformation[1], 2.0));
 			firstRatioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(firstFovaeKernel)[0]) / pow((float)cellInformation[1], 2.0));
@@ -462,14 +469,22 @@ vector<int> ReceptiveFieldFunctions::setFocaeCenterSize(int newValue) {
 	return cellInformation;
 }
 
-vector<int> ReceptiveFieldFunctions::setFovaeXAxis(int newValue) {
+vector<int> ReceptiveFieldFunctions::setFovaeXAxisLength(int newValue) {
 	cellInformation[7] = newValue;
 	return cellInformation;
 }
 
-vector<int> ReceptiveFieldFunctions::setFovaeYAxis(int newValue) {
+vector<int> ReceptiveFieldFunctions::setFovaeYAxisLength(int newValue) {
 	cellInformation[8] = newValue;
 	return cellInformation;
+}
+
+void ReceptiveFieldFunctions::setFovaeXAxisPosition(int newValue) {
+	cellInformation[9] = newValue;
+}
+
+void ReceptiveFieldFunctions::setFovaeYAxisPosition(int newValue) {
+	cellInformation[10] = newValue;
 }
 
 //get functions
@@ -501,16 +516,24 @@ int ReceptiveFieldFunctions::getFocaeCenterSize() {
 	return cellInformation[6];
 }
 
-int ReceptiveFieldFunctions::getFovaeXAxis() {
+int ReceptiveFieldFunctions::getFovaeXAxisLength() {
 	return cellInformation[7];
 }
 
-int ReceptiveFieldFunctions::getFovaeYAxis() {
+int ReceptiveFieldFunctions::getFovaeYAxisLength() {
 	return cellInformation[8];
 }
 
 vector<int> ReceptiveFieldFunctions::getAllCellInformation() {
 	return cellInformation;
+}
+
+int ReceptiveFieldFunctions::getFovaeXAxisPosition() {
+	return cellInformation[9];
+}
+
+int ReceptiveFieldFunctions::getFovaeYAxisPosition() {
+	return cellInformation[10];
 }
 
 //ROD bipolar processing
@@ -521,7 +544,7 @@ vector<int> RodBipolarProcessing::initializeCellInformation() {
 	setKernelStep(1);
 	return cellInformation;
 }
-vector<int> RodBipolarProcessing::cellInformation(9);
+vector<int> RodBipolarProcessing::cellInformation(11);
 
 void RodBipolarProcessing::initializeMemory(int iterator) {
 	Memory m;
@@ -612,13 +635,15 @@ Mat amacrineAIIProcessing::amacrineAIIBipolarProcessing(Mat inputMatrix, int mai
 	loadToMemory(m);
 	processedMatrix = homogenReceptiveFieldEvaluation(inputMatrix, cellInformation, m, mainIterator);
 	loadFromMemory(m);
+	// converting AII amacrine output to ratio for all-cone discrimination
+	processedMatrix = processedMatrix / 10.0;
 	return processedMatrix;
 }
 
 
 //REDGREEN discriminator
 vector<int> RedGreenDiscrimination::initializeCellInformation(Mat inputMatrix) {
-	setKernelSize(5);
+	setKernelSize(4);
 	setCenterSize(2);
 	setPeripherySize(cellInformation[0] - cellInformation[1]);
 	setKernelStep(1);
@@ -627,8 +652,12 @@ vector<int> RedGreenDiscrimination::initializeCellInformation(Mat inputMatrix) {
 	setFocaeCenterSize(1);
 	vector<int> fovaeSize;
 	fovaeSize = fovaeSizeAcquirer(inputMatrix);
-	setFovaeXAxis(fovaeSize[0]);
-	setFovaeYAxis(fovaeSize[1]);
+	setFovaeXAxisLength(fovaeSize[0]);
+	setFovaeYAxisLength(fovaeSize[1]);
+	vector<int> fovaeCoordinates = fovaeCenterCoordinatesAcquirer(inputMatrix);
+	setFovaeXAxisPosition(fovaeCoordinates[0]);
+	setFovaeYAxisPosition(fovaeCoordinates[1]);
+
 	return cellInformation;
 }
 
@@ -649,7 +678,7 @@ void RedGreenDiscrimination::loadToMemory(Memory& m) {
 		m.memory.resize(lConeMemory.size());
 	}
 	if (mConeMemory.size() != m.memorySecond.size()) {
-		m.memory.resize(mConeMemory.size());
+		m.memorySecond.resize(mConeMemory.size());
 	}
 	for (int it = 0; it < lConeMemory.size(); it++) {
 		m.memory[it] = lConeMemory[it];
@@ -685,7 +714,7 @@ vector<Mat> RedGreenDiscrimination::redGreenDiscriminationMain(Mat firstInputMat
 
 //YELLOWBLUE discriminator
 vector<int> YellowBlueDiscrimination::initializeCellInformation(Mat inputMatrix) {
-	setKernelSize(5);
+	setKernelSize(4);
 	setCenterSize(2);
 	setPeripherySize(cellInformation[0] - cellInformation[1]);
 	setKernelStep(1);
@@ -694,8 +723,11 @@ vector<int> YellowBlueDiscrimination::initializeCellInformation(Mat inputMatrix)
 	setFocaeCenterSize(1);
 	vector<int> fovaeSize;
 	fovaeSize = fovaeSizeAcquirer(inputMatrix);
-	setFovaeXAxis(fovaeSize[0]);
-	setFovaeYAxis(fovaeSize[1]);
+	setFovaeXAxisLength(fovaeSize[0]);
+	setFovaeYAxisLength(fovaeSize[1]);
+	vector<int> fovaeCoordinates = fovaeCenterCoordinatesAcquirer(inputMatrix);
+	setFovaeXAxisPosition(fovaeCoordinates[0]);
+	setFovaeYAxisPosition(fovaeCoordinates[1]);
 	return cellInformation;
 
 }
@@ -718,7 +750,7 @@ void YellowBlueDiscrimination::loadToMemory(Memory& m) {
 		m.memory.resize(yellowMemory.size());
 	}
 	if (sConeMemory.size() != m.memorySecond.size()) {
-		m.memory.resize(sConeMemory.size());
+		m.memorySecond.resize(sConeMemory.size());
 	}
 	for (int it = 0; it < yellowMemory.size(); it++) {
 		m.memory[it] = yellowMemory[it];
@@ -730,7 +762,6 @@ void YellowBlueDiscrimination::loadFromMemory(Memory& m) {
 	for (int it = 0; it < m.memory.size(); it++) {
 		yellowMemory[it] = m.memory[it];
 		sConeMemory[it] = m.memorySecond[it];
-
 	}
 }
 
@@ -752,7 +783,7 @@ vector<Mat> YellowBlueDiscrimination::yellowBlueDiscriminationMain(Mat firstInpu
 //ALLCONE discriminator
 vector<int> AllConeDiscrimination::initializeCellInformation(Mat inputMatrix) {
 	//initialize cell information
-	setKernelSize(5);
+	setKernelSize(4);
 	setCenterSize(2);
 	setPeripherySize(cellInformation[0] - cellInformation[1]);
 	setKernelStep(1);
@@ -761,8 +792,11 @@ vector<int> AllConeDiscrimination::initializeCellInformation(Mat inputMatrix) {
 	setFocaeCenterSize(1);
 	vector<int> fovaeSize;
 	fovaeSize = fovaeSizeAcquirer(inputMatrix);
-	setFovaeXAxis(fovaeSize[0]);
-	setFovaeYAxis(fovaeSize[1]);
+	setFovaeXAxisLength(fovaeSize[0]);
+	setFovaeYAxisLength(fovaeSize[1]);
+	vector<int> fovaeCoordinates = fovaeCenterCoordinatesAcquirer(inputMatrix);
+	setFovaeXAxisPosition(fovaeCoordinates[0]);
+	setFovaeYAxisPosition(fovaeCoordinates[1]);
 	return cellInformation;
 }
 //vector<int> AllConeDiscrimination::cellInformation(9);
@@ -810,9 +844,9 @@ vector<Mat> AllConeDiscrimination::receptiveFieldEvaluationThreeInput(Mat firstI
 			vector<Mat> firstKernels;
 			vector<Mat> secondKernels;
 			vector<Mat> thirdKernels;
-			firstKernels = kernelCreator(cellInformation[1], cellInformation[2], ij, it, firstInputMatrix);
-			secondKernels = kernelCreator(cellInformation[1], cellInformation[2], ij, it, secondInputMatrix);
-			thirdKernels = kernelCreator(cellInformation[1], cellInformation[2], ij, it, thirdInputMatrix);
+			firstKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, firstInputMatrix);
+			secondKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, secondInputMatrix);
+			thirdKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, thirdInputMatrix);
 			averagedKernels[0] = (firstKernels[0] + secondKernels[0] + thirdKernels[0]) / 3.0;
 			averagedKernels[1] = (firstKernels[1] + secondKernels[1] + thirdKernels[1]) / 3.0;
 			// calculating result using the kernels
@@ -855,9 +889,9 @@ vector<Mat> AllConeDiscrimination::receptiveFieldEvaluationThreeInput(Mat firstI
 	Size areaOfFovae = af.sizeOfMatrix(firstFovaeMatrix);
 	for (int it = 0; it < areaOfFovae.height; it++) {
 		for (int ij = 0; ij < areaOfFovae.width; ij++) {
-			firstFovaeKernel = kernelCreator(cellInformation[1], cellInformation[2], ij, it, firstFovaeMatrix);
-			secondFovaeKernel = kernelCreator(cellInformation[1], cellInformation[2], ij, it, secondFovaeMatrix);
-			thirdFovaeKernel = kernelCreator(cellInformation[1], cellInformation[2], ij, it, secondFovaeMatrix);
+			firstFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, firstFovaeMatrix);
+			secondFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, secondFovaeMatrix);
+			thirdFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, secondFovaeMatrix);
 			averagedFovaeKernels[0] = (firstFovaeKernel[0] + secondFovaeKernel[0] + thirdFovaeKernel[0]) / 3.0;
 			averagedFovaeKernels[1] = (firstFovaeKernel[1] + secondFovaeKernel[1] + thirdFovaeKernel[1]) / 3.0;
 			// calculating result using the kernels
@@ -902,7 +936,7 @@ void AllConeDiscrimination::loadToMemory(Memory& m) {
 		m.memory.resize(sConeMemory.size());
 	}
 	if (lConeMemory.size() != m.memorySecond.size()) {
-		m.memory.resize(lConeMemory.size());
+		m.memorySecond.resize(lConeMemory.size());
 	}
 	if (mConeMemory.size() != m.memoryThird.size()) {
 		m.memoryThird.resize(mConeMemory.size());
@@ -943,7 +977,7 @@ vector<Mat> AllConeDiscrimination::allConeDiscriminationMain(Mat firstInputMatri
 
 // MAIN DIRECTION GANGLION processing
 vector<int> MainDirectionGanglionProcessing::initializeCellInformation(Mat inputMatrix) {
-	setKernelSize(5);
+	setKernelSize(4);
 	setCenterSize(0);
 	setPeripherySize(0);
 	setKernelStep(1);
@@ -952,8 +986,8 @@ vector<int> MainDirectionGanglionProcessing::initializeCellInformation(Mat input
 	setFocaeCenterSize(0);
 	vector<int> fovaeSize;
 	fovaeSize = fovaeSizeAcquirer(inputMatrix);
-	setFovaeXAxis(fovaeSize[0]);
-	setFovaeYAxis(fovaeSize[1]);
+	setFovaeXAxisLength(fovaeSize[0]);
+	setFovaeYAxisLength(fovaeSize[1]);
 	return cellInformation;
 }
 //vector<int> MainDirectionGanglionProcessing::cellInformation(9);
@@ -1089,7 +1123,7 @@ void MainDirectionGanglionProcessing::loadFromMemory(Memory& m) {
 	}
 }
 
-vector<Mat> MainDirectionGanglionProcessing::mainDirectonInformation(Mat inputMatrix, vector<int> cellInformation, int mainIterator) {
+vector<Mat> MainDirectionGanglionProcessing::mainDirectonInformation(Mat inputMatrix, int mainIterator) {
 	vector<Mat> mainDirectionInformation;
 	Memory m;
 	if (mainIterator == 1) {

@@ -20,6 +20,7 @@ public:
 	Size sizeOfMatrix(Mat inputMatrix);
 	float thresholding(float inputElement, float treshold);
 	Mat colorChannelRetriever(Mat inputMatrix, string channelRequired, Mat& neededChannel); // function cutting out given color channel from rgb Mat
+	vector<Mat> colorChannelRetrieverAlternate(Mat inputMatrix);
 	Mat conversionToRatio(Mat inputMatrix);
 	Mat conversionToValue(Mat inputMatrix);
 

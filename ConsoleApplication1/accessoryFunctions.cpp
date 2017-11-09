@@ -47,6 +47,20 @@ Mat AccessoryFunctions::colorChannelRetriever(Mat inputMatrix, string channelReq
 	}
 }
 
+vector<Mat> AccessoryFunctions::colorChannelRetrieverAlternate(Mat inputMatrix) {
+	vector<Mat> indiviualChannels;
+	Mat channels[3];
+	split(inputMatrix, channels);
+	Mat tmp;
+	tmp = channels[2]; //red
+	indiviualChannels.push_back(tmp);
+	tmp = channels[1]; //green
+	indiviualChannels.push_back(tmp);
+	tmp = channels[0]; //blue
+	indiviualChannels.push_back(tmp);
+	return indiviualChannels;
+}
+
 Mat AccessoryFunctions::conversionToRatio(Mat inputMatrix) {
 	double min, max;
 	minMaxLoc(inputMatrix, &min, &max);
@@ -59,7 +73,5 @@ Mat AccessoryFunctions::conversionToValue(Mat inputMatrix) {
 	inputMatrix = inputMatrix.mul(255);
 	return inputMatrix;
 }
-
-
 
 //

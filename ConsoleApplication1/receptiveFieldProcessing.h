@@ -40,8 +40,11 @@ public:
 	static vector<int> setFovaeKernelSize(int newValue);
 	static vector<int> setFovaeKernelStep(int newValue);
 	static vector<int> setFocaeCenterSize(int newValue);
-	static vector<int> setFovaeXAxis(int newValue);
-	static vector<int> setFovaeYAxis(int newValue);
+	static vector<int> setFovaeXAxisLength(int newValue);
+	static vector<int> setFovaeYAxisLength(int newValue);
+	void setFovaeXAxisPosition(int newValue);
+	void setFovaeYAxisPosition(int newValue);
+
 
 	//get functions
 	static int getKernelSize();
@@ -51,9 +54,11 @@ public:
 	static int getFovaeKernelSize();
 	static int getFovaeKernelStep();
 	static int getFocaeCenterSize();
-	static int getFovaeXAxis();
-	static int getFovaeYAxis();
+	static int getFovaeXAxisLength();
+	static int getFovaeYAxisLength();
 	static vector<int> getAllCellInformation();
+	static int getFovaeXAxisPosition();
+	static int getFovaeYAxisPosition();
 
 protected:
 	static vector<int> cellInformation;
@@ -131,7 +136,7 @@ public:
 	void loadToMemory(Memory& m);
 	void loadFromMemory(Memory& m);
 	vector<Mat> directionReceptiveFieldProcessing(Mat inputMatrix, vector<int> cellInformation, Memory& m, int mainIterator);
-	vector<Mat> mainDirectonInformation(Mat inputMatrix, vector<int> cellInformation, int mainIterator);
+	vector<Mat> mainDirectonInformation(Mat inputMatrix, int mainIterator);
 
 private:
 	vector<Mat> redGreenMemory, blueYellowMemory;
