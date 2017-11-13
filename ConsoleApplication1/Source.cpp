@@ -224,5 +224,6 @@ TO ASK: - kell-e külön fovaeKernel változó vagy elég ha mindig újratöltöm az ado
 	   - create Gabor Filter output saved image
 	   - try to lower run time
 	   - try to lower run time even further
+	   - ratio of input center must be corrected - from what value to subtract - PRIORITY!!!!
 	   - rewrite all processing function so that in the for cycle it++ changed to it = it + cellInformation[x]
 */
