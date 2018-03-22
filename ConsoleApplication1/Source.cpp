@@ -36,6 +36,7 @@ int main(int argc, char** argv){
 	ReceptiveFieldFunctions rfp;
 	RodBipolarProcessing rbp;
 	amacrineAIIProcessing aAIIp;
+	MidgetSConePathway mscp;
 	RedGreenDiscrimination rgd;
 	YellowBlueDiscrimination ybd;
 	AllConeDiscrimination acd;
@@ -147,6 +148,7 @@ int main(int argc, char** argv){
 	/*ipda.imageShow(redChannel);
 	ipda.imageShow(greenChannel);
 	ipda.imageShow(blueChannel);*/
+	vector<Mat> midgetPathway = mscp.midgetBipolarProcessing(blueChannel, mainIterator);
 	vector<Mat> redGreenDiscrimination = rgd.redGreenDiscriminationMain(redChannel, greenChannel, mainIterator);
 	/*if (toSave == true) {
 		stringstream stringStreamIN;
@@ -198,18 +200,16 @@ int main(int argc, char** argv){
 }
 
 /*
-TO ASK: - kell-e külön fovaeKernel változó vagy elég ha mindig újratöltöm az adott helyen?
-		- MainDirection kernel creator - jelenleg 3 kernel, kell-e újakat definiálni, vagy csak újratöltöm a kernel és rögtön push_back??
-		- alternate és original color channel splitter közül melyik legyen?
-		- receptiveFieldFunction.cpp-ben a static nem kell a get-set functionok elé?
+TO ASK: - 
 */
 
 /*
 #TODO: - incorporate AII information to AllConeProcessing 
-	   - create cin command to initiate saving boolean - almost done
+	   - create cin command to initiate saving boolean - in progress
 	   - Kernel recreation - done
 	   - create rod bipolar output saved image - done
 	   - go through AII amacrine cell in the debugger - done
+	   - create midget s cone pathway - in progress
 	   - go through red-green discrimination in debugger - in progress
 	   - memory exception error at synaptic strength modification - debug it!
 	   - create red-green output saved image - done
@@ -224,6 +224,24 @@ TO ASK: - kell-e külön fovaeKernel változó vagy elég ha mindig újratöltöm az ado
 	   - create Gabor Filter output saved image
 	   - try to lower run time
 	   - try to lower run time even further
-	   - ratio of input center must be corrected - from what value to subtract - PRIORITY!!!!
+	   - kernel rect should be one variable for all to save memory - consult it with Tamás before rework
+	   - ratio of input center must be corrected - from what value to subtract - done
 	   - rewrite all processing function so that in the for cycle it++ changed to it = it + cellInformation[x]
+	   - continue to rework the kernel-ratio processes
+	   - find bugs cause on case of kernel-ratio
+	   - start parallelising the individual processes
+	   - might make the code faster if fovae is evaulated in the for cycle of inputmatrix in case of given conditions - PRIORITY!!!
+	   
+#INSIGHTS:	- Look up SLAM problem and if I need solution for that
+			- Create EKF to incorporate all sensory input and to estimate the next ~150 ms, as delay will occure
+			- implement PID controller which uses 
+			- create motor output which sends wireless information of [pitch ang., roll ang., yaw-rot. speed, z-axis movement]
+			- the previous command should be at ~100 Hz
+			- maybe the choosen calculation should be made in an if condition set, and direction and edgedetection should be done only on that
+			
+#CONSULT 2018.03.12.:
+			- ROI should be cut out from original picture, and the three colour channel should be seperated after that
+			- színcsatornák vizsgálata az elején, egy idõ után csak azt nézhetné hogy mekkora a különbség a mostani és az elõzõ között, azaz van-e értelme taktikát változtatni
+			- külön teszt és futtatás üzemmód
+			- tesztset képfeldolgozáshoz - élkép, mozásirány
 */

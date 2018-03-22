@@ -1,8 +1,7 @@
 #include "receptiveFieldProcessing.h"
-#include "memoryHandling.h"
+#include "memoryHandling.h"	
 #include "synapticStrength.h"
 #include "accessoryFunctions.h"
-
 #include "ImageProcessingDataAcquisition.h"
 
 //RECEPTIVEFIELDFUNCTIONS functions
@@ -22,7 +21,6 @@ bool ReceptiveFieldFunctions::onOff(string cellType) {
 		onCell = true;
 	}
 	else if(cellType == "OFF"){
-
 		onCell = false;
 	}
 	else {
@@ -32,25 +30,39 @@ bool ReceptiveFieldFunctions::onOff(string cellType) {
 }
 
 // function creating equilateral kernel with centrum and periphery
-vector<Mat> ReceptiveFieldFunctions::kernelCreator(int centerSize, int kernelSize, int iterX, int iterY, Mat inputMatrix) {
-	Mat fullKernel(inputMatrix, Rect(iterX, iterY, kernelSize, kernelSize));
-	//cerr << fullKernel << endl;
-	//cout << endl;
-	//center creation
-	int peripheryThickness = (kernelSize - centerSize) / 2;
-	Mat kernelCenter(fullKernel, Rect(peripheryThickness, peripheryThickness, centerSize, centerSize));
-	//cerr << kernelCenter << endl;
-	//cout << endl;
-	//periphery creation
-	Mat kernelCenterZeros = fullKernel(Rect(peripheryThickness, peripheryThickness, centerSize, centerSize));
-	kernelCenterZeros.setTo(0);
+vector<Mat> ReceptiveFieldFunctions::kernelCreator(Mat kernelCenter, Mat kernelPeriphery) {
 	vector<Mat> kernels; //[centre, periphery]
+	kernels.resize(2);
+	kernels[0] = kernelCenter;
 	//cerr << kernelCenter << endl;
 	//cout << endl;
-	//cerr << fullKernel << endl;
-	kernels.push_back(kernelCenter);
-	kernels.push_back(fullKernel);
+	kernels[1] = kernelPeriphery;
+	//cerr << kernelPeriphery << endl;
+	//cout << endl;
 	return kernels;
+}
+
+Mat ReceptiveFieldFunctions::kernelCenterReveicer(int centerSize, int kernelSize, int iterX, int iterY, Mat inputMatrix) {
+	int peripheryThickness = (kernelSize - centerSize) / 2;
+	Mat kernelCenter(inputMatrix, Rect(iterX + peripheryThickness, iterY + peripheryThickness, centerSize, centerSize));
+	//cerr << kernelCenter << endl; cout << endl;
+	return kernelCenter;
+}
+
+Mat ReceptiveFieldFunctions::kernelPeripheryReceiver(int centerSize, int kernelSize, int iterX, int iterY, Mat inputMatrix) {
+	//Mat fullKernel(inputMatrix, Rect(iterX, iterY, kernelSize, kernelSize));
+	Mat fullKernel = oneKernelCreator(inputMatrix, kernelSize, iterX, iterY);
+	Mat kernelPeriphery = fullKernel;
+	//float data[][] = {{}}
+	int peripheryThickness = (kernelSize - centerSize) / 2;
+	Mat kernelCenterZeros(fullKernel(Rect(peripheryThickness, peripheryThickness, centerSize, centerSize)));
+	//cerr << kernelPeriphery << endl; cout << endl;
+	Mat zeroMatrix = kernelCenterZeros - kernelCenterZeros;
+	//kernelCenterZeros.setTo(0);
+	Rect whereRec(peripheryThickness, peripheryThickness, centerSize, centerSize);
+	zeroMatrix.copyTo(kernelPeriphery(whereRec));
+	//cerr << kernelPeriphery << endl; cout << endl;
+	return kernelPeriphery;
 }
 
 // function creating one kernel
@@ -147,7 +159,7 @@ Mat ReceptiveFieldFunctions::homogenReceptiveFieldEvaluation(Mat inputMatrix, ve
 	//cerr << inputMatrix(Rect(100, 100, 100, 100)) << endl;
 	m.pushbackMemory(inputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
-	if (mainIterator > 1) {
+	if (!isFirst) {
 		ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
 	}
 	synapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
@@ -176,6 +188,7 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 	//calling helper function
 	SynapticStrength ss;
 	AccessoryFunctions af;
+	ImageProcessingDataAcquisition ipda;
 	//declaring local variables
 	vector<Mat> processedMatrices;
 	Size matrixSize = af.sizeOfMatrix(inputMatrix);
@@ -194,27 +207,26 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 	m.pushbackMemory(inputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
 	isFirst = ss.isFirstIteration(mainIterator);
-	Mat modifierMatrix;
-	if (mainIterator < 1) {
-		modifierMatrix = ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
+	if (!isFirst) {
+		ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
 	}
-	else {
-		modifierMatrix = Mat::ones(1, 2, CV_32F);
-	}
-	synapticStrengthMatrix = ss.synapticStrengthMatrixCreator(modifierMatrix, matrixSize, isFirst);
+	synapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	inputModifiedBySynapticStrengthFirst = inputMatrix.mul(synapticStrengthMatrix);
 	//iterating through the matrix
 	int iterY = 0;
+	float floatPower = 2.0;
 	for (int it = 0; it < (matrixSize.height / cellInformation[0]) * cellInformation[0] - cellInformation[0]; it = it + cellInformation[3]) {
 		int iterX = 0;
 		for (int ij = 0; ij < (matrixSize.width / cellInformation[0]) * cellInformation[0] - cellInformation[0]; ij = ij + cellInformation[3]) {
 			vector<Mat> kernels;
-			kernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthFirst);
-			// calculating result using the kernels
-			ratioOfOnInputCenter = abs(1 - (pow((float)cellInformation[1],	2.0) - sum(kernels[0])[0]) / pow((float)cellInformation[1], 2.0));
-			ratioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(kernels[1])[0]) / pow((float)cellInformation[1], 2.0));
-			ratioOfOffInputCenter = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(kernels[0])[0]) / pow((float)cellInformation[1], 2.0)) - 1);
-			ratioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(kernels[1])[0]) / pow((float)cellInformation[1], 2.0)) - 1);
+			Mat kernelCenter, kernelPeriphery;
+			//ratioOfInput = 1 - (pow((float)cellInformation[0], floatPower) - sum(kernel)[0]) / pow((float)cellInformation[0], floatPower); // check if it gives the good value
+			kernelCenter = kernelCenterReveicer(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthFirst);
+			ratioOfOnInputCenter = 1 - (pow((float)cellInformation[1], floatPower) - sum(kernelCenter)[0]) / pow((float)cellInformation[1], floatPower);
+			ratioOfOffInputCenter = (pow((float)cellInformation[1], floatPower) - sum(kernelCenter)[0]) / pow((float)cellInformation[1], floatPower);
+			kernelPeriphery = kernelPeripheryReceiver(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthFirst);
+			ratioOfOnInputPeriphery = 1 - ((pow((float)cellInformation[0], floatPower) - pow((float)cellInformation[1], floatPower)) - sum(kernelPeriphery)[0]) / (pow((float)cellInformation[0], floatPower) - pow((float)cellInformation[1], floatPower));
+			ratioOfOffInputPeriphery = (pow((float)cellInformation[0], floatPower) - pow((float)cellInformation[1], floatPower) - sum(kernelPeriphery)[0]) / (pow((float)cellInformation[0], floatPower) - pow((float)cellInformation[1], floatPower));
 			// thresholding
 			ratioOfOnInputCenter = af.thresholding(ratioOfOnInputCenter, threshold);
 			ratioOfOnInputPeriphery = af.thresholding(ratioOfOnInputPeriphery, threshold);
@@ -230,35 +242,49 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationOneInput(Mat inputM
 		}
 		iterY++;
 	}
+	/*cerr << onProcessedMatrix(Rect(100, 100, 100, 100)) << endl;
+	cout << endl;
+	cout << endl;
+	cerr << offProcessedMatrix(Rect(100, 100, 100, 100)) << endl;
+	cout << endl;
+	cout << endl;
+	ipda.imageShow(onProcessedMatrix);
+	ipda.imageShow(offProcessedMatrix);
+	*/
 	//loading the processed matrices
 	processedMatrices.push_back(onProcessedMatrix);
 	processedMatrices.push_back(offProcessedMatrix);
 	//fovae processing
-	vector<Mat> fovaeKernel;
-	Mat fovaeMatrix(inputModifiedBySynapticStrengthFirst, Rect(cellInformation[9], cellInformation[10], cellInformation[7], cellInformation[8]));
-	Size areaOfFovae = af.sizeOfMatrix(fovaeMatrix);
-	Mat onFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
-	Mat offFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
-	for (int it = 0; it < areaOfFovae.height; it++) {
-		for (int ij = 0; ij < areaOfFovae.width; ij++) {
-			fovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, fovaeMatrix);
-			// calculating result using the kernels
-			ratioOfOnInputCenter = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(fovaeKernel[0])[0]) / pow((float)cellInformation[1], 2.0));
-			ratioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(fovaeKernel[1])[0]) / pow((float)cellInformation[1], 2.0));
-			ratioOfOffInputCenter = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(fovaeKernel[0])[0]) / pow((float)cellInformation[1], 2.0)) - 1);
-			ratioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(fovaeKernel[1])[0]) / pow((float)cellInformation[1], 2.0)) - 1);
+	Mat onFovaeProcessedMatrix((cellInformation[8] / cellInformation[4]) * cellInformation[4] - cellInformation[4],
+		(cellInformation[7] / cellInformation[4]) * cellInformation[4] - cellInformation[4], CV_32F);
+	Mat offFovaeProcessedMatrix((cellInformation[8] / cellInformation[4]) * cellInformation[4] - cellInformation[4],
+		(cellInformation[7] / cellInformation[4]) * cellInformation[4] - cellInformation[4], CV_32F);
+	int iterYF = 0;
+	//int it = 0; it < (matrixSize.height / cellInformation[0]) * cellInformation[0] - cellInformation[0]; it = it + cellInformation[3]
+	float ratioOfFovaeOnInputCenter, rationOfFovaeOffInputCenter, rationOfFovaeOnInputPeriphery, rationOfFovaeOffInputPeriphery;
+	for (int it = cellInformation[10]; it < cellInformation[10] + (cellInformation[8] / cellInformation[4] * cellInformation[4] - cellInformation[4]); it = it + cellInformation[5]) {
+		int iterXF = 0;
+		for (int ij = cellInformation[9]; ij < cellInformation[9] + (cellInformation[7] / cellInformation[4] * cellInformation[4] - cellInformation[4]); ij = ij + cellInformation[5]) {
+			Mat fovaeKernel = kernelCenterReveicer(cellInformation[6], cellInformation[4], ij, it, inputModifiedBySynapticStrengthFirst); //= kernelCenterReveicer(cellInformation[6], cellInformation[4], ij, it, fovaeMatrix);
+			ratioOfFovaeOnInputCenter = 1 - (pow((float)cellInformation[6], floatPower) - sum(fovaeKernel)[0]) / pow((float)cellInformation[6], floatPower);
+			rationOfFovaeOffInputCenter = (pow((float)cellInformation[6], floatPower) - sum(fovaeKernel)[0]) / pow((float)cellInformation[6], floatPower);
+			Mat fovaePeriphery = kernelPeripheryReceiver(cellInformation[6], cellInformation[4], ij, it, inputModifiedBySynapticStrengthFirst); //= kernelPeripheryReceiver(cellInformation[6], cellInformation[4], ij, it, fovaeMatrix);
+			rationOfFovaeOnInputPeriphery = 1 - ((pow((float)cellInformation[4], floatPower) - pow((float)cellInformation[6], floatPower)) - sum(fovaePeriphery)[0]) / (pow((float)cellInformation[4], floatPower) - pow((float)cellInformation[6], floatPower));
+			rationOfFovaeOffInputPeriphery = (pow((float)cellInformation[4], floatPower) - pow((float)cellInformation[6], floatPower) - sum(fovaePeriphery)[0]) / (pow((float)cellInformation[4], floatPower) - pow((float)cellInformation[6], floatPower));
 			//thresholding
-			ratioOfOnInputCenter = af.thresholding(ratioOfOnInputCenter, threshold);
-			ratioOfOnInputPeriphery = af.thresholding(ratioOfOnInputPeriphery, threshold);
-			ratioOfOffInputCenter = af.thresholding(ratioOfOffInputCenter, threshold);
-			ratioOfOffInputPeriphery = af.thresholding(ratioOfOffInputPeriphery, threshold);
+			ratioOfFovaeOnInputCenter = af.thresholding(ratioOfFovaeOnInputCenter, threshold);
+			rationOfFovaeOnInputPeriphery = af.thresholding(rationOfFovaeOnInputPeriphery, threshold);
+			rationOfFovaeOffInputCenter = af.thresholding(rationOfFovaeOffInputCenter, threshold);
+			rationOfFovaeOffInputPeriphery = af.thresholding(rationOfFovaeOffInputPeriphery, threshold);
 			//comparing the centre and the periphery
-			ratioOfOnInputCenter = centerPeripheryComparison(ratioOfOnInputCenter, ratioOfOnInputPeriphery);
-			ratioOfOffInputCenter = centerPeripheryComparison(ratioOfOffInputCenter, ratioOfOffInputPeriphery);
+			ratioOfFovaeOnInputCenter = centerPeripheryComparison(ratioOfFovaeOnInputCenter, rationOfFovaeOnInputPeriphery);
+			rationOfFovaeOffInputCenter = centerPeripheryComparison(rationOfFovaeOffInputCenter, rationOfFovaeOffInputPeriphery);
 			//creating processed matrix vector
-			onFovaeProcessedMatrix.at<float>(it, ij) = ratioOfOnInputCenter;
-			offFovaeProcessedMatrix.at<float>(it, ij) = ratioOfOffInputCenter;
+			onFovaeProcessedMatrix.at<float>(iterYF, iterXF) = ratioOfFovaeOnInputCenter;
+			offFovaeProcessedMatrix.at<float>(iterYF, iterXF) = rationOfFovaeOffInputCenter;
+			iterXF++;
 		}
+		iterYF++;
 	}
 	return processedMatrices;
 }
@@ -286,8 +312,6 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 	bool isFirst;
 	Mat firstSynapticStrengthMatrix;
 	Mat secondSynapticStrengthMatrix;
-	float firstRatioOfOnInputCenter, firstRatioOfOffInputCenter, firstRatioOfOnInputPeriphery, firstRatioOfOffInputPeriphery,
-		secondRatioOfOnInputCenter, secondRatioOfOffInputCenter, secondRatioOfOnInputPeriphery, secondRatioOfOffInputPeriphery;
 	float threshold = 0.3;
 	//adding the current input to memory
 	int currentMemoryPosition = m.memoryPosition(mainIterator);
@@ -297,40 +321,44 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 	m.pushbackMemory(secondInputMatrix, currentMemoryPosition);
 	//modifying input with synapticStrength function
 	isFirst = ss.isFirstIteration(mainIterator);
-	if (mainIterator > 1) {
-		//modifierMatrix = ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
+	if (!isFirst) {
+		ss.modifierMatrixCalculator(m.memory, currentMemoryPosition);
 	}
 	firstSynapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	inputModifiedBySynapticStrengthFirst = firstInputMatrix.mul(firstSynapticStrengthMatrix);
-	if (mainIterator > 1) {
+	if (!isFirst) {
 		ss.modifierMatrixCalculator(m.memorySecond, currentMemoryPosition);
 	}
 	secondSynapticStrengthMatrix = ss.synapticStrengthMatrixCreator(ss.modifierMatrix, matrixSize, isFirst);
 	inputModifiedBySynapticStrengthSecond = secondInputMatrix.mul(secondSynapticStrengthMatrix);
 	//iterating through the matrix
+	float firstRatioOfOnInputCenter, firstRatioOfOffInputCenter, firstRatioOfOnInputPeriphery, firstRatioOfOffInputPeriphery,
+		secondRatioOfOnInputCenter, secondRatioOfOffInputCenter, secondRatioOfOnInputPeriphery, secondRatioOfOffInputPeriphery;
 	int iterY = 0;
 	for (int it = 0; it < (matrixSize.height / cellInformation[0]) * cellInformation[0] - cellInformation[0]; it = it + cellInformation[3]) {
 		int iterX = 0;
 		for (int ij = 0; ij < (matrixSize.width / cellInformation[0]) * cellInformation[0] - cellInformation[0]; ij = ij + cellInformation[3]) {
 			vector<Mat> firstKernels;
 			vector<Mat> secondKernels;
-			firstKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, firstSynapticStrengthMatrix);
-			secondKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthSecond);
-			// calculating result using the kernels
-			cout << sum(firstKernels[0])[0] << endl;
-			cout << sum(firstKernels[1])[0] << endl;
-			cout << endl;
-			cerr << firstKernels[1] << endl;
-			cerr << firstKernels[0] << endl;
-			firstRatioOfOnInputCenter = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(firstKernels[0])[0]) / pow((float)cellInformation[1], 2.0));
-			cout << firstRatioOfOnInputCenter << endl;
-			firstRatioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[0], 2.0) - sum(firstKernels[1])[0]) / pow((float)cellInformation[0], 2.0));
-			firstRatioOfOffInputCenter = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(firstKernels[0])[0]) / pow((float)cellInformation[1], 2.0)) - 1);
-			firstRatioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[0], 2.0) - sum(firstKernels[1])[0]) / pow((float)cellInformation[0], 2.0)) - 1);
-			secondRatioOfOnInputCenter = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(secondKernels[0])[0]) / pow((float)cellInformation[1], 2.0));
-			secondRatioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[0], 2.0) - sum(secondKernels[1])[0]) / pow((float)cellInformation[0], 2.0));
-			secondRatioOfOffInputCenter = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(secondKernels[0])[0]) / pow((float)cellInformation[1], 2.0)) - 1);
-			secondRatioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[0], 2.0) - sum(secondKernels[1])[0]) / pow((float)cellInformation[0], 2.0)) - 1);
+			Mat firstKernelCenter, firstKernelPeriphery, secondKernelCenter, secondKernelPeriphery;
+			firstKernelCenter = kernelCenterReveicer(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthFirst);
+			//cerr << firstKernelCenter << endl;
+			//cout << sum(firstKernelCenter)[0] << endl;
+			firstRatioOfOnInputCenter = 1 - (pow((float)cellInformation[1], 2.0) - sum(firstKernelCenter)[0]) / pow((float)cellInformation[1], 2.0);
+			firstRatioOfOffInputCenter = (pow((float)cellInformation[1], 2.0) - sum(firstKernelCenter)[0]) / pow((float)cellInformation[1], 2.0);
+			//cout << firstRatioOfOnInputCenter << endl;
+			firstKernelPeriphery = kernelPeripheryReceiver(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthFirst);
+			firstRatioOfOnInputPeriphery = 1 - (pow((float)cellInformation[0], 2.0) - pow((float)cellInformation[1], 2.0) - sum(firstKernelPeriphery)[0]) / (pow((float)cellInformation[0], 2.0) - pow((float)cellInformation[1], 2.0));
+			firstRatioOfOffInputPeriphery = (pow((float)cellInformation[0], 2.0) - pow((float)cellInformation[1], 2.0) - sum(firstKernelPeriphery)[0]) / (pow((float)cellInformation[0], 2.0) - pow((float)cellInformation[1], 2.0));
+			//cerr << firstKernelCenter << endl;
+			//cerr << firstKernelPeriphery << endl;
+			secondKernelCenter = kernelCenterReveicer(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthSecond);
+			secondRatioOfOnInputCenter = 1 - (pow((float)cellInformation[1], 2.0) - sum(secondKernelCenter)[0]) / pow((float)cellInformation[1], 2.0);
+			secondRatioOfOffInputCenter = (pow((float)cellInformation[1], 2.0) - sum(secondKernelCenter)[0]) / pow((float)cellInformation[1], 2.0);
+			secondKernelPeriphery = kernelPeripheryReceiver(cellInformation[1], cellInformation[0], ij, it, inputModifiedBySynapticStrengthSecond);
+			secondRatioOfOnInputPeriphery = 1 - (pow((float)cellInformation[0], 2.0) - pow((float)cellInformation[1], 2.0) - sum(secondKernelPeriphery)[0]) / (pow((float)cellInformation[0], 2.0) - pow((float)cellInformation[1], 2.0));
+			secondRatioOfOffInputPeriphery = (pow((float)cellInformation[0], 2.0) - pow((float)cellInformation[1], 2.0) - sum(secondKernelPeriphery)[0]) / (pow((float)cellInformation[0], 2.0) - pow((float)cellInformation[1], 2.0));
+
 			//thresholding
 			firstRatioOfOnInputCenter = af.thresholding(firstRatioOfOnInputCenter, threshold);
 			firstRatioOfOnInputPeriphery = af.thresholding(firstRatioOfOnInputPeriphery, threshold);
@@ -355,7 +383,7 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 		iterY++;
 	}
 	//loading the processed matrices
-	cerr << firstOnProcessedMatrix(Rect(100, 100, 100, 100)) << endl;
+	/*cerr << firstOnProcessedMatrix(Rect(100, 100, 100, 100)) << endl;
 	cout << endl;
 	cout << endl;
 	cerr << firstOffProcessedMatrix(Rect(100, 100, 100, 100)) << endl;
@@ -370,54 +398,62 @@ vector<Mat> ReceptiveFieldFunctions::receptiveFieldEvaluationTwoInput(Mat firstI
 	ipda.imageShow(firstOnProcessedMatrix);
 	ipda.imageShow(firstOffProcessedMatrix);
 	ipda.imageShow(secondOnProcessedMatrix);
-	ipda.imageShow(secondOffProcessedMatrix);
+	ipda.imageShow(secondOffProcessedMatrix);*/
 	processedMatrices.push_back(firstOnProcessedMatrix);
 	processedMatrices.push_back(firstOffProcessedMatrix);
 	processedMatrices.push_back(secondOnProcessedMatrix);
 	processedMatrices.push_back(secondOffProcessedMatrix);
 	//fovae processing
-	vector<Mat> firstFovaeKernel;
-	vector<Mat> secondFovaeKernel;
-	Mat firstFovaeMatrix(inputModifiedBySynapticStrengthFirst, Rect(cellInformation[9], cellInformation[10], cellInformation[7], cellInformation[8]));
-	Mat secondFovaeMatrix(inputModifiedBySynapticStrengthSecond, Rect(cellInformation[9], cellInformation[10], cellInformation[7], cellInformation[8]));
-	Size areaOfFovae = af.sizeOfMatrix(firstFovaeMatrix);
-	Mat firstOnFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
-	Mat firstOffFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
-	Mat secondOnFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
-	Mat secondOffFovaeProcessedMatrix(areaOfFovae.height, areaOfFovae.width, CV_32F);
-	for (int it = 0; it < areaOfFovae.height; it++) {
-		for (int ij = 0; ij < areaOfFovae.width; ij++) {
-			firstFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, firstFovaeMatrix);
-			secondFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, secondFovaeMatrix);
-			// calculating result using the kernels
-			firstRatioOfOnInputCenter = abs(1 - (pow((float)cellInformation[6], 2.0) - sum(firstFovaeKernel[0])[0]) / pow((float)cellInformation[6], 2.0));
-			firstRatioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[4], 2.0) - sum(firstFovaeKernel[1])[0]) / pow((float)cellInformation[4], 2.0));
-			firstRatioOfOffInputCenter = abs(1 - (pow((float)cellInformation[6], 2.0) - sum(firstFovaeKernel[0])[0]) / pow((float)cellInformation[6], 2.0));
-			firstRatioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[4], 2.0) - sum(firstFovaeKernel[1])[0]) / pow((float)cellInformation[4], 2.0)) - 1);
-			secondRatioOfOnInputCenter = abs(1 - (pow((float)cellInformation[6], 2.0) - sum(secondFovaeKernel[0])[0]) / pow((float)cellInformation[6], 2.0));
-			secondRatioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[4], 2.0) - sum(secondFovaeKernel[1])[0]) / pow((float)cellInformation[4], 2.0));
-			secondRatioOfOffInputCenter = abs((1 - (pow((float)cellInformation[6], 2.0) - sum(secondFovaeKernel[0])[0]) / pow((float)cellInformation[6], 2.0)) - 1);
-			secondRatioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[4], 2.0) - sum(secondFovaeKernel[1])[0]) / pow((float)cellInformation[4], 2.0)) - 1);
+	Mat firstOnFovaeProcessedMatrix((cellInformation[8] / cellInformation[4]) * cellInformation[4] - cellInformation[4],
+		(cellInformation[7] / cellInformation[4]) * cellInformation[4] - cellInformation[4], CV_32F);
+	Mat firstOffFovaeProcessedMatrix((cellInformation[8] / cellInformation[4]) * cellInformation[4] - cellInformation[4],
+		(cellInformation[7] / cellInformation[4]) * cellInformation[4] - cellInformation[4], CV_32F);
+	Mat secondOnFovaeProcessedMatrix((cellInformation[8] / cellInformation[4]) * cellInformation[4] - cellInformation[4],
+		(cellInformation[7] / cellInformation[4]) * cellInformation[4] - cellInformation[4], CV_32F);
+	Mat secondOffFovaeProcessedMatrix((cellInformation[8] / cellInformation[4]) * cellInformation[4] - cellInformation[4],
+		(cellInformation[7] / cellInformation[4]) * cellInformation[4] - cellInformation[4], CV_32F);
+	float firstRatioOfFovaeOnInputCenter, firstRatioOfFovaeOffInputCenter, firstRatioOfFovaeOnInputPeriphery, firstRatioOfFovaeOffInputPeriphery,
+		secondRatioOfFovaeOnInputCenter, secondRatioOfFovaeOffInputCenter, secondRatioOfFovaeOnInputPeriphery, secondRatioOfFovaeOffInputPeriphery;
+	int iterYF = 0;
+	for (int it = cellInformation[10]; it < cellInformation[10] + (cellInformation[8] / cellInformation[4] * cellInformation[4] - cellInformation[4]); it = it + cellInformation[5]) {
+		int iterXF = 0;
+		for (int ij = cellInformation[9]; ij < cellInformation[9] + (cellInformation[7] / cellInformation[4] * cellInformation[4] - cellInformation[4]); ij = ij + cellInformation[5]) {
+			Mat firstKernelCenterFovae = kernelCenterReveicer(cellInformation[6], cellInformation[4], ij, it, inputModifiedBySynapticStrengthFirst);
+			firstRatioOfFovaeOnInputCenter = 1 - (pow((float)cellInformation[6], 2.0) - sum(firstKernelCenterFovae)[0]) / pow((float)cellInformation[6], 2.0);
+			firstRatioOfFovaeOffInputCenter = (pow((float)cellInformation[6], 2.0) - sum(firstKernelCenterFovae)[0]) / pow((float)cellInformation[6], 2.0);
+			Mat firstKernelPeripheryFovae = kernelPeripheryReceiver(cellInformation[6], cellInformation[4], ij, it, inputModifiedBySynapticStrengthFirst);
+			firstRatioOfFovaeOnInputPeriphery = 1 - (pow((float)cellInformation[4], 2.0) - pow((float)cellInformation[6], 2.0) - sum(firstKernelPeripheryFovae)[0]) / (pow((float)cellInformation[4], 2.0) - pow((float)cellInformation[6], 2.0));
+			firstRatioOfFovaeOffInputPeriphery = (pow((float)cellInformation[4], 2.0) - pow((float)cellInformation[6], 2.0) - sum(firstKernelPeripheryFovae)[0]) / (pow((float)cellInformation[4], 2.0) - pow((float)cellInformation[6], 2.0));
+			Mat secondKernelCenterFovae = kernelCenterReveicer(cellInformation[6], cellInformation[4], ij, it, inputModifiedBySynapticStrengthSecond);
+			secondRatioOfFovaeOnInputCenter = 1 - (pow((float)cellInformation[6], 2.0) - sum(secondKernelCenterFovae)[0]) / pow((float)cellInformation[6], 2.0);
+			secondRatioOfFovaeOffInputCenter = (pow((float)cellInformation[6], 2.0) - sum(secondKernelCenterFovae)[0]) / pow((float)cellInformation[6], 2.0);
+			Mat secondKernelPeripheryFovae = kernelPeripheryReceiver(cellInformation[6], cellInformation[4], ij, it, inputModifiedBySynapticStrengthSecond);
+			secondRatioOfFovaeOnInputPeriphery = 1 - (pow((float)cellInformation[4], 2.0) - pow((float)cellInformation[6], 2.0) - sum(secondKernelPeripheryFovae)[0]) / (pow((float)cellInformation[4], 2.0) - pow((float)cellInformation[6], 2.0));
+			secondRatioOfFovaeOffInputPeriphery = (pow((float)cellInformation[4], 2.0) - pow((float)cellInformation[6], 2.0) - sum(secondKernelPeripheryFovae)[0]) / (pow((float)cellInformation[4], 2.0) - pow((float)cellInformation[6], 2.0));
+			
 			//thresholding
-			firstRatioOfOnInputCenter = af.thresholding(firstRatioOfOnInputCenter, threshold);
-			firstRatioOfOnInputPeriphery = af.thresholding(firstRatioOfOnInputPeriphery, threshold);
-			firstRatioOfOffInputCenter = af.thresholding(firstRatioOfOffInputCenter, threshold);
-			firstRatioOfOffInputPeriphery = af.thresholding(firstRatioOfOffInputPeriphery, threshold);
-			secondRatioOfOnInputCenter = af.thresholding(secondRatioOfOnInputCenter, threshold);
-			secondRatioOfOnInputPeriphery = af.thresholding(secondRatioOfOnInputPeriphery, threshold);
-			secondRatioOfOffInputCenter = af.thresholding(secondRatioOfOffInputCenter, threshold);
-			secondRatioOfOffInputPeriphery = af.thresholding(secondRatioOfOffInputPeriphery, threshold);
+			firstRatioOfFovaeOnInputCenter = af.thresholding(firstRatioOfFovaeOnInputCenter, threshold);
+			firstRatioOfFovaeOnInputPeriphery = af.thresholding(firstRatioOfFovaeOnInputPeriphery, threshold);
+			firstRatioOfFovaeOffInputCenter = af.thresholding(firstRatioOfFovaeOffInputCenter, threshold);
+			firstRatioOfFovaeOffInputPeriphery = af.thresholding(firstRatioOfFovaeOffInputPeriphery, threshold);
+			secondRatioOfFovaeOnInputCenter = af.thresholding(secondRatioOfFovaeOnInputCenter, threshold);
+			secondRatioOfFovaeOnInputPeriphery = af.thresholding(secondRatioOfFovaeOnInputPeriphery, threshold);
+			secondRatioOfFovaeOffInputCenter = af.thresholding(secondRatioOfFovaeOffInputCenter, threshold);
+			secondRatioOfFovaeOffInputPeriphery = af.thresholding(secondRatioOfFovaeOffInputPeriphery, threshold);
 			//comparing the centre and the periphery
-			firstRatioOfOnInputCenter = centerPeripheryComparison(firstRatioOfOnInputCenter, secondRatioOfOnInputPeriphery);
-			firstRatioOfOffInputCenter = centerPeripheryComparison(firstRatioOfOffInputCenter, secondRatioOfOffInputPeriphery);
-			secondRatioOfOnInputCenter = centerPeripheryComparison(secondRatioOfOnInputCenter, firstRatioOfOnInputPeriphery);
-			secondRatioOfOffInputCenter = centerPeripheryComparison(secondRatioOfOffInputCenter, firstRatioOfOffInputPeriphery);
+			firstRatioOfFovaeOnInputCenter = centerPeripheryComparison(firstRatioOfFovaeOnInputCenter, secondRatioOfFovaeOnInputPeriphery);
+			firstRatioOfFovaeOffInputCenter = centerPeripheryComparison(firstRatioOfFovaeOffInputCenter, secondRatioOfFovaeOffInputPeriphery);
+			secondRatioOfFovaeOnInputCenter = centerPeripheryComparison(secondRatioOfFovaeOnInputCenter, firstRatioOfFovaeOnInputPeriphery);
+			secondRatioOfFovaeOffInputCenter = centerPeripheryComparison(secondRatioOfFovaeOffInputCenter, firstRatioOfFovaeOffInputPeriphery);
 			//creating processed matrix vector
-			firstOnFovaeProcessedMatrix.at<float>(it, ij) = firstRatioOfOnInputCenter;
-			firstOffFovaeProcessedMatrix.at<float>(it, ij) = firstRatioOfOffInputCenter;
-			secondOnFovaeProcessedMatrix.at<float>(it, ij) = secondRatioOfOnInputCenter;
-			secondOffFovaeProcessedMatrix.at<float>(it, ij) = secondRatioOfOffInputCenter;
+			firstOnFovaeProcessedMatrix.at<float>(iterYF, iterXF) = firstRatioOfFovaeOnInputCenter;
+			firstOffFovaeProcessedMatrix.at<float>(iterYF, iterXF) = firstRatioOfFovaeOffInputCenter;
+			secondOnFovaeProcessedMatrix.at<float>(iterYF, iterXF) = secondRatioOfFovaeOnInputCenter;
+			secondOffFovaeProcessedMatrix.at<float>(iterYF, iterXF) = secondRatioOfFovaeOffInputCenter;
+
+			iterXF++;
 		}
+		iterYF++;
 	}
 	processedMatrices.push_back(firstOnFovaeProcessedMatrix);
 	processedMatrices.push_back(firstOffFovaeProcessedMatrix);
@@ -665,6 +701,65 @@ Mat amacrineAIIProcessing::amacrineAIIBipolarProcessing(Mat inputMatrix, int mai
 	return processedMatrix;
 }
 
+//MIDGET Pathway
+vector<int> MidgetSConePathway::initializeCellInformation(Mat inputMatrix) {
+	setKernelSize(4);
+	setCenterSize(2);
+	setPeripherySize(2);
+	setKernelStep(1);
+	setFovaeKernelSize(3);
+	setFovaeKernelStep(1);
+	setFocaeCenterSize(1);
+	vector<int> fovaeSize;
+	fovaeSize = fovaeSizeAcquirer(inputMatrix);
+	setFovaeXAxisLength(fovaeSize[0]);
+	setFovaeYAxisLength(fovaeSize[1]);
+	vector<int> fovaeCoordinates = fovaeCenterCoordinatesAcquirer(inputMatrix);
+	setFovaeXAxisPosition(fovaeCoordinates[0]);
+	setFovaeYAxisPosition(fovaeCoordinates[1]);
+	return cellInformation;
+}
+
+void MidgetSConePathway::initializeMemory(int iterator) {
+	Memory m;
+	if (iterator < 5) {
+		sConeMemory.resize(iterator);
+	}
+	else {
+		sConeMemory.resize(m.getMemoryMax());
+	}
+}
+
+void MidgetSConePathway::loadToMemory(Memory& m) {
+	if (sConeMemory.size() != m.memory.size()) {
+		m.memory.resize(sConeMemory.size());
+	}
+	for (int it = 0; it < sConeMemory.size(); it++) {
+		m.memory[it] = sConeMemory[it];
+	}
+}
+
+void MidgetSConePathway::loadFromMemory(Memory& m) {
+	for (int it = 0; it < m.memory.size(); it++) {
+		sConeMemory[it] = m.memory[it];
+	}
+}
+
+vector<Mat> MidgetSConePathway::midgetBipolarProcessing(Mat inputMatrix, int mainIterator) {
+	Memory m;
+	if (mainIterator == 1) {
+		initializeCellInformation(inputMatrix);
+		initializeMemory(mainIterator);
+	}
+	else if (mainIterator < 6) {
+		initializeMemory(mainIterator);
+	}
+	loadToMemory(m);
+	//red-green discrimination
+	vector<Mat> processedMatrices = receptiveFieldEvaluationOneInput(inputMatrix, cellInformation, m, mainIterator);
+	loadToMemory(m);
+	return processedMatrices;
+}
 
 //REDGREEN discriminator
 vector<int> RedGreenDiscrimination::initializeCellInformation(Mat inputMatrix) {
@@ -714,7 +809,6 @@ void RedGreenDiscrimination::loadFromMemory(Memory& m) {
 	for (int it = 0; it < m.memory.size(); it++) {
 		lConeMemory[it] = m.memory[it];
 		mConeMemory[it] = m.memorySecond[it];
-
 	}
 }
 
@@ -868,16 +962,23 @@ vector<Mat> AllConeDiscrimination::receptiveFieldEvaluationThreeInput(Mat firstI
 			vector<Mat> firstKernels;
 			vector<Mat> secondKernels;
 			vector<Mat> thirdKernels;
-			firstKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, firstInputMatrix);
-			secondKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, secondInputMatrix);
-			thirdKernels = kernelCreator(cellInformation[1], cellInformation[0], ij, it, thirdInputMatrix);
+			Mat firstKernelCenter, secondKernelCenter, ThirdKernelCenter, firstKernelPeriphery, secondKernelPeriphery, thirdKernelPeriphery;
+			firstKernelCenter = kernelCenterReveicer(cellInformation[1], cellInformation[0], ij, it, firstInputMatrix);
+			firstKernelPeriphery = kernelPeripheryReceiver(cellInformation[1], cellInformation[0], ij, it, firstInputMatrix);
+			secondKernelCenter = kernelCenterReveicer(cellInformation[1], cellInformation[0], ij, it, secondInputMatrix);
+			secondKernelPeriphery = kernelPeripheryReceiver(cellInformation[1], cellInformation[0], ij, it, secondInputMatrix);
+			ThirdKernelCenter = kernelCenterReveicer(cellInformation[1], cellInformation[0], ij, it, thirdInputMatrix);
+			thirdKernelPeriphery = kernelPeripheryReceiver(cellInformation[1], cellInformation[0], ij, it, thirdInputMatrix);
+			firstKernels = kernelCreator(firstKernelCenter, firstKernelPeriphery);
+			secondKernels = kernelCreator(secondKernelCenter, secondKernelPeriphery);
+			thirdKernels = kernelCreator(ThirdKernelCenter, thirdKernelPeriphery);
 			averagedKernels[0] = (firstKernels[0] + secondKernels[0] + thirdKernels[0]) / 3.0;
 			averagedKernels[1] = (firstKernels[1] + secondKernels[1] + thirdKernels[1]) / 3.0;
 			// calculating result using the kernels
 			ratioOfOnInputCenter =  abs(1 - (pow((float)cellInformation[1], 2.0) - sum(averagedKernels)[0]) / pow((float)cellInformation[1], 2.0));
-			ratioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(averagedKernels)[0]) / pow((float)cellInformation[1], 2.0));;
+			ratioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - pow((float)cellInformation[1], 2.0) - sum(averagedKernels)[0]) / pow((float)cellInformation[1], 2.0));;
 			ratioOfOffInputCenter = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(firstKernels)[0]) / pow((float)cellInformation[1], 2.0)) - 1);
-			ratioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(firstKernels)[0]) / pow((float)cellInformation[1], 2.0)) - 1);
+			ratioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[1], 2.0) - pow((float)cellInformation[1], 2.0) - sum(firstKernels)[0]) / pow((float)cellInformation[1], 2.0)) - 1);
 
 			//thresholding
 			ratioOfOnInputCenter = af.thresholding(ratioOfOnInputCenter, threshold);
@@ -913,16 +1014,24 @@ vector<Mat> AllConeDiscrimination::receptiveFieldEvaluationThreeInput(Mat firstI
 	Size areaOfFovae = af.sizeOfMatrix(firstFovaeMatrix);
 	for (int it = 0; it < areaOfFovae.height; it++) {
 		for (int ij = 0; ij < areaOfFovae.width; ij++) {
-			firstFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, firstFovaeMatrix);
-			secondFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, secondFovaeMatrix);
-			thirdFovaeKernel = kernelCreator(cellInformation[6], cellInformation[4], ij, it, secondFovaeMatrix);
+			Mat firstKernelCenterFovae, secondKernelCenterFovae, ThirdKernelCenterFovae,
+				firstKernelPeripheryFovae, secondKernelPeripheryFovae, thirdKernelPeripheryFovae;
+			firstKernelCenterFovae = kernelCenterReveicer(cellInformation[6], cellInformation[4], ij, it, firstFovaeMatrix);
+			firstKernelPeripheryFovae = kernelPeripheryReceiver(cellInformation[6], cellInformation[4], ij, it, firstFovaeMatrix);
+			secondKernelCenterFovae = kernelCenterReveicer(cellInformation[6], cellInformation[4], ij, it, secondFovaeMatrix);
+			secondKernelPeripheryFovae = kernelPeripheryReceiver(cellInformation[6], cellInformation[4], ij, it, secondFovaeMatrix);
+			ThirdKernelCenterFovae = kernelCenterReveicer(cellInformation[6], cellInformation[4], ij, it, thirdFovaeMatrix);
+			thirdKernelPeripheryFovae = kernelPeripheryReceiver(cellInformation[6], cellInformation[4], ij, it, thirdFovaeMatrix);
+			firstFovaeKernel = kernelCreator(firstKernelCenterFovae, firstKernelPeripheryFovae);
+			secondFovaeKernel = kernelCreator(secondKernelCenterFovae, secondKernelPeripheryFovae);
+			thirdFovaeKernel = kernelCreator(ThirdKernelCenterFovae, thirdKernelPeripheryFovae);
 			averagedFovaeKernels[0] = (firstFovaeKernel[0] + secondFovaeKernel[0] + thirdFovaeKernel[0]) / 3.0;
 			averagedFovaeKernels[1] = (firstFovaeKernel[1] + secondFovaeKernel[1] + thirdFovaeKernel[1]) / 3.0;
 			// calculating result using the kernels
 			ratioOfOnInputCenter = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(firstFovaeKernel)[0]) / pow((float)cellInformation[1], 2.0));
-			ratioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - sum(firstFovaeKernel)[0]) / pow((float)cellInformation[1], 2.0));
+			ratioOfOnInputPeriphery = abs(1 - (pow((float)cellInformation[1], 2.0) - pow((float)cellInformation[1], 2.0) - sum(firstFovaeKernel)[0]) / pow((float)cellInformation[1], 2.0));
 			ratioOfOffInputCenter = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(firstFovaeKernel)[0]) / pow((float)cellInformation[1], 2.0)) - 1);
-			ratioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[1], 2.0) - sum(firstFovaeKernel)[0]) / pow((float)cellInformation[1], 2.0)) - 1);
+			ratioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[1], 2.0) - pow((float)cellInformation[1], 2.0) - sum(firstFovaeKernel)[0]) / pow((float)cellInformation[1], 2.0)) - 1);
 			//thresholding
 			ratioOfOnInputCenter = af.thresholding(ratioOfOnInputCenter, threshold);
 			ratioOfOnInputPeriphery = af.thresholding(ratioOfOnInputPeriphery, threshold);
@@ -1215,6 +1324,11 @@ double GaborFiltering::getPsi() {
 int GaborFiltering::getKernelSize(void) {
 	return kernelSize;
 }
+
+vector<Mat> GaborFiltering::getCurrentGaborFilterResult() {
+	return currentGaborFilterResult;
+}
+
 
 //set functions
 void GaborFiltering::setTheta() {

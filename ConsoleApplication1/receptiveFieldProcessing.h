@@ -21,7 +21,9 @@ public:
 	~ReceptiveFieldFunctions();
 	//functions of receptive field proessing
 	bool onOff(string cellType);
-	vector<Mat> kernelCreator(int centerSize, int peripherySize, int iterX, int iterY, Mat inputMatrix);
+	vector<Mat> kernelCreator(Mat kernelCenter, Mat kernelPeriphery);
+	Mat kernelCenterReveicer(int centerSize, int kernelSize, int iterX, int iterY, Mat inputMatrix);
+	Mat kernelPeripheryReceiver(int centerSize, int kernelSize, int iterX, int iterY, Mat inputMatrix);
 	Mat oneKernelCreator(Mat inputMatrix, int kernelSize, int iterX, int iterY);
 	vector<Mat> displacementKernelCreator(Mat inputMatrix, Mat previousInputMatrix, int kernelSize, int iterX, int iterY, string mainDriection);
 	float centerPeripheryComparison(float ratioOfCenter, float ratioOfPeriphery);
@@ -87,6 +89,18 @@ public:
 	
 private:
 	vector<Mat> rodBipolarMemory;
+};
+
+//Derived class
+class MidgetSConePathway : public ReceptiveFieldFunctions {
+public:
+	vector<int> initializeCellInformation(Mat inputMatrix);
+	void initializeMemory(int iterator);
+	void loadToMemory(Memory& m);
+	void loadFromMemory(Memory& m);
+	vector<Mat> midgetBipolarProcessing(Mat inputMatrix, int mainIterator);
+private:
+	vector<Mat> sConeMemory;
 };
 
 // Derived class
