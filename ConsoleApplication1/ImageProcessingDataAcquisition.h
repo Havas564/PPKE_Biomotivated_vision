@@ -21,9 +21,12 @@ public:
 	void saveImage(Mat inputMatrix, string saveLocation, string imageName);
 	void setSaveLocation();
 	vector<double> saveTimeInformation(double timePassed, vector<double> timeElapsedVector);
+	bool setSave(string toSave);
+	void saveImage(string fileName, Mat data);
 
 private:
 	string saveLocation;
+	bool saving;
 };
 
 

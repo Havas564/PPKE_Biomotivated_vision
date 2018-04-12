@@ -33,6 +33,8 @@ public:
 		Memory& m, int mainIterator);
 	vector<int> fovaeSizeAcquirer(Mat inputMatrix);
 	vector<int> fovaeCenterCoordinatesAcquirer(Mat inputMatrix);
+	Mat gaussianKernelCreator(int receptiveFieldSize, float sigma);
+	Mat differenceOffGaussiansCreator(int receptiveFieldSize, float sigma1, float sigma2);
 
 	//set functions
 	static vector<int> setKernelSize(int newValue);
@@ -64,6 +66,8 @@ public:
 
 protected:
 	static vector<int> cellInformation;
+private:
+	const double PI = 3.141592653589793238463;
 	
 };
 

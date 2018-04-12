@@ -22,12 +22,34 @@ void ImageProcessingDataAcquisition::saveImage(Mat inputMatrix, string saveLocat
 }
 
 void ImageProcessingDataAcquisition::setSaveLocation() {
-	cout << "Please provide the save location for the images: " << endl;
-	cin >> saveLocation;
+	if (saving == true) {
+		cout << "Please provide the save location for the images: " << endl;
+		cin >> saveLocation;
+	}
 }
 
 vector<double> ImageProcessingDataAcquisition::saveTimeInformation(double timePassed, vector<double> timeElapsedVector) {
 	timePassed = ((double)getTickCount() - timePassed) / getTickFrequency();
 	timeElapsedVector.push_back(timePassed);
 	return timeElapsedVector;
+}
+
+bool ImageProcessingDataAcquisition::setSave(string toSave) {
+	if (toSave == "yes") {
+		saving = true;
+	}
+	else {
+		saving = false;
+	}
+	return saving;
+}
+
+void ImageProcessingDataAcquisition::saveImage(string fileName, Mat data) {
+	if (saving == true) {
+		ostringstream savingData;
+		savingData << saveLocation << fileName;
+		string saveInformation;
+		saveInformation = savingData.str();
+		imwrite(saveInformation, data);
+	}
 }

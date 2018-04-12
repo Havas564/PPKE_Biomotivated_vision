@@ -62,16 +62,15 @@ vector<Mat> AccessoryFunctions::colorChannelRetrieverAlternate(Mat inputMatrix) 
 }
 
 Mat AccessoryFunctions::conversionToRatio(Mat inputMatrix) {
-	double min, max;
-	minMaxLoc(inputMatrix, &min, &max);
-	float floatMin = (float)min, floatMax = (float)max;
-	inputMatrix = (inputMatrix - floatMin) / (floatMax - floatMin);
-	return inputMatrix;
+	Mat outputMatrix;
+	inputMatrix.convertTo(outputMatrix, CV_32F, 1.0 / 255, 0);
+	return outputMatrix;
 }
 
 Mat AccessoryFunctions::conversionToValue(Mat inputMatrix) {
-	inputMatrix = inputMatrix.mul(255);
-	return inputMatrix;
+	Mat outputMatrix;
+	inputMatrix.convertTo(outputMatrix, CV_32SC1, 255, 0);
+	return outputMatrix;
 }
 
 //
