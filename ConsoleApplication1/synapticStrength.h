@@ -15,7 +15,6 @@ public:
 	SynapticStrength();
 	~SynapticStrength();
 	//declaring variables
-	Mat modifierMatrix;
 	Size s;
 	//main functions
 	bool isFirstIteration(int mainIterator);

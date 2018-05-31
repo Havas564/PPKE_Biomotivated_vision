@@ -158,6 +158,7 @@
     <ClCompile Include="ImageProcessingDataAcquisition.cpp" />
     <ClCompile Include="classificator.cpp" />
     <ClCompile Include="res.cpp" />
+    <ClCompile Include="savedVersionOfReceptiveFieldProcessing.cpp" />
     <ClCompile Include="synapticStrength.cpp" />
   </ItemGroup>
   <ItemGroup>

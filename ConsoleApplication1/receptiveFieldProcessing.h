@@ -20,11 +20,6 @@ public:
 	ReceptiveFieldFunctions();
 	~ReceptiveFieldFunctions();
 	//functions of receptive field proessing
-	bool onOff(string cellType);
-	vector<Mat> kernelCreator(Mat kernelCenter, Mat kernelPeriphery);
-	Mat kernelCenterReveicer(int centerSize, int kernelSize, int iterX, int iterY, Mat inputMatrix);
-	Mat kernelPeripheryReceiver(int centerSize, int kernelSize, int iterX, int iterY, Mat inputMatrix);
-	Mat oneKernelCreator(Mat inputMatrix, int kernelSize, int iterX, int iterY);
 	vector<Mat> displacementKernelCreator(Mat inputMatrix, Mat previousInputMatrix, int kernelSize, int iterX, int iterY, string mainDriection);
 	float centerPeripheryComparison(float ratioOfCenter, float ratioOfPeriphery);
 	Mat homogenReceptiveFieldEvaluation(Mat inputMatrix, vector<int> cellInformation, Memory& m, int mainIterator);
@@ -34,7 +29,9 @@ public:
 	vector<int> fovaeSizeAcquirer(Mat inputMatrix);
 	vector<int> fovaeCenterCoordinatesAcquirer(Mat inputMatrix);
 	Mat gaussianKernelCreator(int receptiveFieldSize, float sigma);
-	Mat differenceOffGaussiansCreator(int receptiveFieldSize, float sigma1, float sigma2);
+	Mat differenceOfGaussiansCreator(int receptiveFieldSize, float sigma1, float sigma2);
+	Mat fovaeInformationAcquierer(Mat inputMatrix);
+	Mat wholeInformationAcquierer(Mat inputMatrix);
 
 	//set functions
 	static vector<int> setKernelSize(int newValue);

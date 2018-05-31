@@ -18,15 +18,16 @@ public:
 	~ImageProcessingDataAcquisition();
 
 	void imageShow(Mat inputMatrix);
-	void saveImage(Mat inputMatrix, string saveLocation, string imageName);
 	void setSaveLocation();
 	vector<double> saveTimeInformation(double timePassed, vector<double> timeElapsedVector);
-	bool setSave(string toSave);
 	void saveImage(string fileName, Mat data);
+	void proceedWithSavingIfTrue(Mat fileToSave, string folderName, string fileName, int mainIterator);
+
+	bool saving;
 
 private:
 	string saveLocation;
-	bool saving;
+	string fileExtension = ".jpg";
 };
 
 

@@ -36,3 +36,8 @@ modifierMatrix = Mat::ones(1, 2, CV_32F);
 			ratioOfOffInputPeriphery = abs((1 - (pow((float)cellInformation[1], 2.0) - pow((float)cellInformation[1], 2.0) - sum(firstKernels)[0]) / pow((float)cellInformation[1], 2.0)) - 1);
 			
 */
+
+// EARLIER VERSION OF KERNEL PROCESSING
+//
+
+//EARLIER VERSION OF SYNAPTIC STRENGTH MATRIX CREATION

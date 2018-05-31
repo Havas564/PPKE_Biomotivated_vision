@@ -26,29 +26,32 @@ bool SynapticStrength::isFirstIteration(int mainIterator) {
 // 
 Mat SynapticStrength::synapticStrengthMatrixCreator(Mat modifierMatrix, Size memoryItemSize, bool isFirst) {
 	AccessoryFunctions af;
-	Mat synapticStrengthMatrix; // might want to give size and type = Mat(memoryItemSize.height, memoryItemSize.width, CV_64FC1);
-	if (isFirst) {
+	 // might want to give size and type = Mat(memoryItemSize.height, memoryItemSize.width, CV_64FC1);
+	if (isFirst)
+	{
 		//synapticStrengthMatrix = Mat::ones(1, memoryItemSize.height * memoryItemSize.width, CV_64F); // check, if CV_64F is the correct one
+		Mat synapticStrengthMatrix;
 		synapticStrengthMatrix = Mat::ones(memoryItemSize.height, memoryItemSize.width, CV_32F);
-		//debug
-		Size s = af.sizeOfMatrix(synapticStrengthMatrix); //debug
-		cout << "height: " << s.height << ", width: " << s.width << endl; //debug
+		return synapticStrengthMatrix;
 	}
-	else if(!isFirst){
-		synapticStrengthMatrix.create(1, memoryItemSize.height * memoryItemSize.width, CV_32F);
+	else
+	{
+		Mat synapticStrengthMatrix(memoryItemSize.height, memoryItemSize.width, CV_32F);
 		Size s = af.sizeOfMatrix(modifierMatrix);
-		for (int it = 0; it < s.height; it++) {
-			for (int ij = 0; ij < s.width; ij++) {
-				synapticStrengthMatrix.push_back(synapticStrengthMatrix.at<float>(it, ij) * 1 / (1 + exp(-1 * modifierMatrix.at<float>(it, ij))));
+		for (int it = 0; it < s.height; it++)
+		{
+			for (int ij = 0; ij < s.width; ij++)
+			{
+				synapticStrengthMatrix.at<float>(it, ij) = 1 / (1 + exp(-1 * modifierMatrix.at<float>(it, ij)));
+				//synapticStrengthMatrix.push_back(synapticStrengthMatrix.at<float>(it, ij) * 1 / (1 + exp(-1 * modifierMatrix.at<float>(it, ij))));
 				//synapticStrengthMatrix.push_back(synapticStrengthMatrix.at<float>(1, it * ij) * 1 / (1 + exp(-1 * modifierMatrix.at<float>(it, ij))));
 				//synapticStrengthMatrix.at<double>(it, ij);
+				
 			}
 		}
+		return synapticStrengthMatrix;
 	}
-	else {
-		cout << "Error: bool isFirst not initiated!" << endl;
-	}
-	return synapticStrengthMatrix;
+	
 }
 
 // function creating the modifier matrix from memory
@@ -67,7 +70,7 @@ Mat SynapticStrength::modifierMatrixCalculator(vector<Mat> currentMemory, int cu
 		double sumOfExp;
 		for (int it = currentMemory.size() - 1; it > 0; it--) {
 			Mat temp;
-			temp = currentMemory[it] - currentMemory[it + 1];
+			temp = currentMemory[it] - currentMemory[it - 1];
 			differenceToPrevious.push_back(temp.clone()); // .clone() not sure if needed, not sure if this Mat needed at all, for now keeping for DEBUG purpuses
 			if (it == currentMemory.size() - 1) {
 				modifierMatrix = temp;
