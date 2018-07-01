@@ -23,7 +23,7 @@ int Memory::memoryPosition(int iterator) {
 //INPUT FROM CURRENT ITERATION
 
 // for all types
-void Memory::pushbackMemory(Mat currentInput, int currentMemoryPosition) {
+void Memory::pushbackMemory(Mat currentInput, int currentMemoryPosition, vector<Mat> memory) {
 	memory[currentMemoryPosition] = currentInput;
 	//memoryType.insert(memoryType.begin() + currentMemoryPosition, currentInput);
 }

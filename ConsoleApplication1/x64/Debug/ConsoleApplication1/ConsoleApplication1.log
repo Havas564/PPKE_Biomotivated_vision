@@ -153,8 +153,8 @@
   Note: including file:   C:\OpenCV\build\include\opencv2/core/ovx.hpp
   Note: including file: c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\memoryHandling.h
   Note: including file: c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\accessoryFunctions.h
-c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\synapticstrength.cpp(71): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  res.cpp
-  Generating Code...
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\synapticstrength.cpp(42): warning C4101: 'testModifier': unreferenced local variable
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\synapticstrength.cpp(66): warning C4101: 'testModifier': unreferenced local variable
+c:\users\matep\documents\visual studio 2015\projects\ppke_biomotivated_vision\consoleapplication1\synapticstrength.cpp(93): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   ConsoleApplication1.vcxproj -> C:\Users\matep\Documents\Visual Studio 2015\Projects\PPKE_Biomotivated_vision\x64\Debug\ConsoleApplication1.exe
   ConsoleApplication1.vcxproj -> C:\Users\matep\Documents\Visual Studio 2015\Projects\PPKE_Biomotivated_vision\x64\Debug\ConsoleApplication1.pdb (Full PDB)

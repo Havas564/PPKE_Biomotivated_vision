@@ -20,12 +20,16 @@ public:
 	vector<Mat> memory; // main memory modifier
 	vector<Mat> memorySecond; // second memory modifier in case of two input memories
 	vector<Mat> memoryThird; // third memory modifier in case of three input memories
+	vector<Mat> memoryDifference;
+	vector<Mat> memoryDifferenceSecond;
+	vector<Mat> memoryDifferenceThird;
+	
 
 	//SYNAPTIC STRENGTH MEMORY
 
 	//copyto-t hasznélni a MAT-ok betöltésénél
 	// MEMORY INPUT FROM CURRENT ITERATION - körbuffert megnézni - kiválhatja a számolást
-	void pushbackMemory(Mat currentInput, int currentMemoryPosition);
+	void pushbackMemory(Mat currentInput, int currentMemoryPosition, vector<Mat> memory);
 	vector<Mat> clearMemory(Mat currentInput, vector<Mat> memoryType);
 	Size sizeOfMatrixInMemory(vector<Mat> currentMemory);
 	
@@ -44,6 +48,7 @@ private:
 	int numberOfMemoryBlock;
 	int memoryMax = 5;
 	int currentMemoryPosition;
+	vector<Mat> directionMemory;
 };
 
 

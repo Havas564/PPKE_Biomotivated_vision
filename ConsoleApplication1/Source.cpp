@@ -70,11 +70,11 @@ int main(int argc, char** argv){
 	hppAccel accel = 0;
 	hppAccelType accelType;
 	hppStatus sts;
-	hppiVirtualMatrix * virtMatrix;
+	hppiVirtualMatrix * virtMatrix;*/
 	//initiate camera
 	//VideoCapture cap;
 	//Creating accelerator instance
-	accelType = sAccel == "cpu" ? HPP_ACCEL_TYPE_CPU :
+	/*accelType = sAccel == "cpu" ? HPP_ACCEL_TYPE_CPU :
 				sAccel == "gpu" ? HPP_ACCEL_TYPE_GPU :
 								  HPP_ACCEL_TYPE_ANY;
 	
@@ -139,10 +139,10 @@ int main(int argc, char** argv){
 		vector<Mat> allConeDiscrimination = acd.allConeDiscriminationMain(redChannel, greenChannel, blueChannel, mainIterator);
 		ipda.proceedWithSavingIfTrue(allConeDiscrimination[0], "AllThreeChannel/", "allThreeProcessing", mainIterator);
 		ipda.proceedWithSavingIfTrue(allConeDiscrimination[1], "AllThreeChannel/", "allThreeProcessingFovae", mainIterator);
-		vector<Mat> directionGanglionFromRG = mdgp.mainDirectonInformation(redGreenDiscrimination[0], mainIterator);
+		//vector<Mat> directionGanglionFromRG = mdgp.mainDirectonInformation(redGreenDiscrimination[0], mainIterator);
 		//ipda.proceedWithSavingIfTrue(directionGanglionFromRG[0], "DirectionInformation/", "direction", mainIterator);
 		//vector<Mat> directionGanglionFromYB = mdgp.mainDirectonInformation(yellowBlueDiscrimination[0], mainIterator);
-		vector<Mat> directionGanglionFromAll = mdgp.mainDirectonInformation(allConeDiscrimination[0], mainIterator);
+		//vector<Mat> directionGanglionFromAll = mdgp.mainDirectonInformation(allConeDiscrimination[0], mainIterator);
 		gf.gaborFiltering(allConeDiscrimination[0]);
 		//gf.gaborFiltering(allConeDiscrimination[1]);
 		end = clock();
@@ -212,10 +212,14 @@ int main(int argc, char** argv){
 			vector<Mat> allConeDiscrimination = acd.allConeDiscriminationMain(redChannel, greenChannel, blueChannel, mainIterator);
 			ipda.proceedWithSavingIfTrue(allConeDiscrimination[0], "AllThreeChannel/", "allThreeProcessing", mainIterator);
 			ipda.proceedWithSavingIfTrue(allConeDiscrimination[1], "AllThreeChannel/", "allThreeProcessingFovae", mainIterator);
-			vector<Mat> directionGanglionFromRG = mdgp.mainDirectonInformation(redGreenDiscrimination[0], mainIterator);
+			//vector<Mat> directionGanglionFromRG = mdgp.mainDirectonInformation(redGreenDiscrimination[0], mainIterator);
 			//ipda.proceedWithSavingIfTrue(directionGanglionFromRG[0], "DirectionInformation/", "direction", mainIterator);
 			//vector<Mat> directionGanglionFromYB = mdgp.mainDirectonInformation(yellowBlueDiscrimination[0], mainIterator);
-			vector<Mat> directionGanglionFromAll = mdgp.mainDirectonInformation(allConeDiscrimination[0], mainIterator);
+			//vector<Mat> directionGanglionFromAll = mdgp.mainDirectonInformation(allConeDiscrimination[0], mainIterator);
+			/*if (mainIterator > 1)
+			{
+				ipda.proceedWithSavingIfTrue(directionGanglionFromAll[0], "DirectionInformation/", "drectionInformation", mainIterator);
+			}*/
 			gf.gaborFiltering(allConeDiscrimination[0]);
 			//gf.gaborFiltering(allConeDiscrimination[1]);
 			end = clock();

@@ -19,7 +19,9 @@ public:
 	//main functions
 	bool isFirstIteration(int mainIterator);
 	Mat synapticStrengthMatrixCreator(Mat modifierMatrix, Size memoryItemSize, bool isFirst);
-	Mat modifierMatrixCalculator(vector<Mat> memory, int currentMemoryPosition);
+	Mat synapticStrengthMatrixCreatorNew(Mat modifierMatrix, Size memoryItemSize, bool isFirst);
+	Mat modifierMatrixCalculator(vector<Mat> currentMemory, int mainIterator);
+	Mat modifierMatrixCalculatorNew(vector<Mat> memory, int currentMemoryPosition);
 	//assisting functions
 
 	//set functions
